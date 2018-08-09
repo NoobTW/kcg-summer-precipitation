@@ -4,7 +4,6 @@ import plots from './data/plot.json';
 const loadPlots = (day) => new Promise(r => {
 	const markerPlots = [];
 	let data = plots.filter(x => moment(x.time).format('YYYY-MM-DD') === day );
-	console.log(data.length)
 	if(data.length){
 		Array.from(data).forEach((plot) => {
 			const d = new Date(plot.time);

@@ -32426,7 +32426,6 @@ var loadPlots = function loadPlots(day) {
 		var data = _plot2.default.filter(function (x) {
 			return (0, _moment2.default)(x.time).format('YYYY-MM-DD') === day;
 		});
-		console.log(data.length);
 		if (data.length) {
 			(0, _from2.default)(data).forEach(function (plot) {
 				var d = new Date(plot.time);
