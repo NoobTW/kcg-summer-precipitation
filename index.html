@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+	<link rel="stylesheet" href="./style.css">
+	<title>雨量和通報關係</title>
+</head>
+<body>
+	<section id="plots">
+		<div id="map"></div>
+		<div id="calendar-wrapper">
+			<input type="date" id="calendar">
+			<div id="data-count">共 0 筆資料</div>
+		</div>
+		<div class="timeline">
+			<div class="timeline-slow"><i class="fas fa-backward"></i></div>
+			<div class="timeline-play"><i class="fas fa-play"></i></div>
+			<div class="timeline-fast"><i class="fas fa-forward"></i></div>
+			<div class="timeline-speed">1x</div>
+			<input type="range" min="0" max="1439" value="1439">
+			<div class="timeline-now">00:00</div>
+		</div>
+	</section>
+	<script src="dist/main.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu2D4UQn_TW9FQSq2k_QdD-QLEXQFe1jU&libraries=visualization&callback=initMap"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.2.0/js/all.js" integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy" crossorigin="anonymous"></script>
+</body>
+</html>
