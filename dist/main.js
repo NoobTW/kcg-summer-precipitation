@@ -97,6 +97,50 @@ module.exports = { "default": __webpack_require__(/*! core-js/library/fn/array/f
 
 /***/ }),
 
+/***/ "./node_modules/babel-runtime/core-js/number/max-safe-integer.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/babel-runtime/core-js/number/max-safe-integer.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(/*! core-js/library/fn/number/max-safe-integer */ "./node_modules/core-js/library/fn/number/max-safe-integer.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "./node_modules/babel-runtime/core-js/number/min-safe-integer.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/babel-runtime/core-js/number/min-safe-integer.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(/*! core-js/library/fn/number/min-safe-integer */ "./node_modules/core-js/library/fn/number/min-safe-integer.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "./node_modules/babel-runtime/core-js/number/parse-float.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/babel-runtime/core-js/number/parse-float.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(/*! core-js/library/fn/number/parse-float */ "./node_modules/core-js/library/fn/number/parse-float.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "./node_modules/babel-runtime/core-js/object/keys.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/babel-runtime/core-js/object/keys.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(/*! core-js/library/fn/object/keys */ "./node_modules/core-js/library/fn/object/keys.js"), __esModule: true };
+
+/***/ }),
+
 /***/ "./node_modules/babel-runtime/core-js/promise.js":
 /*!*******************************************************!*\
   !*** ./node_modules/babel-runtime/core-js/promise.js ***!
@@ -105,6 +149,2778 @@ module.exports = { "default": __webpack_require__(/*! core-js/library/fn/array/f
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(/*! core-js/library/fn/promise */ "./node_modules/core-js/library/fn/promise.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "./node_modules/chroma-js/chroma.js":
+/*!******************************************!*\
+  !*** ./node_modules/chroma-js/chroma.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+/**
+ * @license
+ *
+ * chroma.js - JavaScript library for color conversions
+ * 
+ * Copyright (c) 2011-2017, Gregor Aisch
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. The name Gregor Aisch may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL GREGOR AISCH OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+(function() {
+  var Color, DEG2RAD, LAB_CONSTANTS, PI, PITHIRD, RAD2DEG, TWOPI, _average_lrgb, _guess_formats, _guess_formats_sorted, _input, _interpolators, abs, atan2, bezier, blend, blend_f, brewer, burn, chroma, clip_rgb, cmyk2rgb, colors, cos, css2rgb, darken, dodge, each, floor, hcg2rgb, hex2rgb, hsi2rgb, hsl2css, hsl2rgb, hsv2rgb, interpolate, interpolate_hsx, interpolate_lab, interpolate_lrgb, interpolate_num, interpolate_rgb, lab2lch, lab2rgb, lab_xyz, lch2lab, lch2rgb, lighten, limit, log, luminance_x, m, max, multiply, normal, num2rgb, overlay, pow, rgb2cmyk, rgb2css, rgb2hcg, rgb2hex, rgb2hsi, rgb2hsl, rgb2hsv, rgb2lab, rgb2lch, rgb2luminance, rgb2num, rgb2temperature, rgb2xyz, rgb_xyz, rnd, root, round, screen, sin, sqrt, temperature2rgb, type, unpack, w3cx11, xyz_lab, xyz_rgb,
+    slice = [].slice;
+
+  type = (function() {
+
+    /*
+    for browser-safe type checking+
+    ported from jQuery's $.type
+     */
+    var classToType, len, name, o, ref;
+    classToType = {};
+    ref = "Boolean Number String Function Array Date RegExp Undefined Null".split(" ");
+    for (o = 0, len = ref.length; o < len; o++) {
+      name = ref[o];
+      classToType["[object " + name + "]"] = name.toLowerCase();
+    }
+    return function(obj) {
+      var strType;
+      strType = Object.prototype.toString.call(obj);
+      return classToType[strType] || "object";
+    };
+  })();
+
+  limit = function(x, min, max) {
+    if (min == null) {
+      min = 0;
+    }
+    if (max == null) {
+      max = 1;
+    }
+    if (x < min) {
+      x = min;
+    }
+    if (x > max) {
+      x = max;
+    }
+    return x;
+  };
+
+  unpack = function(args) {
+    if (args.length >= 3) {
+      return Array.prototype.slice.call(args);
+    } else {
+      return args[0];
+    }
+  };
+
+  clip_rgb = function(rgb) {
+    var i, o;
+    rgb._clipped = false;
+    rgb._unclipped = rgb.slice(0);
+    for (i = o = 0; o < 3; i = ++o) {
+      if (i < 3) {
+        if (rgb[i] < 0 || rgb[i] > 255) {
+          rgb._clipped = true;
+        }
+        if (rgb[i] < 0) {
+          rgb[i] = 0;
+        }
+        if (rgb[i] > 255) {
+          rgb[i] = 255;
+        }
+      } else if (i === 3) {
+        if (rgb[i] < 0) {
+          rgb[i] = 0;
+        }
+        if (rgb[i] > 1) {
+          rgb[i] = 1;
+        }
+      }
+    }
+    if (!rgb._clipped) {
+      delete rgb._unclipped;
+    }
+    return rgb;
+  };
+
+  PI = Math.PI, round = Math.round, cos = Math.cos, floor = Math.floor, pow = Math.pow, log = Math.log, sin = Math.sin, sqrt = Math.sqrt, atan2 = Math.atan2, max = Math.max, abs = Math.abs;
+
+  TWOPI = PI * 2;
+
+  PITHIRD = PI / 3;
+
+  DEG2RAD = PI / 180;
+
+  RAD2DEG = 180 / PI;
+
+  chroma = function() {
+    if (arguments[0] instanceof Color) {
+      return arguments[0];
+    }
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, arguments, function(){});
+  };
+
+  chroma["default"] = chroma;
+
+  _interpolators = [];
+
+  if ((typeof module !== "undefined" && module !== null) && (module.exports != null)) {
+    module.exports = chroma;
+  }
+
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+      return chroma;
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+
+  chroma.version = '1.3.7';
+
+  _input = {};
+
+  _guess_formats = [];
+
+  _guess_formats_sorted = false;
+
+  Color = (function() {
+    function Color() {
+      var arg, args, chk, len, len1, me, mode, o, w;
+      me = this;
+      args = [];
+      for (o = 0, len = arguments.length; o < len; o++) {
+        arg = arguments[o];
+        if (arg != null) {
+          args.push(arg);
+        }
+      }
+      if (args.length > 1) {
+        mode = args[args.length - 1];
+      }
+      if (_input[mode] != null) {
+        me._rgb = clip_rgb(_input[mode](unpack(args.slice(0, -1))));
+      } else {
+        if (!_guess_formats_sorted) {
+          _guess_formats = _guess_formats.sort(function(a, b) {
+            return b.p - a.p;
+          });
+          _guess_formats_sorted = true;
+        }
+        for (w = 0, len1 = _guess_formats.length; w < len1; w++) {
+          chk = _guess_formats[w];
+          mode = chk.test.apply(chk, args);
+          if (mode) {
+            break;
+          }
+        }
+        if (mode) {
+          me._rgb = clip_rgb(_input[mode].apply(_input, args));
+        }
+      }
+      if (me._rgb == null) {
+        console.warn('unknown format: ' + args);
+      }
+      if (me._rgb == null) {
+        me._rgb = [0, 0, 0];
+      }
+      if (me._rgb.length === 3) {
+        me._rgb.push(1);
+      }
+    }
+
+    Color.prototype.toString = function() {
+      return this.hex();
+    };
+
+    Color.prototype.clone = function() {
+      return chroma(me._rgb);
+    };
+
+    return Color;
+
+  })();
+
+  chroma._input = _input;
+
+
+  /**
+  	ColorBrewer colors for chroma.js
+  
+  	Copyright (c) 2002 Cynthia Brewer, Mark Harrower, and The 
+  	Pennsylvania State University.
+  
+  	Licensed under the Apache License, Version 2.0 (the "License"); 
+  	you may not use this file except in compliance with the License.
+  	You may obtain a copy of the License at	
+  	http://www.apache.org/licenses/LICENSE-2.0
+  
+  	Unless required by applicable law or agreed to in writing, software distributed
+  	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+  	CONDITIONS OF ANY KIND, either express or implied. See the License for the
+  	specific language governing permissions and limitations under the License.
+  
+      @preserve
+   */
+
+  chroma.brewer = brewer = {
+    OrRd: ['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000'],
+    PuBu: ['#fff7fb', '#ece7f2', '#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#045a8d', '#023858'],
+    BuPu: ['#f7fcfd', '#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#810f7c', '#4d004b'],
+    Oranges: ['#fff5eb', '#fee6ce', '#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#a63603', '#7f2704'],
+    BuGn: ['#f7fcfd', '#e5f5f9', '#ccece6', '#99d8c9', '#66c2a4', '#41ae76', '#238b45', '#006d2c', '#00441b'],
+    YlOrBr: ['#ffffe5', '#fff7bc', '#fee391', '#fec44f', '#fe9929', '#ec7014', '#cc4c02', '#993404', '#662506'],
+    YlGn: ['#ffffe5', '#f7fcb9', '#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#006837', '#004529'],
+    Reds: ['#fff5f0', '#fee0d2', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#a50f15', '#67000d'],
+    RdPu: ['#fff7f3', '#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177', '#49006a'],
+    Greens: ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'],
+    YlGnBu: ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58'],
+    Purples: ['#fcfbfd', '#efedf5', '#dadaeb', '#bcbddc', '#9e9ac8', '#807dba', '#6a51a3', '#54278f', '#3f007d'],
+    GnBu: ['#f7fcf0', '#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081'],
+    Greys: ['#ffffff', '#f0f0f0', '#d9d9d9', '#bdbdbd', '#969696', '#737373', '#525252', '#252525', '#000000'],
+    YlOrRd: ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026'],
+    PuRd: ['#f7f4f9', '#e7e1ef', '#d4b9da', '#c994c7', '#df65b0', '#e7298a', '#ce1256', '#980043', '#67001f'],
+    Blues: ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'],
+    PuBuGn: ['#fff7fb', '#ece2f0', '#d0d1e6', '#a6bddb', '#67a9cf', '#3690c0', '#02818a', '#016c59', '#014636'],
+    Viridis: ['#440154', '#482777', '#3f4a8a', '#31678e', '#26838f', '#1f9d8a', '#6cce5a', '#b6de2b', '#fee825'],
+    Spectral: ['#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2'],
+    RdYlGn: ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850', '#006837'],
+    RdBu: ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#f7f7f7', '#d1e5f0', '#92c5de', '#4393c3', '#2166ac', '#053061'],
+    PiYG: ['#8e0152', '#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7', '#e6f5d0', '#b8e186', '#7fbc41', '#4d9221', '#276419'],
+    PRGn: ['#40004b', '#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837', '#00441b'],
+    RdYlBu: ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+    BrBG: ['#543005', '#8c510a', '#bf812d', '#dfc27d', '#f6e8c3', '#f5f5f5', '#c7eae5', '#80cdc1', '#35978f', '#01665e', '#003c30'],
+    RdGy: ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#ffffff', '#e0e0e0', '#bababa', '#878787', '#4d4d4d', '#1a1a1a'],
+    PuOr: ['#7f3b08', '#b35806', '#e08214', '#fdb863', '#fee0b6', '#f7f7f7', '#d8daeb', '#b2abd2', '#8073ac', '#542788', '#2d004b'],
+    Set2: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
+    Accent: ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17', '#666666'],
+    Set1: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'],
+    Set3: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd', '#ccebc5', '#ffed6f'],
+    Dark2: ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#666666'],
+    Paired: ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'],
+    Pastel2: ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4', '#e6f5c9', '#fff2ae', '#f1e2cc', '#cccccc'],
+    Pastel1: ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6', '#ffffcc', '#e5d8bd', '#fddaec', '#f2f2f2']
+  };
+
+  (function() {
+    var key, results;
+    results = [];
+    for (key in brewer) {
+      results.push(brewer[key.toLowerCase()] = brewer[key]);
+    }
+    return results;
+  })();
+
+
+  /**
+  	X11 color names
+  
+  	http://www.w3.org/TR/css3-color/#svg-color
+   */
+
+  w3cx11 = {
+    aliceblue: '#f0f8ff',
+    antiquewhite: '#faebd7',
+    aqua: '#00ffff',
+    aquamarine: '#7fffd4',
+    azure: '#f0ffff',
+    beige: '#f5f5dc',
+    bisque: '#ffe4c4',
+    black: '#000000',
+    blanchedalmond: '#ffebcd',
+    blue: '#0000ff',
+    blueviolet: '#8a2be2',
+    brown: '#a52a2a',
+    burlywood: '#deb887',
+    cadetblue: '#5f9ea0',
+    chartreuse: '#7fff00',
+    chocolate: '#d2691e',
+    coral: '#ff7f50',
+    cornflower: '#6495ed',
+    cornflowerblue: '#6495ed',
+    cornsilk: '#fff8dc',
+    crimson: '#dc143c',
+    cyan: '#00ffff',
+    darkblue: '#00008b',
+    darkcyan: '#008b8b',
+    darkgoldenrod: '#b8860b',
+    darkgray: '#a9a9a9',
+    darkgreen: '#006400',
+    darkgrey: '#a9a9a9',
+    darkkhaki: '#bdb76b',
+    darkmagenta: '#8b008b',
+    darkolivegreen: '#556b2f',
+    darkorange: '#ff8c00',
+    darkorchid: '#9932cc',
+    darkred: '#8b0000',
+    darksalmon: '#e9967a',
+    darkseagreen: '#8fbc8f',
+    darkslateblue: '#483d8b',
+    darkslategray: '#2f4f4f',
+    darkslategrey: '#2f4f4f',
+    darkturquoise: '#00ced1',
+    darkviolet: '#9400d3',
+    deeppink: '#ff1493',
+    deepskyblue: '#00bfff',
+    dimgray: '#696969',
+    dimgrey: '#696969',
+    dodgerblue: '#1e90ff',
+    firebrick: '#b22222',
+    floralwhite: '#fffaf0',
+    forestgreen: '#228b22',
+    fuchsia: '#ff00ff',
+    gainsboro: '#dcdcdc',
+    ghostwhite: '#f8f8ff',
+    gold: '#ffd700',
+    goldenrod: '#daa520',
+    gray: '#808080',
+    green: '#008000',
+    greenyellow: '#adff2f',
+    grey: '#808080',
+    honeydew: '#f0fff0',
+    hotpink: '#ff69b4',
+    indianred: '#cd5c5c',
+    indigo: '#4b0082',
+    ivory: '#fffff0',
+    khaki: '#f0e68c',
+    laserlemon: '#ffff54',
+    lavender: '#e6e6fa',
+    lavenderblush: '#fff0f5',
+    lawngreen: '#7cfc00',
+    lemonchiffon: '#fffacd',
+    lightblue: '#add8e6',
+    lightcoral: '#f08080',
+    lightcyan: '#e0ffff',
+    lightgoldenrod: '#fafad2',
+    lightgoldenrodyellow: '#fafad2',
+    lightgray: '#d3d3d3',
+    lightgreen: '#90ee90',
+    lightgrey: '#d3d3d3',
+    lightpink: '#ffb6c1',
+    lightsalmon: '#ffa07a',
+    lightseagreen: '#20b2aa',
+    lightskyblue: '#87cefa',
+    lightslategray: '#778899',
+    lightslategrey: '#778899',
+    lightsteelblue: '#b0c4de',
+    lightyellow: '#ffffe0',
+    lime: '#00ff00',
+    limegreen: '#32cd32',
+    linen: '#faf0e6',
+    magenta: '#ff00ff',
+    maroon: '#800000',
+    maroon2: '#7f0000',
+    maroon3: '#b03060',
+    mediumaquamarine: '#66cdaa',
+    mediumblue: '#0000cd',
+    mediumorchid: '#ba55d3',
+    mediumpurple: '#9370db',
+    mediumseagreen: '#3cb371',
+    mediumslateblue: '#7b68ee',
+    mediumspringgreen: '#00fa9a',
+    mediumturquoise: '#48d1cc',
+    mediumvioletred: '#c71585',
+    midnightblue: '#191970',
+    mintcream: '#f5fffa',
+    mistyrose: '#ffe4e1',
+    moccasin: '#ffe4b5',
+    navajowhite: '#ffdead',
+    navy: '#000080',
+    oldlace: '#fdf5e6',
+    olive: '#808000',
+    olivedrab: '#6b8e23',
+    orange: '#ffa500',
+    orangered: '#ff4500',
+    orchid: '#da70d6',
+    palegoldenrod: '#eee8aa',
+    palegreen: '#98fb98',
+    paleturquoise: '#afeeee',
+    palevioletred: '#db7093',
+    papayawhip: '#ffefd5',
+    peachpuff: '#ffdab9',
+    peru: '#cd853f',
+    pink: '#ffc0cb',
+    plum: '#dda0dd',
+    powderblue: '#b0e0e6',
+    purple: '#800080',
+    purple2: '#7f007f',
+    purple3: '#a020f0',
+    rebeccapurple: '#663399',
+    red: '#ff0000',
+    rosybrown: '#bc8f8f',
+    royalblue: '#4169e1',
+    saddlebrown: '#8b4513',
+    salmon: '#fa8072',
+    sandybrown: '#f4a460',
+    seagreen: '#2e8b57',
+    seashell: '#fff5ee',
+    sienna: '#a0522d',
+    silver: '#c0c0c0',
+    skyblue: '#87ceeb',
+    slateblue: '#6a5acd',
+    slategray: '#708090',
+    slategrey: '#708090',
+    snow: '#fffafa',
+    springgreen: '#00ff7f',
+    steelblue: '#4682b4',
+    tan: '#d2b48c',
+    teal: '#008080',
+    thistle: '#d8bfd8',
+    tomato: '#ff6347',
+    turquoise: '#40e0d0',
+    violet: '#ee82ee',
+    wheat: '#f5deb3',
+    white: '#ffffff',
+    whitesmoke: '#f5f5f5',
+    yellow: '#ffff00',
+    yellowgreen: '#9acd32'
+  };
+
+  chroma.colors = colors = w3cx11;
+
+  lab2rgb = function() {
+    var a, args, b, g, l, r, x, y, z;
+    args = unpack(arguments);
+    l = args[0], a = args[1], b = args[2];
+    y = (l + 16) / 116;
+    x = isNaN(a) ? y : y + a / 500;
+    z = isNaN(b) ? y : y - b / 200;
+    y = LAB_CONSTANTS.Yn * lab_xyz(y);
+    x = LAB_CONSTANTS.Xn * lab_xyz(x);
+    z = LAB_CONSTANTS.Zn * lab_xyz(z);
+    r = xyz_rgb(3.2404542 * x - 1.5371385 * y - 0.4985314 * z);
+    g = xyz_rgb(-0.9692660 * x + 1.8760108 * y + 0.0415560 * z);
+    b = xyz_rgb(0.0556434 * x - 0.2040259 * y + 1.0572252 * z);
+    return [r, g, b, args.length > 3 ? args[3] : 1];
+  };
+
+  xyz_rgb = function(r) {
+    return 255 * (r <= 0.00304 ? 12.92 * r : 1.055 * pow(r, 1 / 2.4) - 0.055);
+  };
+
+  lab_xyz = function(t) {
+    if (t > LAB_CONSTANTS.t1) {
+      return t * t * t;
+    } else {
+      return LAB_CONSTANTS.t2 * (t - LAB_CONSTANTS.t0);
+    }
+  };
+
+  LAB_CONSTANTS = {
+    Kn: 18,
+    Xn: 0.950470,
+    Yn: 1,
+    Zn: 1.088830,
+    t0: 0.137931034,
+    t1: 0.206896552,
+    t2: 0.12841855,
+    t3: 0.008856452
+  };
+
+  rgb2lab = function() {
+    var b, g, r, ref, ref1, x, y, z;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    ref1 = rgb2xyz(r, g, b), x = ref1[0], y = ref1[1], z = ref1[2];
+    return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+  };
+
+  rgb_xyz = function(r) {
+    if ((r /= 255) <= 0.04045) {
+      return r / 12.92;
+    } else {
+      return pow((r + 0.055) / 1.055, 2.4);
+    }
+  };
+
+  xyz_lab = function(t) {
+    if (t > LAB_CONSTANTS.t3) {
+      return pow(t, 1 / 3);
+    } else {
+      return t / LAB_CONSTANTS.t2 + LAB_CONSTANTS.t0;
+    }
+  };
+
+  rgb2xyz = function() {
+    var b, g, r, ref, x, y, z;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    r = rgb_xyz(r);
+    g = rgb_xyz(g);
+    b = rgb_xyz(b);
+    x = xyz_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / LAB_CONSTANTS.Xn);
+    y = xyz_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / LAB_CONSTANTS.Yn);
+    z = xyz_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / LAB_CONSTANTS.Zn);
+    return [x, y, z];
+  };
+
+  chroma.lab = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['lab']), function(){});
+  };
+
+  _input.lab = lab2rgb;
+
+  Color.prototype.lab = function() {
+    return rgb2lab(this._rgb);
+  };
+
+  bezier = function(colors) {
+    var I, I0, I1, c, lab0, lab1, lab2, lab3, ref, ref1, ref2;
+    colors = (function() {
+      var len, o, results;
+      results = [];
+      for (o = 0, len = colors.length; o < len; o++) {
+        c = colors[o];
+        results.push(chroma(c));
+      }
+      return results;
+    })();
+    if (colors.length === 2) {
+      ref = (function() {
+        var len, o, results;
+        results = [];
+        for (o = 0, len = colors.length; o < len; o++) {
+          c = colors[o];
+          results.push(c.lab());
+        }
+        return results;
+      })(), lab0 = ref[0], lab1 = ref[1];
+      I = function(t) {
+        var i, lab;
+        lab = (function() {
+          var o, results;
+          results = [];
+          for (i = o = 0; o <= 2; i = ++o) {
+            results.push(lab0[i] + t * (lab1[i] - lab0[i]));
+          }
+          return results;
+        })();
+        return chroma.lab.apply(chroma, lab);
+      };
+    } else if (colors.length === 3) {
+      ref1 = (function() {
+        var len, o, results;
+        results = [];
+        for (o = 0, len = colors.length; o < len; o++) {
+          c = colors[o];
+          results.push(c.lab());
+        }
+        return results;
+      })(), lab0 = ref1[0], lab1 = ref1[1], lab2 = ref1[2];
+      I = function(t) {
+        var i, lab;
+        lab = (function() {
+          var o, results;
+          results = [];
+          for (i = o = 0; o <= 2; i = ++o) {
+            results.push((1 - t) * (1 - t) * lab0[i] + 2 * (1 - t) * t * lab1[i] + t * t * lab2[i]);
+          }
+          return results;
+        })();
+        return chroma.lab.apply(chroma, lab);
+      };
+    } else if (colors.length === 4) {
+      ref2 = (function() {
+        var len, o, results;
+        results = [];
+        for (o = 0, len = colors.length; o < len; o++) {
+          c = colors[o];
+          results.push(c.lab());
+        }
+        return results;
+      })(), lab0 = ref2[0], lab1 = ref2[1], lab2 = ref2[2], lab3 = ref2[3];
+      I = function(t) {
+        var i, lab;
+        lab = (function() {
+          var o, results;
+          results = [];
+          for (i = o = 0; o <= 2; i = ++o) {
+            results.push((1 - t) * (1 - t) * (1 - t) * lab0[i] + 3 * (1 - t) * (1 - t) * t * lab1[i] + 3 * (1 - t) * t * t * lab2[i] + t * t * t * lab3[i]);
+          }
+          return results;
+        })();
+        return chroma.lab.apply(chroma, lab);
+      };
+    } else if (colors.length === 5) {
+      I0 = bezier(colors.slice(0, 3));
+      I1 = bezier(colors.slice(2, 5));
+      I = function(t) {
+        if (t < 0.5) {
+          return I0(t * 2);
+        } else {
+          return I1((t - 0.5) * 2);
+        }
+      };
+    }
+    return I;
+  };
+
+  chroma.bezier = function(colors) {
+    var f;
+    f = bezier(colors);
+    f.scale = function() {
+      return chroma.scale(f);
+    };
+    return f;
+  };
+
+
+  /*
+      chroma.js
+  
+      Copyright (c) 2011-2013, Gregor Aisch
+      All rights reserved.
+  
+      Redistribution and use in source and binary forms, with or without
+      modification, are permitted provided that the following conditions are met:
+  
+      * Redistributions of source code must retain the above copyright notice, this
+        list of conditions and the following disclaimer.
+  
+      * Redistributions in binary form must reproduce the above copyright notice,
+        this list of conditions and the following disclaimer in the documentation
+        and/or other materials provided with the distribution.
+  
+      * The name Gregor Aisch may not be used to endorse or promote products
+        derived from this software without specific prior written permission.
+  
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+      AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+      IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      DISCLAIMED. IN NO EVENT SHALL GREGOR AISCH OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+      INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+      DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+      OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+      EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  
+      @source: https://github.com/gka/chroma.js
+   */
+
+  chroma.cubehelix = function(start, rotations, hue, gamma, lightness) {
+    var dh, dl, f;
+    if (start == null) {
+      start = 300;
+    }
+    if (rotations == null) {
+      rotations = -1.5;
+    }
+    if (hue == null) {
+      hue = 1;
+    }
+    if (gamma == null) {
+      gamma = 1;
+    }
+    if (lightness == null) {
+      lightness = [0, 1];
+    }
+    dh = 0;
+    if (type(lightness) === 'array') {
+      dl = lightness[1] - lightness[0];
+    } else {
+      dl = 0;
+      lightness = [lightness, lightness];
+    }
+    f = function(fract) {
+      var a, amp, b, cos_a, g, h, l, r, sin_a;
+      a = TWOPI * ((start + 120) / 360 + rotations * fract);
+      l = pow(lightness[0] + dl * fract, gamma);
+      h = dh !== 0 ? hue[0] + fract * dh : hue;
+      amp = h * l * (1 - l) / 2;
+      cos_a = cos(a);
+      sin_a = sin(a);
+      r = l + amp * (-0.14861 * cos_a + 1.78277 * sin_a);
+      g = l + amp * (-0.29227 * cos_a - 0.90649 * sin_a);
+      b = l + amp * (+1.97294 * cos_a);
+      return chroma(clip_rgb([r * 255, g * 255, b * 255]));
+    };
+    f.start = function(s) {
+      if (s == null) {
+        return start;
+      }
+      start = s;
+      return f;
+    };
+    f.rotations = function(r) {
+      if (r == null) {
+        return rotations;
+      }
+      rotations = r;
+      return f;
+    };
+    f.gamma = function(g) {
+      if (g == null) {
+        return gamma;
+      }
+      gamma = g;
+      return f;
+    };
+    f.hue = function(h) {
+      if (h == null) {
+        return hue;
+      }
+      hue = h;
+      if (type(hue) === 'array') {
+        dh = hue[1] - hue[0];
+        if (dh === 0) {
+          hue = hue[1];
+        }
+      } else {
+        dh = 0;
+      }
+      return f;
+    };
+    f.lightness = function(h) {
+      if (h == null) {
+        return lightness;
+      }
+      if (type(h) === 'array') {
+        lightness = h;
+        dl = h[1] - h[0];
+      } else {
+        lightness = [h, h];
+        dl = 0;
+      }
+      return f;
+    };
+    f.scale = function() {
+      return chroma.scale(f);
+    };
+    f.hue(hue);
+    return f;
+  };
+
+  chroma.random = function() {
+    var code, digits, i, o;
+    digits = '0123456789abcdef';
+    code = '#';
+    for (i = o = 0; o < 6; i = ++o) {
+      code += digits.charAt(floor(Math.random() * 16));
+    }
+    return new Color(code);
+  };
+
+  _interpolators = [];
+
+  interpolate = function(col1, col2, f, m) {
+    var interpol, len, o, res;
+    if (f == null) {
+      f = 0.5;
+    }
+    if (m == null) {
+      m = 'rgb';
+    }
+
+    /*
+    interpolates between colors
+    f = 0 --> me
+    f = 1 --> col
+     */
+    if (type(col1) !== 'object') {
+      col1 = chroma(col1);
+    }
+    if (type(col2) !== 'object') {
+      col2 = chroma(col2);
+    }
+    for (o = 0, len = _interpolators.length; o < len; o++) {
+      interpol = _interpolators[o];
+      if (m === interpol[0]) {
+        res = interpol[1](col1, col2, f, m);
+        break;
+      }
+    }
+    if (res == null) {
+      throw "color mode " + m + " is not supported";
+    }
+    return res.alpha(col1.alpha() + f * (col2.alpha() - col1.alpha()));
+  };
+
+  chroma.interpolate = interpolate;
+
+  Color.prototype.interpolate = function(col2, f, m) {
+    return interpolate(this, col2, f, m);
+  };
+
+  chroma.mix = interpolate;
+
+  Color.prototype.mix = Color.prototype.interpolate;
+
+  _input.rgb = function() {
+    var k, ref, results, v;
+    ref = unpack(arguments);
+    results = [];
+    for (k in ref) {
+      v = ref[k];
+      results.push(v);
+    }
+    return results;
+  };
+
+  chroma.rgb = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['rgb']), function(){});
+  };
+
+  Color.prototype.rgb = function(round) {
+    if (round == null) {
+      round = true;
+    }
+    if (round) {
+      return this._rgb.map(Math.round).slice(0, 3);
+    } else {
+      return this._rgb.slice(0, 3);
+    }
+  };
+
+  Color.prototype.rgba = function(round) {
+    if (round == null) {
+      round = true;
+    }
+    if (!round) {
+      return this._rgb.slice(0);
+    }
+    return [Math.round(this._rgb[0]), Math.round(this._rgb[1]), Math.round(this._rgb[2]), this._rgb[3]];
+  };
+
+  _guess_formats.push({
+    p: 3,
+    test: function(n) {
+      var a;
+      a = unpack(arguments);
+      if (type(a) === 'array' && a.length === 3) {
+        return 'rgb';
+      }
+      if (a.length === 4 && type(a[3]) === "number" && a[3] >= 0 && a[3] <= 1) {
+        return 'rgb';
+      }
+    }
+  });
+
+  _input.lrgb = _input.rgb;
+
+  interpolate_lrgb = function(col1, col2, f, m) {
+    var xyz0, xyz1;
+    xyz0 = col1._rgb;
+    xyz1 = col2._rgb;
+    return new Color(sqrt(pow(xyz0[0], 2) * (1 - f) + pow(xyz1[0], 2) * f), sqrt(pow(xyz0[1], 2) * (1 - f) + pow(xyz1[1], 2) * f), sqrt(pow(xyz0[2], 2) * (1 - f) + pow(xyz1[2], 2) * f), m);
+  };
+
+  _average_lrgb = function(colors) {
+    var col, f, len, o, rgb, xyz;
+    f = 1 / colors.length;
+    xyz = [0, 0, 0, 0];
+    for (o = 0, len = colors.length; o < len; o++) {
+      col = colors[o];
+      rgb = col._rgb;
+      xyz[0] += pow(rgb[0], 2) * f;
+      xyz[1] += pow(rgb[1], 2) * f;
+      xyz[2] += pow(rgb[2], 2) * f;
+      xyz[3] += rgb[3] * f;
+    }
+    xyz[0] = sqrt(xyz[0]);
+    xyz[1] = sqrt(xyz[1]);
+    xyz[2] = sqrt(xyz[2]);
+    return new Color(xyz);
+  };
+
+  _interpolators.push(['lrgb', interpolate_lrgb]);
+
+  chroma.average = function(colors, mode) {
+    var A, alpha, c, cnt, dx, dy, first, i, l, len, o, xyz, xyz2;
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    l = colors.length;
+    colors = colors.map(function(c) {
+      return chroma(c);
+    });
+    first = colors.splice(0, 1)[0];
+    if (mode === 'lrgb') {
+      return _average_lrgb(colors);
+    }
+    xyz = first.get(mode);
+    cnt = [];
+    dx = 0;
+    dy = 0;
+    for (i in xyz) {
+      xyz[i] = xyz[i] || 0;
+      cnt.push(isNaN(xyz[i]) ? 0 : 1);
+      if (mode.charAt(i) === 'h' && !isNaN(xyz[i])) {
+        A = xyz[i] / 180 * PI;
+        dx += cos(A);
+        dy += sin(A);
+      }
+    }
+    alpha = first.alpha();
+    for (o = 0, len = colors.length; o < len; o++) {
+      c = colors[o];
+      xyz2 = c.get(mode);
+      alpha += c.alpha();
+      for (i in xyz) {
+        if (!isNaN(xyz2[i])) {
+          cnt[i] += 1;
+          if (mode.charAt(i) === 'h') {
+            A = xyz2[i] / 180 * PI;
+            dx += cos(A);
+            dy += sin(A);
+          } else {
+            xyz[i] += xyz2[i];
+          }
+        }
+      }
+    }
+    for (i in xyz) {
+      if (mode.charAt(i) === 'h') {
+        A = atan2(dy / cnt[i], dx / cnt[i]) / PI * 180;
+        while (A < 0) {
+          A += 360;
+        }
+        while (A >= 360) {
+          A -= 360;
+        }
+        xyz[i] = A;
+      } else {
+        xyz[i] = xyz[i] / cnt[i];
+      }
+    }
+    return chroma(xyz, mode).alpha(alpha / l);
+  };
+
+  hex2rgb = function(hex) {
+    var a, b, g, r, rgb, u;
+    if (hex.match(/^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
+      if (hex.length === 4 || hex.length === 7) {
+        hex = hex.substr(1);
+      }
+      if (hex.length === 3) {
+        hex = hex.split("");
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      }
+      u = parseInt(hex, 16);
+      r = u >> 16;
+      g = u >> 8 & 0xFF;
+      b = u & 0xFF;
+      return [r, g, b, 1];
+    }
+    if (hex.match(/^#?([A-Fa-f0-9]{8})$/)) {
+      if (hex.length === 9) {
+        hex = hex.substr(1);
+      }
+      u = parseInt(hex, 16);
+      r = u >> 24 & 0xFF;
+      g = u >> 16 & 0xFF;
+      b = u >> 8 & 0xFF;
+      a = round((u & 0xFF) / 0xFF * 100) / 100;
+      return [r, g, b, a];
+    }
+    if ((_input.css != null) && (rgb = _input.css(hex))) {
+      return rgb;
+    }
+    throw "unknown color: " + hex;
+  };
+
+  rgb2hex = function(channels, mode) {
+    var a, b, g, hxa, r, str, u;
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    r = channels[0], g = channels[1], b = channels[2], a = channels[3];
+    r = Math.round(r);
+    g = Math.round(g);
+    b = Math.round(b);
+    u = r << 16 | g << 8 | b;
+    str = "000000" + u.toString(16);
+    str = str.substr(str.length - 6);
+    hxa = '0' + round(a * 255).toString(16);
+    hxa = hxa.substr(hxa.length - 2);
+    return "#" + (function() {
+      switch (mode.toLowerCase()) {
+        case 'rgba':
+          return str + hxa;
+        case 'argb':
+          return hxa + str;
+        default:
+          return str;
+      }
+    })();
+  };
+
+  _input.hex = function(h) {
+    return hex2rgb(h);
+  };
+
+  chroma.hex = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['hex']), function(){});
+  };
+
+  Color.prototype.hex = function(mode) {
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    return rgb2hex(this._rgb, mode);
+  };
+
+  _guess_formats.push({
+    p: 4,
+    test: function(n) {
+      if (arguments.length === 1 && type(n) === "string") {
+        return 'hex';
+      }
+    }
+  });
+
+  hsl2rgb = function() {
+    var args, b, c, g, h, i, l, o, r, ref, s, t1, t2, t3;
+    args = unpack(arguments);
+    h = args[0], s = args[1], l = args[2];
+    if (s === 0) {
+      r = g = b = l * 255;
+    } else {
+      t3 = [0, 0, 0];
+      c = [0, 0, 0];
+      t2 = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      t1 = 2 * l - t2;
+      h /= 360;
+      t3[0] = h + 1 / 3;
+      t3[1] = h;
+      t3[2] = h - 1 / 3;
+      for (i = o = 0; o <= 2; i = ++o) {
+        if (t3[i] < 0) {
+          t3[i] += 1;
+        }
+        if (t3[i] > 1) {
+          t3[i] -= 1;
+        }
+        if (6 * t3[i] < 1) {
+          c[i] = t1 + (t2 - t1) * 6 * t3[i];
+        } else if (2 * t3[i] < 1) {
+          c[i] = t2;
+        } else if (3 * t3[i] < 2) {
+          c[i] = t1 + (t2 - t1) * ((2 / 3) - t3[i]) * 6;
+        } else {
+          c[i] = t1;
+        }
+      }
+      ref = [round(c[0] * 255), round(c[1] * 255), round(c[2] * 255)], r = ref[0], g = ref[1], b = ref[2];
+    }
+    if (args.length > 3) {
+      return [r, g, b, args[3]];
+    } else {
+      return [r, g, b];
+    }
+  };
+
+  rgb2hsl = function(r, g, b) {
+    var h, l, min, ref, s;
+    if (r !== void 0 && r.length >= 3) {
+      ref = r, r = ref[0], g = ref[1], b = ref[2];
+    }
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    min = Math.min(r, g, b);
+    max = Math.max(r, g, b);
+    l = (max + min) / 2;
+    if (max === min) {
+      s = 0;
+      h = Number.NaN;
+    } else {
+      s = l < 0.5 ? (max - min) / (max + min) : (max - min) / (2 - max - min);
+    }
+    if (r === max) {
+      h = (g - b) / (max - min);
+    } else if (g === max) {
+      h = 2 + (b - r) / (max - min);
+    } else if (b === max) {
+      h = 4 + (r - g) / (max - min);
+    }
+    h *= 60;
+    if (h < 0) {
+      h += 360;
+    }
+    return [h, s, l];
+  };
+
+  chroma.hsl = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['hsl']), function(){});
+  };
+
+  _input.hsl = hsl2rgb;
+
+  Color.prototype.hsl = function() {
+    return rgb2hsl(this._rgb);
+  };
+
+  hsv2rgb = function() {
+    var args, b, f, g, h, i, p, q, r, ref, ref1, ref2, ref3, ref4, ref5, s, t, v;
+    args = unpack(arguments);
+    h = args[0], s = args[1], v = args[2];
+    v *= 255;
+    if (s === 0) {
+      r = g = b = v;
+    } else {
+      if (h === 360) {
+        h = 0;
+      }
+      if (h > 360) {
+        h -= 360;
+      }
+      if (h < 0) {
+        h += 360;
+      }
+      h /= 60;
+      i = floor(h);
+      f = h - i;
+      p = v * (1 - s);
+      q = v * (1 - s * f);
+      t = v * (1 - s * (1 - f));
+      switch (i) {
+        case 0:
+          ref = [v, t, p], r = ref[0], g = ref[1], b = ref[2];
+          break;
+        case 1:
+          ref1 = [q, v, p], r = ref1[0], g = ref1[1], b = ref1[2];
+          break;
+        case 2:
+          ref2 = [p, v, t], r = ref2[0], g = ref2[1], b = ref2[2];
+          break;
+        case 3:
+          ref3 = [p, q, v], r = ref3[0], g = ref3[1], b = ref3[2];
+          break;
+        case 4:
+          ref4 = [t, p, v], r = ref4[0], g = ref4[1], b = ref4[2];
+          break;
+        case 5:
+          ref5 = [v, p, q], r = ref5[0], g = ref5[1], b = ref5[2];
+      }
+    }
+    return [r, g, b, args.length > 3 ? args[3] : 1];
+  };
+
+  rgb2hsv = function() {
+    var b, delta, g, h, min, r, ref, s, v;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    min = Math.min(r, g, b);
+    max = Math.max(r, g, b);
+    delta = max - min;
+    v = max / 255.0;
+    if (max === 0) {
+      h = Number.NaN;
+      s = 0;
+    } else {
+      s = delta / max;
+      if (r === max) {
+        h = (g - b) / delta;
+      }
+      if (g === max) {
+        h = 2 + (b - r) / delta;
+      }
+      if (b === max) {
+        h = 4 + (r - g) / delta;
+      }
+      h *= 60;
+      if (h < 0) {
+        h += 360;
+      }
+    }
+    return [h, s, v];
+  };
+
+  chroma.hsv = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['hsv']), function(){});
+  };
+
+  _input.hsv = hsv2rgb;
+
+  Color.prototype.hsv = function() {
+    return rgb2hsv(this._rgb);
+  };
+
+  num2rgb = function(num) {
+    var b, g, r;
+    if (type(num) === "number" && num >= 0 && num <= 0xFFFFFF) {
+      r = num >> 16;
+      g = (num >> 8) & 0xFF;
+      b = num & 0xFF;
+      return [r, g, b, 1];
+    }
+    console.warn("unknown num color: " + num);
+    return [0, 0, 0, 1];
+  };
+
+  rgb2num = function() {
+    var b, g, r, ref;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    return (r << 16) + (g << 8) + b;
+  };
+
+  chroma.num = function(num) {
+    return new Color(num, 'num');
+  };
+
+  Color.prototype.num = function(mode) {
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    return rgb2num(this._rgb, mode);
+  };
+
+  _input.num = num2rgb;
+
+  _guess_formats.push({
+    p: 1,
+    test: function(n) {
+      if (arguments.length === 1 && type(n) === "number" && n >= 0 && n <= 0xFFFFFF) {
+        return 'num';
+      }
+    }
+  });
+
+  hcg2rgb = function() {
+    var _c, _g, args, b, c, f, g, h, i, p, q, r, ref, ref1, ref2, ref3, ref4, ref5, t, v;
+    args = unpack(arguments);
+    h = args[0], c = args[1], _g = args[2];
+    c = c / 100;
+    g = g / 100 * 255;
+    _c = c * 255;
+    if (c === 0) {
+      r = g = b = _g;
+    } else {
+      if (h === 360) {
+        h = 0;
+      }
+      if (h > 360) {
+        h -= 360;
+      }
+      if (h < 0) {
+        h += 360;
+      }
+      h /= 60;
+      i = floor(h);
+      f = h - i;
+      p = _g * (1 - c);
+      q = p + _c * (1 - f);
+      t = p + _c * f;
+      v = p + _c;
+      switch (i) {
+        case 0:
+          ref = [v, t, p], r = ref[0], g = ref[1], b = ref[2];
+          break;
+        case 1:
+          ref1 = [q, v, p], r = ref1[0], g = ref1[1], b = ref1[2];
+          break;
+        case 2:
+          ref2 = [p, v, t], r = ref2[0], g = ref2[1], b = ref2[2];
+          break;
+        case 3:
+          ref3 = [p, q, v], r = ref3[0], g = ref3[1], b = ref3[2];
+          break;
+        case 4:
+          ref4 = [t, p, v], r = ref4[0], g = ref4[1], b = ref4[2];
+          break;
+        case 5:
+          ref5 = [v, p, q], r = ref5[0], g = ref5[1], b = ref5[2];
+      }
+    }
+    return [r, g, b, args.length > 3 ? args[3] : 1];
+  };
+
+  rgb2hcg = function() {
+    var _g, b, c, delta, g, h, min, r, ref;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    min = Math.min(r, g, b);
+    max = Math.max(r, g, b);
+    delta = max - min;
+    c = delta * 100 / 255;
+    _g = min / (255 - delta) * 100;
+    if (delta === 0) {
+      h = Number.NaN;
+    } else {
+      if (r === max) {
+        h = (g - b) / delta;
+      }
+      if (g === max) {
+        h = 2 + (b - r) / delta;
+      }
+      if (b === max) {
+        h = 4 + (r - g) / delta;
+      }
+      h *= 60;
+      if (h < 0) {
+        h += 360;
+      }
+    }
+    return [h, c, _g];
+  };
+
+  chroma.hcg = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['hcg']), function(){});
+  };
+
+  _input.hcg = hcg2rgb;
+
+  Color.prototype.hcg = function() {
+    return rgb2hcg(this._rgb);
+  };
+
+  css2rgb = function(css) {
+    var aa, ab, hsl, i, m, o, rgb, w;
+    css = css.toLowerCase();
+    if ((chroma.colors != null) && chroma.colors[css]) {
+      return hex2rgb(chroma.colors[css]);
+    }
+    if (m = css.match(/rgb\(\s*(\-?\d+),\s*(\-?\d+)\s*,\s*(\-?\d+)\s*\)/)) {
+      rgb = m.slice(1, 4);
+      for (i = o = 0; o <= 2; i = ++o) {
+        rgb[i] = +rgb[i];
+      }
+      rgb[3] = 1;
+    } else if (m = css.match(/rgba\(\s*(\-?\d+),\s*(\-?\d+)\s*,\s*(\-?\d+)\s*,\s*([01]|[01]?\.\d+)\)/)) {
+      rgb = m.slice(1, 5);
+      for (i = w = 0; w <= 3; i = ++w) {
+        rgb[i] = +rgb[i];
+      }
+    } else if (m = css.match(/rgb\(\s*(\-?\d+(?:\.\d+)?)%,\s*(\-?\d+(?:\.\d+)?)%\s*,\s*(\-?\d+(?:\.\d+)?)%\s*\)/)) {
+      rgb = m.slice(1, 4);
+      for (i = aa = 0; aa <= 2; i = ++aa) {
+        rgb[i] = round(rgb[i] * 2.55);
+      }
+      rgb[3] = 1;
+    } else if (m = css.match(/rgba\(\s*(\-?\d+(?:\.\d+)?)%,\s*(\-?\d+(?:\.\d+)?)%\s*,\s*(\-?\d+(?:\.\d+)?)%\s*,\s*([01]|[01]?\.\d+)\)/)) {
+      rgb = m.slice(1, 5);
+      for (i = ab = 0; ab <= 2; i = ++ab) {
+        rgb[i] = round(rgb[i] * 2.55);
+      }
+      rgb[3] = +rgb[3];
+    } else if (m = css.match(/hsl\(\s*(\-?\d+(?:\.\d+)?),\s*(\-?\d+(?:\.\d+)?)%\s*,\s*(\-?\d+(?:\.\d+)?)%\s*\)/)) {
+      hsl = m.slice(1, 4);
+      hsl[1] *= 0.01;
+      hsl[2] *= 0.01;
+      rgb = hsl2rgb(hsl);
+      rgb[3] = 1;
+    } else if (m = css.match(/hsla\(\s*(\-?\d+(?:\.\d+)?),\s*(\-?\d+(?:\.\d+)?)%\s*,\s*(\-?\d+(?:\.\d+)?)%\s*,\s*([01]|[01]?\.\d+)\)/)) {
+      hsl = m.slice(1, 4);
+      hsl[1] *= 0.01;
+      hsl[2] *= 0.01;
+      rgb = hsl2rgb(hsl);
+      rgb[3] = +m[4];
+    }
+    return rgb;
+  };
+
+  rgb2css = function(rgba) {
+    var mode;
+    mode = rgba[3] < 1 ? 'rgba' : 'rgb';
+    if (mode === 'rgb') {
+      return mode + '(' + rgba.slice(0, 3).map(round).join(',') + ')';
+    } else if (mode === 'rgba') {
+      return mode + '(' + rgba.slice(0, 3).map(round).join(',') + ',' + rgba[3] + ')';
+    } else {
+
+    }
+  };
+
+  rnd = function(a) {
+    return round(a * 100) / 100;
+  };
+
+  hsl2css = function(hsl, alpha) {
+    var mode;
+    mode = alpha < 1 ? 'hsla' : 'hsl';
+    hsl[0] = rnd(hsl[0] || 0);
+    hsl[1] = rnd(hsl[1] * 100) + '%';
+    hsl[2] = rnd(hsl[2] * 100) + '%';
+    if (mode === 'hsla') {
+      hsl[3] = alpha;
+    }
+    return mode + '(' + hsl.join(',') + ')';
+  };
+
+  _input.css = function(h) {
+    return css2rgb(h);
+  };
+
+  chroma.css = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['css']), function(){});
+  };
+
+  Color.prototype.css = function(mode) {
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    if (mode.slice(0, 3) === 'rgb') {
+      return rgb2css(this._rgb);
+    } else if (mode.slice(0, 3) === 'hsl') {
+      return hsl2css(this.hsl(), this.alpha());
+    }
+  };
+
+  _input.named = function(name) {
+    return hex2rgb(w3cx11[name]);
+  };
+
+  _guess_formats.push({
+    p: 5,
+    test: function(n) {
+      if (arguments.length === 1 && (w3cx11[n] != null)) {
+        return 'named';
+      }
+    }
+  });
+
+  Color.prototype.name = function(n) {
+    var h, k;
+    if (arguments.length) {
+      if (w3cx11[n]) {
+        this._rgb = hex2rgb(w3cx11[n]);
+      }
+      this._rgb[3] = 1;
+      this;
+    }
+    h = this.hex();
+    for (k in w3cx11) {
+      if (h === w3cx11[k]) {
+        return k;
+      }
+    }
+    return h;
+  };
+
+  lch2lab = function() {
+
+    /*
+    Convert from a qualitative parameter h and a quantitative parameter l to a 24-bit pixel.
+    These formulas were invented by David Dalrymple to obtain maximum contrast without going
+    out of gamut if the parameters are in the range 0-1.
+    
+    A saturation multiplier was added by Gregor Aisch
+     */
+    var c, h, l, ref;
+    ref = unpack(arguments), l = ref[0], c = ref[1], h = ref[2];
+    h = h * DEG2RAD;
+    return [l, cos(h) * c, sin(h) * c];
+  };
+
+  lch2rgb = function() {
+    var L, a, args, b, c, g, h, l, r, ref, ref1;
+    args = unpack(arguments);
+    l = args[0], c = args[1], h = args[2];
+    ref = lch2lab(l, c, h), L = ref[0], a = ref[1], b = ref[2];
+    ref1 = lab2rgb(L, a, b), r = ref1[0], g = ref1[1], b = ref1[2];
+    return [r, g, b, args.length > 3 ? args[3] : 1];
+  };
+
+  lab2lch = function() {
+    var a, b, c, h, l, ref;
+    ref = unpack(arguments), l = ref[0], a = ref[1], b = ref[2];
+    c = sqrt(a * a + b * b);
+    h = (atan2(b, a) * RAD2DEG + 360) % 360;
+    if (round(c * 10000) === 0) {
+      h = Number.NaN;
+    }
+    return [l, c, h];
+  };
+
+  rgb2lch = function() {
+    var a, b, g, l, r, ref, ref1;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    ref1 = rgb2lab(r, g, b), l = ref1[0], a = ref1[1], b = ref1[2];
+    return lab2lch(l, a, b);
+  };
+
+  chroma.lch = function() {
+    var args;
+    args = unpack(arguments);
+    return new Color(args, 'lch');
+  };
+
+  chroma.hcl = function() {
+    var args;
+    args = unpack(arguments);
+    return new Color(args, 'hcl');
+  };
+
+  _input.lch = lch2rgb;
+
+  _input.hcl = function() {
+    var c, h, l, ref;
+    ref = unpack(arguments), h = ref[0], c = ref[1], l = ref[2];
+    return lch2rgb([l, c, h]);
+  };
+
+  Color.prototype.lch = function() {
+    return rgb2lch(this._rgb);
+  };
+
+  Color.prototype.hcl = function() {
+    return rgb2lch(this._rgb).reverse();
+  };
+
+  rgb2cmyk = function(mode) {
+    var b, c, f, g, k, m, r, ref, y;
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    r = r / 255;
+    g = g / 255;
+    b = b / 255;
+    k = 1 - Math.max(r, Math.max(g, b));
+    f = k < 1 ? 1 / (1 - k) : 0;
+    c = (1 - r - k) * f;
+    m = (1 - g - k) * f;
+    y = (1 - b - k) * f;
+    return [c, m, y, k];
+  };
+
+  cmyk2rgb = function() {
+    var alpha, args, b, c, g, k, m, r, y;
+    args = unpack(arguments);
+    c = args[0], m = args[1], y = args[2], k = args[3];
+    alpha = args.length > 4 ? args[4] : 1;
+    if (k === 1) {
+      return [0, 0, 0, alpha];
+    }
+    r = c >= 1 ? 0 : 255 * (1 - c) * (1 - k);
+    g = m >= 1 ? 0 : 255 * (1 - m) * (1 - k);
+    b = y >= 1 ? 0 : 255 * (1 - y) * (1 - k);
+    return [r, g, b, alpha];
+  };
+
+  _input.cmyk = function() {
+    return cmyk2rgb(unpack(arguments));
+  };
+
+  chroma.cmyk = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['cmyk']), function(){});
+  };
+
+  Color.prototype.cmyk = function() {
+    return rgb2cmyk(this._rgb);
+  };
+
+  _input.gl = function() {
+    var i, k, o, rgb, v;
+    rgb = (function() {
+      var ref, results;
+      ref = unpack(arguments);
+      results = [];
+      for (k in ref) {
+        v = ref[k];
+        results.push(v);
+      }
+      return results;
+    }).apply(this, arguments);
+    for (i = o = 0; o <= 2; i = ++o) {
+      rgb[i] *= 255;
+    }
+    return rgb;
+  };
+
+  chroma.gl = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['gl']), function(){});
+  };
+
+  Color.prototype.gl = function() {
+    var rgb;
+    rgb = this._rgb;
+    return [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, rgb[3]];
+  };
+
+  rgb2luminance = function(r, g, b) {
+    var ref;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    r = luminance_x(r);
+    g = luminance_x(g);
+    b = luminance_x(b);
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+
+  luminance_x = function(x) {
+    x /= 255;
+    if (x <= 0.03928) {
+      return x / 12.92;
+    } else {
+      return pow((x + 0.055) / 1.055, 2.4);
+    }
+  };
+
+  interpolate_rgb = function(col1, col2, f, m) {
+    var xyz0, xyz1;
+    xyz0 = col1._rgb;
+    xyz1 = col2._rgb;
+    return new Color(xyz0[0] + f * (xyz1[0] - xyz0[0]), xyz0[1] + f * (xyz1[1] - xyz0[1]), xyz0[2] + f * (xyz1[2] - xyz0[2]), m);
+  };
+
+  _interpolators.push(['rgb', interpolate_rgb]);
+
+  Color.prototype.luminance = function(lum, mode) {
+    var cur_lum, eps, max_iter, rgba, test;
+    if (mode == null) {
+      mode = 'rgb';
+    }
+    if (!arguments.length) {
+      return rgb2luminance(this._rgb);
+    }
+    rgba = this._rgb;
+    if (lum === 0) {
+      rgba = [0, 0, 0, this._rgb[3]];
+    } else if (lum === 1) {
+      rgba = [255, 255, 255, this[3]];
+    } else {
+      cur_lum = rgb2luminance(this._rgb);
+      eps = 1e-7;
+      max_iter = 20;
+      test = function(l, h) {
+        var lm, m;
+        m = l.interpolate(h, 0.5, mode);
+        lm = m.luminance();
+        if (Math.abs(lum - lm) < eps || !max_iter--) {
+          return m;
+        }
+        if (lm > lum) {
+          return test(l, m);
+        }
+        return test(m, h);
+      };
+      if (cur_lum > lum) {
+        rgba = test(chroma('black'), this).rgba();
+      } else {
+        rgba = test(this, chroma('white')).rgba();
+      }
+    }
+    return chroma(rgba).alpha(this.alpha());
+  };
+
+  temperature2rgb = function(kelvin) {
+    var b, g, r, temp;
+    temp = kelvin / 100;
+    if (temp < 66) {
+      r = 255;
+      g = -155.25485562709179 - 0.44596950469579133 * (g = temp - 2) + 104.49216199393888 * log(g);
+      b = temp < 20 ? 0 : -254.76935184120902 + 0.8274096064007395 * (b = temp - 10) + 115.67994401066147 * log(b);
+    } else {
+      r = 351.97690566805693 + 0.114206453784165 * (r = temp - 55) - 40.25366309332127 * log(r);
+      g = 325.4494125711974 + 0.07943456536662342 * (g = temp - 50) - 28.0852963507957 * log(g);
+      b = 255;
+    }
+    return [r, g, b];
+  };
+
+  rgb2temperature = function() {
+    var b, eps, g, maxTemp, minTemp, r, ref, rgb, temp;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    minTemp = 1000;
+    maxTemp = 40000;
+    eps = 0.4;
+    while (maxTemp - minTemp > eps) {
+      temp = (maxTemp + minTemp) * 0.5;
+      rgb = temperature2rgb(temp);
+      if ((rgb[2] / rgb[0]) >= (b / r)) {
+        maxTemp = temp;
+      } else {
+        minTemp = temp;
+      }
+    }
+    return round(temp);
+  };
+
+  chroma.temperature = chroma.kelvin = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['temperature']), function(){});
+  };
+
+  _input.temperature = _input.kelvin = _input.K = temperature2rgb;
+
+  Color.prototype.temperature = function() {
+    return rgb2temperature(this._rgb);
+  };
+
+  Color.prototype.kelvin = Color.prototype.temperature;
+
+  chroma.contrast = function(a, b) {
+    var l1, l2, ref, ref1;
+    if ((ref = type(a)) === 'string' || ref === 'number') {
+      a = new Color(a);
+    }
+    if ((ref1 = type(b)) === 'string' || ref1 === 'number') {
+      b = new Color(b);
+    }
+    l1 = a.luminance();
+    l2 = b.luminance();
+    if (l1 > l2) {
+      return (l1 + 0.05) / (l2 + 0.05);
+    } else {
+      return (l2 + 0.05) / (l1 + 0.05);
+    }
+  };
+
+  chroma.distance = function(a, b, mode) {
+    var d, i, l1, l2, ref, ref1, sum_sq;
+    if (mode == null) {
+      mode = 'lab';
+    }
+    if ((ref = type(a)) === 'string' || ref === 'number') {
+      a = new Color(a);
+    }
+    if ((ref1 = type(b)) === 'string' || ref1 === 'number') {
+      b = new Color(b);
+    }
+    l1 = a.get(mode);
+    l2 = b.get(mode);
+    sum_sq = 0;
+    for (i in l1) {
+      d = (l1[i] || 0) - (l2[i] || 0);
+      sum_sq += d * d;
+    }
+    return Math.sqrt(sum_sq);
+  };
+
+  chroma.deltaE = function(a, b, L, C) {
+    var L1, L2, a1, a2, b1, b2, c1, c2, c4, dH2, delA, delB, delC, delL, f, h1, ref, ref1, ref2, ref3, sc, sh, sl, t, v1, v2, v3;
+    if (L == null) {
+      L = 1;
+    }
+    if (C == null) {
+      C = 1;
+    }
+    if ((ref = type(a)) === 'string' || ref === 'number') {
+      a = new Color(a);
+    }
+    if ((ref1 = type(b)) === 'string' || ref1 === 'number') {
+      b = new Color(b);
+    }
+    ref2 = a.lab(), L1 = ref2[0], a1 = ref2[1], b1 = ref2[2];
+    ref3 = b.lab(), L2 = ref3[0], a2 = ref3[1], b2 = ref3[2];
+    c1 = sqrt(a1 * a1 + b1 * b1);
+    c2 = sqrt(a2 * a2 + b2 * b2);
+    sl = L1 < 16.0 ? 0.511 : (0.040975 * L1) / (1.0 + 0.01765 * L1);
+    sc = (0.0638 * c1) / (1.0 + 0.0131 * c1) + 0.638;
+    h1 = c1 < 0.000001 ? 0.0 : (atan2(b1, a1) * 180.0) / PI;
+    while (h1 < 0) {
+      h1 += 360;
+    }
+    while (h1 >= 360) {
+      h1 -= 360;
+    }
+    t = (h1 >= 164.0) && (h1 <= 345.0) ? 0.56 + abs(0.2 * cos((PI * (h1 + 168.0)) / 180.0)) : 0.36 + abs(0.4 * cos((PI * (h1 + 35.0)) / 180.0));
+    c4 = c1 * c1 * c1 * c1;
+    f = sqrt(c4 / (c4 + 1900.0));
+    sh = sc * (f * t + 1.0 - f);
+    delL = L1 - L2;
+    delC = c1 - c2;
+    delA = a1 - a2;
+    delB = b1 - b2;
+    dH2 = delA * delA + delB * delB - delC * delC;
+    v1 = delL / (L * sl);
+    v2 = delC / (C * sc);
+    v3 = sh;
+    return sqrt(v1 * v1 + v2 * v2 + (dH2 / (v3 * v3)));
+  };
+
+  Color.prototype.get = function(modechan) {
+    var channel, i, me, mode, ref, src;
+    me = this;
+    ref = modechan.split('.'), mode = ref[0], channel = ref[1];
+    src = me[mode]();
+    if (channel) {
+      i = mode.indexOf(channel);
+      if (i > -1) {
+        return src[i];
+      } else {
+        return console.warn('unknown channel ' + channel + ' in mode ' + mode);
+      }
+    } else {
+      return src;
+    }
+  };
+
+  Color.prototype.set = function(modechan, value) {
+    var channel, i, me, mode, ref, src;
+    me = this;
+    ref = modechan.split('.'), mode = ref[0], channel = ref[1];
+    if (channel) {
+      src = me[mode]();
+      i = mode.indexOf(channel);
+      if (i > -1) {
+        if (type(value) === 'string') {
+          switch (value.charAt(0)) {
+            case '+':
+              src[i] += +value;
+              break;
+            case '-':
+              src[i] += +value;
+              break;
+            case '*':
+              src[i] *= +(value.substr(1));
+              break;
+            case '/':
+              src[i] /= +(value.substr(1));
+              break;
+            default:
+              src[i] = +value;
+          }
+        } else {
+          src[i] = value;
+        }
+      } else {
+        console.warn('unknown channel ' + channel + ' in mode ' + mode);
+      }
+    } else {
+      src = value;
+    }
+    return chroma(src, mode).alpha(me.alpha());
+  };
+
+  Color.prototype.clipped = function() {
+    return this._rgb._clipped || false;
+  };
+
+  Color.prototype.alpha = function(a) {
+    if (arguments.length) {
+      return chroma.rgb([this._rgb[0], this._rgb[1], this._rgb[2], a]);
+    }
+    return this._rgb[3];
+  };
+
+  Color.prototype.darken = function(amount) {
+    var lab, me;
+    if (amount == null) {
+      amount = 1;
+    }
+    me = this;
+    lab = me.lab();
+    lab[0] -= LAB_CONSTANTS.Kn * amount;
+    return chroma.lab(lab).alpha(me.alpha());
+  };
+
+  Color.prototype.brighten = function(amount) {
+    if (amount == null) {
+      amount = 1;
+    }
+    return this.darken(-amount);
+  };
+
+  Color.prototype.darker = Color.prototype.darken;
+
+  Color.prototype.brighter = Color.prototype.brighten;
+
+  Color.prototype.saturate = function(amount) {
+    var lch, me;
+    if (amount == null) {
+      amount = 1;
+    }
+    me = this;
+    lch = me.lch();
+    lch[1] += amount * LAB_CONSTANTS.Kn;
+    if (lch[1] < 0) {
+      lch[1] = 0;
+    }
+    return chroma.lch(lch).alpha(me.alpha());
+  };
+
+  Color.prototype.desaturate = function(amount) {
+    if (amount == null) {
+      amount = 1;
+    }
+    return this.saturate(-amount);
+  };
+
+  Color.prototype.premultiply = function() {
+    var a, rgb;
+    rgb = this.rgb();
+    a = this.alpha();
+    return chroma(rgb[0] * a, rgb[1] * a, rgb[2] * a, a);
+  };
+
+  blend = function(bottom, top, mode) {
+    if (!blend[mode]) {
+      throw 'unknown blend mode ' + mode;
+    }
+    return blend[mode](bottom, top);
+  };
+
+  blend_f = function(f) {
+    return function(bottom, top) {
+      var c0, c1;
+      c0 = chroma(top).rgb();
+      c1 = chroma(bottom).rgb();
+      return chroma(f(c0, c1), 'rgb');
+    };
+  };
+
+  each = function(f) {
+    return function(c0, c1) {
+      var i, o, out;
+      out = [];
+      for (i = o = 0; o <= 3; i = ++o) {
+        out[i] = f(c0[i], c1[i]);
+      }
+      return out;
+    };
+  };
+
+  normal = function(a, b) {
+    return a;
+  };
+
+  multiply = function(a, b) {
+    return a * b / 255;
+  };
+
+  darken = function(a, b) {
+    if (a > b) {
+      return b;
+    } else {
+      return a;
+    }
+  };
+
+  lighten = function(a, b) {
+    if (a > b) {
+      return a;
+    } else {
+      return b;
+    }
+  };
+
+  screen = function(a, b) {
+    return 255 * (1 - (1 - a / 255) * (1 - b / 255));
+  };
+
+  overlay = function(a, b) {
+    if (b < 128) {
+      return 2 * a * b / 255;
+    } else {
+      return 255 * (1 - 2 * (1 - a / 255) * (1 - b / 255));
+    }
+  };
+
+  burn = function(a, b) {
+    return 255 * (1 - (1 - b / 255) / (a / 255));
+  };
+
+  dodge = function(a, b) {
+    if (a === 255) {
+      return 255;
+    }
+    a = 255 * (b / 255) / (1 - a / 255);
+    if (a > 255) {
+      return 255;
+    } else {
+      return a;
+    }
+  };
+
+  blend.normal = blend_f(each(normal));
+
+  blend.multiply = blend_f(each(multiply));
+
+  blend.screen = blend_f(each(screen));
+
+  blend.overlay = blend_f(each(overlay));
+
+  blend.darken = blend_f(each(darken));
+
+  blend.lighten = blend_f(each(lighten));
+
+  blend.dodge = blend_f(each(dodge));
+
+  blend.burn = blend_f(each(burn));
+
+  chroma.blend = blend;
+
+  chroma.analyze = function(data) {
+    var len, o, r, val;
+    r = {
+      min: Number.MAX_VALUE,
+      max: Number.MAX_VALUE * -1,
+      sum: 0,
+      values: [],
+      count: 0
+    };
+    for (o = 0, len = data.length; o < len; o++) {
+      val = data[o];
+      if ((val != null) && !isNaN(val)) {
+        r.values.push(val);
+        r.sum += val;
+        if (val < r.min) {
+          r.min = val;
+        }
+        if (val > r.max) {
+          r.max = val;
+        }
+        r.count += 1;
+      }
+    }
+    r.domain = [r.min, r.max];
+    r.limits = function(mode, num) {
+      return chroma.limits(r, mode, num);
+    };
+    return r;
+  };
+
+  chroma.scale = function(colors, positions) {
+    var _classes, _colorCache, _colors, _correctLightness, _domain, _fixed, _gamma, _max, _min, _mode, _nacol, _out, _padding, _pos, _spread, _useCache, classifyValue, f, getClass, getColor, resetCache, setColors, tmap;
+    _mode = 'rgb';
+    _nacol = chroma('#ccc');
+    _spread = 0;
+    _fixed = false;
+    _domain = [0, 1];
+    _pos = [];
+    _padding = [0, 0];
+    _classes = false;
+    _colors = [];
+    _out = false;
+    _min = 0;
+    _max = 1;
+    _correctLightness = false;
+    _colorCache = {};
+    _useCache = true;
+    _gamma = 1;
+    setColors = function(colors) {
+      var c, col, o, ref, ref1, w;
+      if (colors == null) {
+        colors = ['#fff', '#000'];
+      }
+      if ((colors != null) && type(colors) === 'string' && (chroma.brewer != null)) {
+        colors = chroma.brewer[colors] || chroma.brewer[colors.toLowerCase()] || colors;
+      }
+      if (type(colors) === 'array') {
+        colors = colors.slice(0);
+        for (c = o = 0, ref = colors.length - 1; 0 <= ref ? o <= ref : o >= ref; c = 0 <= ref ? ++o : --o) {
+          col = colors[c];
+          if (type(col) === "string") {
+            colors[c] = chroma(col);
+          }
+        }
+        _pos.length = 0;
+        for (c = w = 0, ref1 = colors.length - 1; 0 <= ref1 ? w <= ref1 : w >= ref1; c = 0 <= ref1 ? ++w : --w) {
+          _pos.push(c / (colors.length - 1));
+        }
+      }
+      resetCache();
+      return _colors = colors;
+    };
+    getClass = function(value) {
+      var i, n;
+      if (_classes != null) {
+        n = _classes.length - 1;
+        i = 0;
+        while (i < n && value >= _classes[i]) {
+          i++;
+        }
+        return i - 1;
+      }
+      return 0;
+    };
+    tmap = function(t) {
+      return t;
+    };
+    classifyValue = function(value) {
+      var i, maxc, minc, n, val;
+      val = value;
+      if (_classes.length > 2) {
+        n = _classes.length - 1;
+        i = getClass(value);
+        minc = _classes[0] + (_classes[1] - _classes[0]) * (0 + _spread * 0.5);
+        maxc = _classes[n - 1] + (_classes[n] - _classes[n - 1]) * (1 - _spread * 0.5);
+        val = _min + ((_classes[i] + (_classes[i + 1] - _classes[i]) * 0.5 - minc) / (maxc - minc)) * (_max - _min);
+      }
+      return val;
+    };
+    getColor = function(val, bypassMap) {
+      var c, col, i, k, o, p, ref, t;
+      if (bypassMap == null) {
+        bypassMap = false;
+      }
+      if (isNaN(val)) {
+        return _nacol;
+      }
+      if (!bypassMap) {
+        if (_classes && _classes.length > 2) {
+          c = getClass(val);
+          t = c / (_classes.length - 2);
+        } else if (_max !== _min) {
+          t = (val - _min) / (_max - _min);
+        } else {
+          t = 1;
+        }
+      } else {
+        t = val;
+      }
+      if (!bypassMap) {
+        t = tmap(t);
+      }
+      if (_gamma !== 1) {
+        t = pow(t, _gamma);
+      }
+      t = _padding[0] + (t * (1 - _padding[0] - _padding[1]));
+      t = Math.min(1, Math.max(0, t));
+      k = Math.floor(t * 10000);
+      if (_useCache && _colorCache[k]) {
+        col = _colorCache[k];
+      } else {
+        if (type(_colors) === 'array') {
+          for (i = o = 0, ref = _pos.length - 1; 0 <= ref ? o <= ref : o >= ref; i = 0 <= ref ? ++o : --o) {
+            p = _pos[i];
+            if (t <= p) {
+              col = _colors[i];
+              break;
+            }
+            if (t >= p && i === _pos.length - 1) {
+              col = _colors[i];
+              break;
+            }
+            if (t > p && t < _pos[i + 1]) {
+              t = (t - p) / (_pos[i + 1] - p);
+              col = chroma.interpolate(_colors[i], _colors[i + 1], t, _mode);
+              break;
+            }
+          }
+        } else if (type(_colors) === 'function') {
+          col = _colors(t);
+        }
+        if (_useCache) {
+          _colorCache[k] = col;
+        }
+      }
+      return col;
+    };
+    resetCache = function() {
+      return _colorCache = {};
+    };
+    setColors(colors);
+    f = function(v) {
+      var c;
+      c = chroma(getColor(v));
+      if (_out && c[_out]) {
+        return c[_out]();
+      } else {
+        return c;
+      }
+    };
+    f.classes = function(classes) {
+      var d;
+      if (classes != null) {
+        if (type(classes) === 'array') {
+          _classes = classes;
+          _domain = [classes[0], classes[classes.length - 1]];
+        } else {
+          d = chroma.analyze(_domain);
+          if (classes === 0) {
+            _classes = [d.min, d.max];
+          } else {
+            _classes = chroma.limits(d, 'e', classes);
+          }
+        }
+        return f;
+      }
+      return _classes;
+    };
+    f.domain = function(domain) {
+      var c, d, k, len, o, ref, w;
+      if (!arguments.length) {
+        return _domain;
+      }
+      _min = domain[0];
+      _max = domain[domain.length - 1];
+      _pos = [];
+      k = _colors.length;
+      if (domain.length === k && _min !== _max) {
+        for (o = 0, len = domain.length; o < len; o++) {
+          d = domain[o];
+          _pos.push((d - _min) / (_max - _min));
+        }
+      } else {
+        for (c = w = 0, ref = k - 1; 0 <= ref ? w <= ref : w >= ref; c = 0 <= ref ? ++w : --w) {
+          _pos.push(c / (k - 1));
+        }
+      }
+      _domain = [_min, _max];
+      return f;
+    };
+    f.mode = function(_m) {
+      if (!arguments.length) {
+        return _mode;
+      }
+      _mode = _m;
+      resetCache();
+      return f;
+    };
+    f.range = function(colors, _pos) {
+      setColors(colors, _pos);
+      return f;
+    };
+    f.out = function(_o) {
+      _out = _o;
+      return f;
+    };
+    f.spread = function(val) {
+      if (!arguments.length) {
+        return _spread;
+      }
+      _spread = val;
+      return f;
+    };
+    f.correctLightness = function(v) {
+      if (v == null) {
+        v = true;
+      }
+      _correctLightness = v;
+      resetCache();
+      if (_correctLightness) {
+        tmap = function(t) {
+          var L0, L1, L_actual, L_diff, L_ideal, max_iter, pol, t0, t1;
+          L0 = getColor(0, true).lab()[0];
+          L1 = getColor(1, true).lab()[0];
+          pol = L0 > L1;
+          L_actual = getColor(t, true).lab()[0];
+          L_ideal = L0 + (L1 - L0) * t;
+          L_diff = L_actual - L_ideal;
+          t0 = 0;
+          t1 = 1;
+          max_iter = 20;
+          while (Math.abs(L_diff) > 1e-2 && max_iter-- > 0) {
+            (function() {
+              if (pol) {
+                L_diff *= -1;
+              }
+              if (L_diff < 0) {
+                t0 = t;
+                t += (t1 - t) * 0.5;
+              } else {
+                t1 = t;
+                t += (t0 - t) * 0.5;
+              }
+              L_actual = getColor(t, true).lab()[0];
+              return L_diff = L_actual - L_ideal;
+            })();
+          }
+          return t;
+        };
+      } else {
+        tmap = function(t) {
+          return t;
+        };
+      }
+      return f;
+    };
+    f.padding = function(p) {
+      if (p != null) {
+        if (type(p) === 'number') {
+          p = [p, p];
+        }
+        _padding = p;
+        return f;
+      } else {
+        return _padding;
+      }
+    };
+    f.colors = function(numColors, out) {
+      var dd, dm, i, o, ref, result, results, samples, w;
+      if (arguments.length < 2) {
+        out = 'hex';
+      }
+      result = [];
+      if (arguments.length === 0) {
+        result = _colors.slice(0);
+      } else if (numColors === 1) {
+        result = [f(0.5)];
+      } else if (numColors > 1) {
+        dm = _domain[0];
+        dd = _domain[1] - dm;
+        result = (function() {
+          results = [];
+          for (var o = 0; 0 <= numColors ? o < numColors : o > numColors; 0 <= numColors ? o++ : o--){ results.push(o); }
+          return results;
+        }).apply(this).map(function(i) {
+          return f(dm + i / (numColors - 1) * dd);
+        });
+      } else {
+        colors = [];
+        samples = [];
+        if (_classes && _classes.length > 2) {
+          for (i = w = 1, ref = _classes.length; 1 <= ref ? w < ref : w > ref; i = 1 <= ref ? ++w : --w) {
+            samples.push((_classes[i - 1] + _classes[i]) * 0.5);
+          }
+        } else {
+          samples = _domain;
+        }
+        result = samples.map(function(v) {
+          return f(v);
+        });
+      }
+      if (chroma[out]) {
+        result = result.map(function(c) {
+          return c[out]();
+        });
+      }
+      return result;
+    };
+    f.cache = function(c) {
+      if (c != null) {
+        _useCache = c;
+        return f;
+      } else {
+        return _useCache;
+      }
+    };
+    f.gamma = function(g) {
+      if (g != null) {
+        _gamma = g;
+        return f;
+      } else {
+        return _gamma;
+      }
+    };
+    return f;
+  };
+
+  if (chroma.scales == null) {
+    chroma.scales = {};
+  }
+
+  chroma.scales.cool = function() {
+    return chroma.scale([chroma.hsl(180, 1, .9), chroma.hsl(250, .7, .4)]);
+  };
+
+  chroma.scales.hot = function() {
+    return chroma.scale(['#000', '#f00', '#ff0', '#fff'], [0, .25, .75, 1]).mode('rgb');
+  };
+
+  chroma.analyze = function(data, key, filter) {
+    var add, k, len, o, r, val, visit;
+    r = {
+      min: Number.MAX_VALUE,
+      max: Number.MAX_VALUE * -1,
+      sum: 0,
+      values: [],
+      count: 0
+    };
+    if (filter == null) {
+      filter = function() {
+        return true;
+      };
+    }
+    add = function(val) {
+      if ((val != null) && !isNaN(val)) {
+        r.values.push(val);
+        r.sum += val;
+        if (val < r.min) {
+          r.min = val;
+        }
+        if (val > r.max) {
+          r.max = val;
+        }
+        r.count += 1;
+      }
+    };
+    visit = function(val, k) {
+      if (filter(val, k)) {
+        if ((key != null) && type(key) === 'function') {
+          return add(key(val));
+        } else if ((key != null) && type(key) === 'string' || type(key) === 'number') {
+          return add(val[key]);
+        } else {
+          return add(val);
+        }
+      }
+    };
+    if (type(data) === 'array') {
+      for (o = 0, len = data.length; o < len; o++) {
+        val = data[o];
+        visit(val);
+      }
+    } else {
+      for (k in data) {
+        val = data[k];
+        visit(val, k);
+      }
+    }
+    r.domain = [r.min, r.max];
+    r.limits = function(mode, num) {
+      return chroma.limits(r, mode, num);
+    };
+    return r;
+  };
+
+  chroma.limits = function(data, mode, num) {
+    var aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, assignments, best, centroids, cluster, clusterSizes, dist, i, j, kClusters, limits, max_log, min, min_log, mindist, n, nb_iters, newCentroids, o, p, pb, pr, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, repeat, sum, tmpKMeansBreaks, v, value, values, w;
+    if (mode == null) {
+      mode = 'equal';
+    }
+    if (num == null) {
+      num = 7;
+    }
+    if (type(data) === 'array') {
+      data = chroma.analyze(data);
+    }
+    min = data.min;
+    max = data.max;
+    sum = data.sum;
+    values = data.values.sort(function(a, b) {
+      return a - b;
+    });
+    if (num === 1) {
+      return [min, max];
+    }
+    limits = [];
+    if (mode.substr(0, 1) === 'c') {
+      limits.push(min);
+      limits.push(max);
+    }
+    if (mode.substr(0, 1) === 'e') {
+      limits.push(min);
+      for (i = o = 1, ref = num - 1; 1 <= ref ? o <= ref : o >= ref; i = 1 <= ref ? ++o : --o) {
+        limits.push(min + (i / num) * (max - min));
+      }
+      limits.push(max);
+    } else if (mode.substr(0, 1) === 'l') {
+      if (min <= 0) {
+        throw 'Logarithmic scales are only possible for values > 0';
+      }
+      min_log = Math.LOG10E * log(min);
+      max_log = Math.LOG10E * log(max);
+      limits.push(min);
+      for (i = w = 1, ref1 = num - 1; 1 <= ref1 ? w <= ref1 : w >= ref1; i = 1 <= ref1 ? ++w : --w) {
+        limits.push(pow(10, min_log + (i / num) * (max_log - min_log)));
+      }
+      limits.push(max);
+    } else if (mode.substr(0, 1) === 'q') {
+      limits.push(min);
+      for (i = aa = 1, ref2 = num - 1; 1 <= ref2 ? aa <= ref2 : aa >= ref2; i = 1 <= ref2 ? ++aa : --aa) {
+        p = (values.length - 1) * i / num;
+        pb = floor(p);
+        if (pb === p) {
+          limits.push(values[pb]);
+        } else {
+          pr = p - pb;
+          limits.push(values[pb] * (1 - pr) + values[pb + 1] * pr);
+        }
+      }
+      limits.push(max);
+    } else if (mode.substr(0, 1) === 'k') {
+
+      /*
+      implementation based on
+      http://code.google.com/p/figue/source/browse/trunk/figue.js#336
+      simplified for 1-d input values
+       */
+      n = values.length;
+      assignments = new Array(n);
+      clusterSizes = new Array(num);
+      repeat = true;
+      nb_iters = 0;
+      centroids = null;
+      centroids = [];
+      centroids.push(min);
+      for (i = ab = 1, ref3 = num - 1; 1 <= ref3 ? ab <= ref3 : ab >= ref3; i = 1 <= ref3 ? ++ab : --ab) {
+        centroids.push(min + (i / num) * (max - min));
+      }
+      centroids.push(max);
+      while (repeat) {
+        for (j = ac = 0, ref4 = num - 1; 0 <= ref4 ? ac <= ref4 : ac >= ref4; j = 0 <= ref4 ? ++ac : --ac) {
+          clusterSizes[j] = 0;
+        }
+        for (i = ad = 0, ref5 = n - 1; 0 <= ref5 ? ad <= ref5 : ad >= ref5; i = 0 <= ref5 ? ++ad : --ad) {
+          value = values[i];
+          mindist = Number.MAX_VALUE;
+          for (j = ae = 0, ref6 = num - 1; 0 <= ref6 ? ae <= ref6 : ae >= ref6; j = 0 <= ref6 ? ++ae : --ae) {
+            dist = abs(centroids[j] - value);
+            if (dist < mindist) {
+              mindist = dist;
+              best = j;
+            }
+          }
+          clusterSizes[best]++;
+          assignments[i] = best;
+        }
+        newCentroids = new Array(num);
+        for (j = af = 0, ref7 = num - 1; 0 <= ref7 ? af <= ref7 : af >= ref7; j = 0 <= ref7 ? ++af : --af) {
+          newCentroids[j] = null;
+        }
+        for (i = ag = 0, ref8 = n - 1; 0 <= ref8 ? ag <= ref8 : ag >= ref8; i = 0 <= ref8 ? ++ag : --ag) {
+          cluster = assignments[i];
+          if (newCentroids[cluster] === null) {
+            newCentroids[cluster] = values[i];
+          } else {
+            newCentroids[cluster] += values[i];
+          }
+        }
+        for (j = ah = 0, ref9 = num - 1; 0 <= ref9 ? ah <= ref9 : ah >= ref9; j = 0 <= ref9 ? ++ah : --ah) {
+          newCentroids[j] *= 1 / clusterSizes[j];
+        }
+        repeat = false;
+        for (j = ai = 0, ref10 = num - 1; 0 <= ref10 ? ai <= ref10 : ai >= ref10; j = 0 <= ref10 ? ++ai : --ai) {
+          if (newCentroids[j] !== centroids[i]) {
+            repeat = true;
+            break;
+          }
+        }
+        centroids = newCentroids;
+        nb_iters++;
+        if (nb_iters > 200) {
+          repeat = false;
+        }
+      }
+      kClusters = {};
+      for (j = aj = 0, ref11 = num - 1; 0 <= ref11 ? aj <= ref11 : aj >= ref11; j = 0 <= ref11 ? ++aj : --aj) {
+        kClusters[j] = [];
+      }
+      for (i = ak = 0, ref12 = n - 1; 0 <= ref12 ? ak <= ref12 : ak >= ref12; i = 0 <= ref12 ? ++ak : --ak) {
+        cluster = assignments[i];
+        kClusters[cluster].push(values[i]);
+      }
+      tmpKMeansBreaks = [];
+      for (j = al = 0, ref13 = num - 1; 0 <= ref13 ? al <= ref13 : al >= ref13; j = 0 <= ref13 ? ++al : --al) {
+        tmpKMeansBreaks.push(kClusters[j][0]);
+        tmpKMeansBreaks.push(kClusters[j][kClusters[j].length - 1]);
+      }
+      tmpKMeansBreaks = tmpKMeansBreaks.sort(function(a, b) {
+        return a - b;
+      });
+      limits.push(tmpKMeansBreaks[0]);
+      for (i = am = 1, ref14 = tmpKMeansBreaks.length - 1; am <= ref14; i = am += 2) {
+        v = tmpKMeansBreaks[i];
+        if (!isNaN(v) && limits.indexOf(v) === -1) {
+          limits.push(v);
+        }
+      }
+    }
+    return limits;
+  };
+
+  hsi2rgb = function(h, s, i) {
+
+    /*
+    borrowed from here:
+    http://hummer.stanford.edu/museinfo/doc/examples/humdrum/keyscape2/hsi2rgb.cpp
+     */
+    var args, b, g, r;
+    args = unpack(arguments);
+    h = args[0], s = args[1], i = args[2];
+    if (isNaN(h)) {
+      h = 0;
+    }
+    h /= 360;
+    if (h < 1 / 3) {
+      b = (1 - s) / 3;
+      r = (1 + s * cos(TWOPI * h) / cos(PITHIRD - TWOPI * h)) / 3;
+      g = 1 - (b + r);
+    } else if (h < 2 / 3) {
+      h -= 1 / 3;
+      r = (1 - s) / 3;
+      g = (1 + s * cos(TWOPI * h) / cos(PITHIRD - TWOPI * h)) / 3;
+      b = 1 - (r + g);
+    } else {
+      h -= 2 / 3;
+      g = (1 - s) / 3;
+      b = (1 + s * cos(TWOPI * h) / cos(PITHIRD - TWOPI * h)) / 3;
+      r = 1 - (g + b);
+    }
+    r = limit(i * r * 3);
+    g = limit(i * g * 3);
+    b = limit(i * b * 3);
+    return [r * 255, g * 255, b * 255, args.length > 3 ? args[3] : 1];
+  };
+
+  rgb2hsi = function() {
+
+    /*
+    borrowed from here:
+    http://hummer.stanford.edu/museinfo/doc/examples/humdrum/keyscape2/rgb2hsi.cpp
+     */
+    var b, g, h, i, min, r, ref, s;
+    ref = unpack(arguments), r = ref[0], g = ref[1], b = ref[2];
+    TWOPI = Math.PI * 2;
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    min = Math.min(r, g, b);
+    i = (r + g + b) / 3;
+    s = 1 - min / i;
+    if (s === 0) {
+      h = 0;
+    } else {
+      h = ((r - g) + (r - b)) / 2;
+      h /= Math.sqrt((r - g) * (r - g) + (r - b) * (g - b));
+      h = Math.acos(h);
+      if (b > g) {
+        h = TWOPI - h;
+      }
+      h /= TWOPI;
+    }
+    return [h * 360, s, i];
+  };
+
+  chroma.hsi = function() {
+    return (function(func, args, ctor) {
+      ctor.prototype = func.prototype;
+      var child = new ctor, result = func.apply(child, args);
+      return Object(result) === result ? result : child;
+    })(Color, slice.call(arguments).concat(['hsi']), function(){});
+  };
+
+  _input.hsi = hsi2rgb;
+
+  Color.prototype.hsi = function() {
+    return rgb2hsi(this._rgb);
+  };
+
+  interpolate_hsx = function(col1, col2, f, m) {
+    var dh, hue, hue0, hue1, lbv, lbv0, lbv1, res, sat, sat0, sat1, xyz0, xyz1;
+    if (m === 'hsl') {
+      xyz0 = col1.hsl();
+      xyz1 = col2.hsl();
+    } else if (m === 'hsv') {
+      xyz0 = col1.hsv();
+      xyz1 = col2.hsv();
+    } else if (m === 'hcg') {
+      xyz0 = col1.hcg();
+      xyz1 = col2.hcg();
+    } else if (m === 'hsi') {
+      xyz0 = col1.hsi();
+      xyz1 = col2.hsi();
+    } else if (m === 'lch' || m === 'hcl') {
+      m = 'hcl';
+      xyz0 = col1.hcl();
+      xyz1 = col2.hcl();
+    }
+    if (m.substr(0, 1) === 'h') {
+      hue0 = xyz0[0], sat0 = xyz0[1], lbv0 = xyz0[2];
+      hue1 = xyz1[0], sat1 = xyz1[1], lbv1 = xyz1[2];
+    }
+    if (!isNaN(hue0) && !isNaN(hue1)) {
+      if (hue1 > hue0 && hue1 - hue0 > 180) {
+        dh = hue1 - (hue0 + 360);
+      } else if (hue1 < hue0 && hue0 - hue1 > 180) {
+        dh = hue1 + 360 - hue0;
+      } else {
+        dh = hue1 - hue0;
+      }
+      hue = hue0 + f * dh;
+    } else if (!isNaN(hue0)) {
+      hue = hue0;
+      if ((lbv1 === 1 || lbv1 === 0) && m !== 'hsv') {
+        sat = sat0;
+      }
+    } else if (!isNaN(hue1)) {
+      hue = hue1;
+      if ((lbv0 === 1 || lbv0 === 0) && m !== 'hsv') {
+        sat = sat1;
+      }
+    } else {
+      hue = Number.NaN;
+    }
+    if (sat == null) {
+      sat = sat0 + f * (sat1 - sat0);
+    }
+    lbv = lbv0 + f * (lbv1 - lbv0);
+    return res = chroma[m](hue, sat, lbv);
+  };
+
+  _interpolators = _interpolators.concat((function() {
+    var len, o, ref, results;
+    ref = ['hsv', 'hsl', 'hsi', 'hcl', 'lch', 'hcg'];
+    results = [];
+    for (o = 0, len = ref.length; o < len; o++) {
+      m = ref[o];
+      results.push([m, interpolate_hsx]);
+    }
+    return results;
+  })());
+
+  interpolate_num = function(col1, col2, f, m) {
+    var n1, n2;
+    n1 = col1.num();
+    n2 = col2.num();
+    return chroma.num(n1 + (n2 - n1) * f, 'num');
+  };
+
+  _interpolators.push(['num', interpolate_num]);
+
+  interpolate_lab = function(col1, col2, f, m) {
+    var res, xyz0, xyz1;
+    xyz0 = col1.lab();
+    xyz1 = col2.lab();
+    return res = new Color(xyz0[0] + f * (xyz1[0] - xyz0[0]), xyz0[1] + f * (xyz1[1] - xyz0[1]), xyz0[2] + f * (xyz1[2] - xyz0[2]), m);
+  };
+
+  _interpolators.push(['lab', interpolate_lab]);
+
+}).call(this);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -118,6 +2934,58 @@ module.exports = { "default": __webpack_require__(/*! core-js/library/fn/promise
 __webpack_require__(/*! ../../modules/es6.string.iterator */ "./node_modules/core-js/library/modules/es6.string.iterator.js");
 __webpack_require__(/*! ../../modules/es6.array.from */ "./node_modules/core-js/library/modules/es6.array.from.js");
 module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Array.from;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/number/max-safe-integer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/library/fn/number/max-safe-integer.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.number.max-safe-integer */ "./node_modules/core-js/library/modules/es6.number.max-safe-integer.js");
+module.exports = 0x1fffffffffffff;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/number/min-safe-integer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/library/fn/number/min-safe-integer.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.number.min-safe-integer */ "./node_modules/core-js/library/modules/es6.number.min-safe-integer.js");
+module.exports = -0x1fffffffffffff;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/number/parse-float.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/library/fn/number/parse-float.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.number.parse-float */ "./node_modules/core-js/library/modules/es6.number.parse-float.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Number.parseFloat;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/keys.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/keys.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.object.keys */ "./node_modules/core-js/library/modules/es6.object.keys.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object.keys;
 
 
 /***/ }),
@@ -1176,6 +4044,46 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/library/modules/_object-sap.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-sap.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+var core = __webpack_require__(/*! ./_core */ "./node_modules/core-js/library/modules/_core.js");
+var fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_parse-float.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_parse-float.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $parseFloat = __webpack_require__(/*! ./_global */ "./node_modules/core-js/library/modules/_global.js").parseFloat;
+var $trim = __webpack_require__(/*! ./_string-trim */ "./node_modules/core-js/library/modules/_string-trim.js").trim;
+
+module.exports = 1 / $parseFloat(__webpack_require__(/*! ./_string-ws */ "./node_modules/core-js/library/modules/_string-ws.js") + '-0') !== -Infinity ? function parseFloat(str) {
+  var string = $trim(String(str), 3);
+  var result = $parseFloat(string);
+  return result === 0 && string.charAt(0) == '-' ? -0 : result;
+} : $parseFloat;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/library/modules/_perform.js":
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/library/modules/_perform.js ***!
@@ -1393,6 +4301,60 @@ module.exports = function (TO_STRING) {
       : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
   };
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_string-trim.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_string-trim.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/library/modules/_defined.js");
+var fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js");
+var spaces = __webpack_require__(/*! ./_string-ws */ "./node_modules/core-js/library/modules/_string-ws.js");
+var space = '[' + spaces + ']';
+var non = '\u200b\u0085';
+var ltrim = RegExp('^' + space + space + '*');
+var rtrim = RegExp(space + space + '*$');
+
+var exporter = function (KEY, exec, ALIAS) {
+  var exp = {};
+  var FORCE = fails(function () {
+    return !!spaces[KEY]() || non[KEY]() != non;
+  });
+  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
+  if (ALIAS) exp[ALIAS] = fn;
+  $export($export.P + $export.F * FORCE, 'String', exp);
+};
+
+// 1 -> String#trimLeft
+// 2 -> String#trimRight
+// 3 -> String#trim
+var trim = exporter.trim = function (string, TYPE) {
+  string = String(defined(string));
+  if (TYPE & 1) string = string.replace(ltrim, '');
+  if (TYPE & 2) string = string.replace(rtrim, '');
+  return string;
+};
+
+module.exports = exporter;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_string-ws.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_string-ws.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
 
 /***/ }),
@@ -1763,6 +4725,71 @@ Iterators.Arguments = Iterators.Array;
 addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.number.max-safe-integer.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.number.max-safe-integer.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.1.2.6 Number.MAX_SAFE_INTEGER
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+
+$export($export.S, 'Number', { MAX_SAFE_INTEGER: 0x1fffffffffffff });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.number.min-safe-integer.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.number.min-safe-integer.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.1.2.10 Number.MIN_SAFE_INTEGER
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+
+$export($export.S, 'Number', { MIN_SAFE_INTEGER: -0x1fffffffffffff });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.number.parse-float.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.number.parse-float.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+var $parseFloat = __webpack_require__(/*! ./_parse-float */ "./node_modules/core-js/library/modules/_parse-float.js");
+// 20.1.2.12 Number.parseFloat(string)
+$export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', { parseFloat: $parseFloat });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.keys.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.object.keys.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__(/*! ./_to-object */ "./node_modules/core-js/library/modules/_to-object.js");
+var $keys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/library/modules/_object-keys.js");
+
+__webpack_require__(/*! ./_object-sap */ "./node_modules/core-js/library/modules/_object-sap.js")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
+  };
+});
 
 
 /***/ }),
@@ -32223,6 +35250,128 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./src/comparison.js":
+/*!***************************!*\
+  !*** ./src/comparison.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.loadWeek = undefined;
+
+var _keys = __webpack_require__(/*! babel-runtime/core-js/object/keys */ "./node_modules/babel-runtime/core-js/object/keys.js");
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _parseFloat = __webpack_require__(/*! babel-runtime/core-js/number/parse-float */ "./node_modules/babel-runtime/core-js/number/parse-float.js");
+
+var _parseFloat2 = _interopRequireDefault(_parseFloat);
+
+var _maxSafeInteger = __webpack_require__(/*! babel-runtime/core-js/number/max-safe-integer */ "./node_modules/babel-runtime/core-js/number/max-safe-integer.js");
+
+var _maxSafeInteger2 = _interopRequireDefault(_maxSafeInteger);
+
+var _minSafeInteger = __webpack_require__(/*! babel-runtime/core-js/number/min-safe-integer */ "./node_modules/babel-runtime/core-js/number/min-safe-integer.js");
+
+var _minSafeInteger2 = _interopRequireDefault(_minSafeInteger);
+
+var _promise = __webpack_require__(/*! babel-runtime/core-js/promise */ "./node_modules/babel-runtime/core-js/promise.js");
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _chromaJs = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
+
+var _chromaJs2 = _interopRequireDefault(_chromaJs);
+
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _compare = __webpack_require__(/*! ./data/compare */ "./src/data/compare.json");
+
+var _compare2 = _interopRequireDefault(_compare);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var loadWeek = function loadWeek(day) {
+	return new _promise2.default(function (r) {
+		var firstDay = (0, _moment2.default)(day).day(0);
+		var lastDay = (0, _moment2.default)(day).day(6);
+
+		var results = _compare2.default.filter(function (x) {
+			return (0, _moment2.default)(x.time).unix() >= firstDay.unix() && (0, _moment2.default)(x.time).unix() <= lastDay.unix();
+		});
+
+		var maxPlot = _minSafeInteger2.default;
+		var minPlot = _maxSafeInteger2.default;
+		var plotCount = results.reduce(function (obj, d) {
+			if (obj[d.district]) {
+				obj[d.district] += ~~d.plot;
+			} else {
+				obj[d.district] = ~~d.plot;
+			}
+			if (obj[d.district] > maxPlot) maxPlot = obj[d.district];
+			if (obj[d.district] < minPlot) minPlot = obj[d.district];
+			return obj;
+		}, {});
+		var maxPrecipitation = _minSafeInteger2.default;
+		var minPrecipitation = _maxSafeInteger2.default;
+		var precipitationCount = results.reduce(function (obj, d) {
+			if (obj[d.district]) {
+				obj[d.district] += (0, _parseFloat2.default)(d.precipitation);
+			} else {
+				obj[d.district] = (0, _parseFloat2.default)(d.precipitation);
+			}
+			if (obj[d.district] > maxPrecipitation) maxPrecipitation = obj[d.district];
+			if (obj[d.district] < minPrecipitation) minPrecipitation = obj[d.district];
+			return obj;
+		}, {});
+
+		var scale = _chromaJs2.default.scale(['#FFEBEE', '#B71C1C']).domain([minPlot, maxPlot]);
+		(0, _keys2.default)(plotCount).forEach(function (p) {
+			plotCount[p] = {
+				value: plotCount[p],
+				color: scale(plotCount[p]).hex()
+			};
+		});
+		scale = _chromaJs2.default.scale(['#E3F2FD', '#0D47A1']).domain([minPrecipitation, maxPrecipitation]);
+		(0, _keys2.default)(precipitationCount).forEach(function (p) {
+			precipitationCount[p] = {
+				value: precipitationCount[p],
+				color: scale(precipitationCount[p]).hex()
+			};
+		});
+
+		r({
+			firstDay: firstDay.format('MM/DD'),
+			lastDay: lastDay.format('MM/DD'),
+			plotCount: plotCount,
+			precipitationCount: precipitationCount
+		});
+	});
+};
+
+exports.loadWeek = loadWeek;
+
+/***/ }),
+
+/***/ "./src/data/compare.json":
+/*!*******************************!*\
+  !*** ./src/data/compare.json ***!
+  \*******************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075, 1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093, 1094, 1095, 1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150, 1151, 1152, 1153, 1154, 1155, 1156, 1157, 1158, 1159, 1160, 1161, 1162, 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1177, 1178, 1179, 1180, 1181, 1182, 1183, 1184, 1185, 1186, 1187, 1188, 1189, 1190, 1191, 1192, 1193, 1194, 1195, 1196, 1197, 1198, 1199, 1200, 1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209, 1210, 1211, 1212, 1213, 1214, 1215, 1216, 1217, 1218, 1219, 1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229, 1230, 1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254, 1255, 1256, 1257, 1258, 1259, 1260, 1261, 1262, 1263, 1264, 1265, 1266, 1267, 1268, 1269, 1270, 1271, 1272, 1273, 1274, 1275, 1276, 1277, 1278, 1279, 1280, 1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297, 1298, 1299, 1300, 1301, 1302, 1303, 1304, 1305, 1306, 1307, 1308, 1309, 1310, 1311, 1312, 1313, 1314, 1315, 1316, 1317, 1318, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1326, 1327, 1328, 1329, 1330, 1331, 1332, 1333, 1334, 1335, 1336, 1337, 1338, 1339, 1340, 1341, 1342, 1343, 1344, 1345, 1346, 1347, 1348, 1349, 1350, 1351, 1352, 1353, 1354, 1355, 1356, 1357, 1358, 1359, 1360, 1361, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1370, 1371, 1372, 1373, 1374, 1375, 1376, 1377, 1378, 1379, 1380, 1381, 1382, 1383, 1384, 1385, 1386, 1387, 1388, 1389, 1390, 1391, 1392, 1393, 1394, 1395, 1396, 1397, 1398, 1399, 1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409, 1410, 1411, 1412, 1413, 1414, 1415, 1416, 1417, 1418, 1419, 1420, 1421, 1422, 1423, 1424, 1425, 1426, 1427, 1428, 1429, 1430, 1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453, 1454, 1455, 1456, 1457, 1458, 1459, 1460, 1461, 1462, 1463, 1464, 1465, 1466, 1467, 1468, 1469, 1470, 1471, 1472, 1473, 1474, 1475, 1476, 1477, 1478, 1479, 1480, 1481, 1482, 1483, 1484, 1485, 1486, 1487, 1488, 1489, 1490, 1491, 1492, 1493, 1494, 1495, 1496, 1497, 1498, 1499, 1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567, 1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1579, 1580, 1581, 1582, 1583, 1584, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 1606, 1607, 1608, 1609, 1610, 1611, 1612, 1613, 1614, 1615, 1616, 1617, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1625, 1626, 1627, 1628, 1629, 1630, 1631, 1632, 1633, 1634, 1635, 1636, 1637, 1638, 1639, 1640, 1641, 1642, 1643, 1644, 1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654, 1655, 1656, 1657, 1658, 1659, 1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669, 1670, 1671, 1672, 1673, 1674, 1675, 1676, 1677, 1678, 1679, 1680, 1681, 1682, 1683, 1684, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1711, 1712, 1713, 1714, 1715, 1716, 1717, 1718, 1719, 1720, 1721, 1722, 1723, 1724, 1725, 1726, 1727, 1728, 1729, 1730, 1731, 1732, 1733, 1734, 1735, 1736, 1737, 1738, 1739, 1740, 1741, 1742, 1743, 1744, 1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754, 1755, 1756, 1757, 1758, 1759, 1760, 1761, 1762, 1763, 1764, 1765, 1766, 1767, 1768, 1769, 1770, 1771, 1772, 1773, 1774, 1775, 1776, 1777, 1778, 1779, 1780, 1781, 1782, 1783, 1784, 1785, 1786, 1787, 1788, 1789, 1790, 1791, 1792, 1793, 1794, 1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836, 1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844, 1845, 1846, 1847, 1848, 1849, 1850, 1851, 1852, 1853, 1854, 1855, 1856, 1857, 1858, 1859, 1860, 1861, 1862, 1863, 1864, 1865, 1866, 1867, 1868, 1869, 1870, 1871, 1872, 1873, 1874, 1875, 1876, 1877, 1878, 1879, 1880, 1881, 1882, 1883, 1884, 1885, 1886, 1887, 1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897, 1898, 1899, 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909, 1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917, 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079, 2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089, 2090, 2091, 2092, 2093, 2094, 2095, 2096, 2097, 2098, 2099, 2100, 2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108, 2109, 2110, 2111, 2112, 2113, 2114, 2115, 2116, 2117, 2118, 2119, 2120, 2121, 2122, 2123, 2124, 2125, 2126, 2127, 2128, 2129, 2130, 2131, 2132, 2133, 2134, 2135, 2136, 2137, 2138, 2139, 2140, 2141, 2142, 2143, 2144, 2145, 2146, 2147, 2148, 2149, 2150, 2151, 2152, 2153, 2154, 2155, 2156, 2157, 2158, 2159, 2160, 2161, 2162, 2163, 2164, 2165, 2166, 2167, 2168, 2169, 2170, 2171, 2172, 2173, 2174, 2175, 2176, 2177, 2178, 2179, 2180, 2181, 2182, 2183, 2184, 2185, 2186, 2187, 2188, 2189, 2190, 2191, 2192, 2193, 2194, 2195, 2196, 2197, 2198, 2199, 2200, 2201, 2202, 2203, 2204, 2205, 2206, 2207, 2208, 2209, 2210, 2211, 2212, 2213, 2214, 2215, 2216, 2217, 2218, 2219, 2220, 2221, 2222, 2223, 2224, 2225, 2226, 2227, 2228, 2229, 2230, 2231, 2232, 2233, 2234, 2235, 2236, 2237, 2238, 2239, 2240, 2241, 2242, 2243, 2244, 2245, 2246, 2247, 2248, 2249, 2250, 2251, 2252, 2253, 2254, 2255, 2256, 2257, 2258, 2259, 2260, 2261, 2262, 2263, 2264, 2265, 2266, 2267, 2268, 2269, 2270, 2271, 2272, 2273, 2274, 2275, 2276, 2277, 2278, 2279, 2280, 2281, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, 2293, 2294, 2295, 2296, 2297, 2298, 2299, 2300, 2301, 2302, 2303, 2304, 2305, 2306, 2307, 2308, 2309, 2310, 2311, 2312, 2313, 2314, 2315, 2316, 2317, 2318, 2319, 2320, 2321, 2322, 2323, 2324, 2325, 2326, 2327, 2328, 2329, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2345, 2346, 2347, 2348, 2349, 2350, 2351, 2352, 2353, 2354, 2355, 2356, 2357, 2358, 2359, 2360, 2361, 2362, 2363, 2364, 2365, 2366, 2367, 2368, 2369, 2370, 2371, 2372, 2373, 2374, 2375, 2376, 2377, 2378, 2379, 2380, 2381, 2382, 2383, 2384, 2385, 2386, 2387, 2388, 2389, 2390, 2391, 2392, 2393, 2394, 2395, 2396, 2397, 2398, 2399, 2400, 2401, 2402, 2403, 2404, 2405, 2406, 2407, 2408, 2409, 2410, 2411, 2412, 2413, 2414, 2415, 2416, 2417, 2418, 2419, 2420, 2421, 2422, 2423, 2424, 2425, 2426, 2427, 2428, 2429, 2430, 2431, 2432, 2433, 2434, 2435, 2436, 2437, 2438, 2439, 2440, 2441, 2442, 2443, 2444, 2445, 2446, 2447, 2448, 2449, 2450, 2451, 2452, 2453, 2454, 2455, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2467, 2468, 2469, 2470, 2471, 2472, 2473, 2474, 2475, 2476, 2477, 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 2489, 2490, 2491, 2492, 2493, 2494, 2495, 2496, 2497, 2498, 2499, 2500, 2501, 2502, 2503, 2504, 2505, 2506, 2507, 2508, 2509, 2510, 2511, 2512, 2513, 2514, 2515, 2516, 2517, 2518, 2519, 2520, 2521, 2522, 2523, 2524, 2525, 2526, 2527, 2528, 2529, 2530, 2531, 2532, 2533, 2534, 2535, 2536, 2537, 2538, 2539, 2540, 2541, 2542, 2543, 2544, 2545, 2546, 2547, 2548, 2549, 2550, 2551, 2552, 2553, 2554, 2555, 2556, 2557, 2558, 2559, 2560, 2561, 2562, 2563, 2564, 2565, 2566, 2567, 2568, 2569, 2570, 2571, 2572, 2573, 2574, 2575, 2576, 2577, 2578, 2579, 2580, 2581, 2582, 2583, 2584, 2585, 2586, 2587, 2588, 2589, 2590, 2591, 2592, 2593, 2594, 2595, 2596, 2597, 2598, 2599, 2600, 2601, 2602, 2603, 2604, 2605, 2606, 2607, 2608, 2609, 2610, 2611, 2612, 2613, 2614, 2615, 2616, 2617, 2618, 2619, 2620, 2621, 2622, 2623, 2624, 2625, 2626, 2627, 2628, 2629, 2630, 2631, 2632, 2633, 2634, 2635, 2636, 2637, 2638, 2639, 2640, 2641, 2642, 2643, 2644, 2645, 2646, 2647, 2648, 2649, 2650, 2651, 2652, 2653, 2654, 2655, 2656, 2657, 2658, 2659, 2660, 2661, 2662, 2663, 2664, 2665, 2666, 2667, 2668, 2669, 2670, 2671, 2672, 2673, 2674, 2675, 2676, 2677, 2678, 2679, 2680, 2681, 2682, 2683, 2684, 2685, 2686, 2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694, 2695, 2696, 2697, 2698, 2699, 2700, 2701, 2702, 2703, 2704, 2705, 2706, 2707, 2708, 2709, 2710, 2711, 2712, 2713, 2714, 2715, 2716, 2717, 2718, 2719, 2720, 2721, 2722, 2723, 2724, 2725, 2726, 2727, default */
+/***/ (function(module) {
+
+module.exports = [{"district":"鳳山","time":"2016-4-1","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-2","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-3","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-5","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-6","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2016-4-7","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-8","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-9","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-10","precipitation":"14","plot":"1"},{"district":"鳳山","time":"2016-4-11","precipitation":"25","plot":"2"},{"district":"鳳山","time":"2016-4-12","precipitation":"0.5","plot":"1"},{"district":"鳳山","time":"2016-4-13","precipitation":"20.5","plot":"0"},{"district":"鳳山","time":"2016-4-14","precipitation":"57","plot":"0"},{"district":"鳳山","time":"2016-4-15","precipitation":"47.5","plot":"7"},{"district":"鳳山","time":"2016-4-16","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-17","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-18","precipitation":"5.5","plot":"2"},{"district":"鳳山","time":"2016-4-19","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-4-20","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-4-21","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2016-4-22","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-4-23","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-24","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-25","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-26","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-4-27","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-4-28","precipitation":"22.5","plot":"0"},{"district":"鳳山","time":"2016-4-29","precipitation":"3.5","plot":"1"},{"district":"鳳山","time":"2016-4-30","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-2","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-3","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-4","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-5","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-5-6","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-7","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-8","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-9","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-10","precipitation":"2","plot":"0"},{"district":"鳳山","time":"2016-5-11","precipitation":"4","plot":"0"},{"district":"鳳山","time":"2016-5-12","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-13","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-14","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-15","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-16","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-17","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-18","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2016-5-19","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-20","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-21","precipitation":"12","plot":"3"},{"district":"鳳山","time":"2016-5-22","precipitation":"20","plot":"0"},{"district":"鳳山","time":"2016-5-23","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-5-24","precipitation":"9","plot":"4"},{"district":"鳳山","time":"2016-5-25","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-26","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-27","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-5-28","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-29","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-5-30","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-5-31","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-1","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-2","precipitation":"2","plot":"0"},{"district":"鳳山","time":"2016-6-3","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2016-6-4","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-6-5","precipitation":"19.5","plot":"2"},{"district":"鳳山","time":"2016-6-6","precipitation":"0.5","plot":"4"},{"district":"鳳山","time":"2016-6-7","precipitation":"4.5","plot":"1"},{"district":"鳳山","time":"2016-6-8","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-9","precipitation":"0.5","plot":"0"},{"district":"鳳山","time":"2016-6-10","precipitation":"87","plot":"0"},{"district":"鳳山","time":"2016-6-11","precipitation":"141","plot":"1"},{"district":"鳳山","time":"2016-6-12","precipitation":"13.5","plot":"2"},{"district":"鳳山","time":"2016-6-13","precipitation":"50","plot":"4"},{"district":"鳳山","time":"2016-6-14","precipitation":"18","plot":"6"},{"district":"鳳山","time":"2016-6-15","precipitation":"1.5","plot":"5"},{"district":"鳳山","time":"2016-6-16","precipitation":"2.5","plot":"1"},{"district":"鳳山","time":"2016-6-17","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-6-18","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2016-6-19","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-6-20","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-21","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2016-6-22","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2016-6-23","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2016-6-24","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-25","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-6-26","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-27","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-6-28","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-6-29","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-6-30","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2016-7-1","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2016-7-2","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-7-3","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-7-4","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-7-5","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2016-7-6","precipitation":"24.5","plot":"0"},{"district":"鳳山","time":"2016-7-7","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2016-7-8","precipitation":"195","plot":"0"},{"district":"鳳山","time":"2016-7-9","precipitation":"33.5","plot":"0"},{"district":"鳳山","time":"2016-7-10","precipitation":"42","plot":"2"},{"district":"鳳山","time":"2016-7-11","precipitation":"93.5","plot":"2"},{"district":"鳳山","time":"2016-7-12","precipitation":"9","plot":"5"},{"district":"鳳山","time":"2016-7-13","precipitation":"1","plot":"3"},{"district":"鳳山","time":"2016-7-14","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2016-7-15","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-1","precipitation":"4.5","plot":"1"},{"district":"鳳山","time":"2017-4-2","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-4","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-5","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2017-4-6","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-7","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-8","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-4-9","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-10","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-11","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-12","precipitation":"23.5","plot":"1"},{"district":"鳳山","time":"2017-4-13","precipitation":"21.5","plot":"7"},{"district":"鳳山","time":"2017-4-14","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-15","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-16","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-4-17","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-18","precipitation":"0","plot":"8"},{"district":"鳳山","time":"2017-4-19","precipitation":"6","plot":"2"},{"district":"鳳山","time":"2017-4-20","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-4-21","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-22","precipitation":"49","plot":"0"},{"district":"鳳山","time":"2017-4-23","precipitation":"2","plot":"0"},{"district":"鳳山","time":"2017-4-24","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-25","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-26","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-4-27","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-4-28","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-4-29","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-4-30","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-1","precipitation":"0","plot":"7"},{"district":"鳳山","time":"2017-5-2","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-3","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2017-5-4","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-5","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-5-6","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-5-7","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-8","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-9","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-10","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-11","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-5-12","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-13","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-14","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-15","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-16","precipitation":"20","plot":"2"},{"district":"鳳山","time":"2017-5-17","precipitation":"0.5","plot":"2"},{"district":"鳳山","time":"2017-5-18","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-5-19","precipitation":"2.5","plot":"1"},{"district":"鳳山","time":"2017-5-20","precipitation":"2","plot":"1"},{"district":"鳳山","time":"2017-5-21","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-5-22","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-5-23","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-5-24","precipitation":"12.5","plot":"1"},{"district":"鳳山","time":"2017-5-25","precipitation":"84.5","plot":"0"},{"district":"鳳山","time":"2017-5-26","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-27","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-5-28","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-5-29","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-5-30","precipitation":"7","plot":"0"},{"district":"鳳山","time":"2017-5-31","precipitation":"1","plot":"2"},{"district":"鳳山","time":"2017-6-1","precipitation":"15.5","plot":"3"},{"district":"鳳山","time":"2017-6-2","precipitation":"1","plot":"2"},{"district":"鳳山","time":"2017-6-3","precipitation":"20","plot":"4"},{"district":"鳳山","time":"2017-6-4","precipitation":"80","plot":"0"},{"district":"鳳山","time":"2017-6-5","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-6-6","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2017-6-7","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-6-8","precipitation":"15.5","plot":"0"},{"district":"鳳山","time":"2017-6-9","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-6-10","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-6-11","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-6-12","precipitation":"13","plot":"1"},{"district":"鳳山","time":"2017-6-13","precipitation":"5","plot":"1"},{"district":"鳳山","time":"2017-6-14","precipitation":"13","plot":"1"},{"district":"鳳山","time":"2017-6-15","precipitation":"71","plot":"0"},{"district":"鳳山","time":"2017-6-16","precipitation":"12.5","plot":"6"},{"district":"鳳山","time":"2017-6-17","precipitation":"37","plot":"0"},{"district":"鳳山","time":"2017-6-18","precipitation":"51","plot":"2"},{"district":"鳳山","time":"2017-6-19","precipitation":"0","plot":"7"},{"district":"鳳山","time":"2017-6-20","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-6-21","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-6-22","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-6-23","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-6-24","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-6-25","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-6-26","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-6-27","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-6-28","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-6-29","precipitation":"4","plot":"1"},{"district":"鳳山","time":"2017-6-30","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-1","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2017-7-2","precipitation":"3.5","plot":"0"},{"district":"鳳山","time":"2017-7-3","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-4","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-5","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-7-6","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-7","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-7-8","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-7-9","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2017-7-10","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-11","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2017-7-12","precipitation":"21.5","plot":"2"},{"district":"鳳山","time":"2017-7-13","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-14","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2017-7-15","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-4-1","precipitation":"1","plot":"0"},{"district":"鳳山","time":"2018-4-2","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-4-3","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-4","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-4-5","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-6","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-7","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-4-8","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-9","precipitation":"0","plot":"9"},{"district":"鳳山","time":"2018-4-10","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-11","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-13","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-14","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-15","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-16","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-17","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-18","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-19","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-20","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-21","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-22","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-23","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-24","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-25","precipitation":"3.5","plot":"1"},{"district":"鳳山","time":"2018-4-26","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-4-27","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-4-28","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-29","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-4-30","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-1","precipitation":"0","plot":"7"},{"district":"鳳山","time":"2018-5-2","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-5-4","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-5-5","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-5-6","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-7","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2018-5-8","precipitation":"37.5","plot":"4"},{"district":"鳳山","time":"2018-5-9","precipitation":"31","plot":"3"},{"district":"鳳山","time":"2018-5-10","precipitation":"1.5","plot":"2"},{"district":"鳳山","time":"2018-5-11","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-5-12","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-5-13","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-14","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-15","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-5-16","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-17","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-18","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-19","precipitation":"0","plot":"6"},{"district":"鳳山","time":"2018-5-20","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-21","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-5-22","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-23","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2018-5-24","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-25","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-5-26","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-5-28","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2018-5-29","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-5-30","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-5-31","precipitation":"0","plot":"3"},{"district":"鳳山","time":"2018-6-1","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-6-2","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-6-3","precipitation":"0","plot":"0"},{"district":"鳳山","time":"2018-6-4","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-6-5","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-6-6","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-6-7","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-6-8","precipitation":"0","plot":"1"},{"district":"鳳山","time":"2018-6-9","precipitation":"0","plot":"2"},{"district":"鳳山","time":"2018-6-10","precipitation":"15.5","plot":"0"},{"district":"鳳山","time":"2018-6-11","precipitation":"30","plot":"2"},{"district":"鳳山","time":"2018-6-12","precipitation":"0","plot":"4"},{"district":"鳳山","time":"2018-6-13","precipitation":"0","plot":"6"},{"district":"鳳山","time":"2018-6-14","precipitation":"76","plot":"0"},{"district":"鳳山","time":"2018-6-15","precipitation":"94.5","plot":"3"},{"district":"鳳山","time":"2018-6-16","precipitation":"16","plot":"5"},{"district":"鳳山","time":"2018-6-17","precipitation":"76.5","plot":"4"},{"district":"鳳山","time":"2018-6-18","precipitation":"29","plot":"4"},{"district":"鳳山","time":"2018-6-19","precipitation":"184","plot":"5"},{"district":"鳳山","time":"2018-6-20","precipitation":"127.5","plot":"18"},{"district":"鳳山","time":"2018-6-21","precipitation":"15","plot":"24"},{"district":"鳳山","time":"2018-6-22","precipitation":"4.5","plot":"6"},{"district":"鳳山","time":"2018-6-23","precipitation":"0","plot":"7"},{"district":"鳳山","time":"2018-6-24","precipitation":"0","plot":"9"},{"district":"鳳山","time":"2018-6-25","precipitation":"0","plot":"5"},{"district":"鳳山","time":"2018-6-26","precipitation":"3.5","plot":"5"},{"district":"鳳山","time":"2018-6-27","precipitation":"7.5","plot":"6"},{"district":"鳳山","time":"2018-6-28","precipitation":"0","plot":"7"},{"district":"鳳山","time":"2018-6-29","precipitation":"1","plot":"10"},{"district":"鳳山","time":"2018-6-30","precipitation":"4","plot":"4"},{"district":"小港","time":"2016-4-1","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-4-2","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-3","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-5","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-4-6","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-4-7","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-4-8","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-9","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-4-10","precipitation":"15.5","plot":"1"},{"district":"小港","time":"2016-4-11","precipitation":"35","plot":"1"},{"district":"小港","time":"2016-4-12","precipitation":"0","plot":"4"},{"district":"小港","time":"2016-4-13","precipitation":"15","plot":"3"},{"district":"小港","time":"2016-4-14","precipitation":"68","plot":"8"},{"district":"小港","time":"2016-4-15","precipitation":"49","plot":"22"},{"district":"小港","time":"2016-4-16","precipitation":"0","plot":"13"},{"district":"小港","time":"2016-4-17","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-4-18","precipitation":"9.5","plot":"5"},{"district":"小港","time":"2016-4-19","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-4-20","precipitation":"0","plot":"4"},{"district":"小港","time":"2016-4-21","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-22","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-4-23","precipitation":"0","plot":"4"},{"district":"小港","time":"2016-4-24","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-4-25","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-4-26","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-27","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-4-28","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-4-29","precipitation":"2","plot":"1"},{"district":"小港","time":"2016-4-30","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-2","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-3","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-5-4","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-5","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-5-6","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-8","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-9","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-10","precipitation":"11","plot":"4"},{"district":"小港","time":"2016-5-11","precipitation":"10.5","plot":"3"},{"district":"小港","time":"2016-5-12","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-13","precipitation":"35","plot":"3"},{"district":"小港","time":"2016-5-14","precipitation":"1.5","plot":"0"},{"district":"小港","time":"2016-5-15","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-16","precipitation":"22.5","plot":"2"},{"district":"小港","time":"2016-5-17","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-18","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-19","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-20","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-5-21","precipitation":"15.5","plot":"0"},{"district":"小港","time":"2016-5-22","precipitation":"48","plot":"0"},{"district":"小港","time":"2016-5-23","precipitation":"0.5","plot":"6"},{"district":"小港","time":"2016-5-24","precipitation":"11.5","plot":"2"},{"district":"小港","time":"2016-5-25","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-26","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-27","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-28","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-29","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-30","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-5-31","precipitation":"0","plot":"5"},{"district":"小港","time":"2016-6-1","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-6-2","precipitation":"0.5","plot":"0"},{"district":"小港","time":"2016-6-3","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-6-4","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-6-5","precipitation":"3","plot":"1"},{"district":"小港","time":"2016-6-6","precipitation":"1.5","plot":"2"},{"district":"小港","time":"2016-6-7","precipitation":"12","plot":"0"},{"district":"小港","time":"2016-6-8","precipitation":"2.5","plot":"1"},{"district":"小港","time":"2016-6-9","precipitation":"0.5","plot":"2"},{"district":"小港","time":"2016-6-10","precipitation":"84.5","plot":"0"},{"district":"小港","time":"2016-6-11","precipitation":"234","plot":"9"},{"district":"小港","time":"2016-6-12","precipitation":"13.5","plot":"4"},{"district":"小港","time":"2016-6-13","precipitation":"60.5","plot":"7"},{"district":"小港","time":"2016-6-14","precipitation":"17.5","plot":"17"},{"district":"小港","time":"2016-6-15","precipitation":"4","plot":"10"},{"district":"小港","time":"2016-6-16","precipitation":"4","plot":"5"},{"district":"小港","time":"2016-6-17","precipitation":"0","plot":"13"},{"district":"小港","time":"2016-6-18","precipitation":"0","plot":"5"},{"district":"小港","time":"2016-6-19","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-6-20","precipitation":"0","plot":"9"},{"district":"小港","time":"2016-6-21","precipitation":"0","plot":"9"},{"district":"小港","time":"2016-6-22","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-6-23","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-6-24","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-6-25","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-6-26","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-6-27","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-6-28","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-6-29","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-6-30","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-7-1","precipitation":"0","plot":"1"},{"district":"小港","time":"2016-7-2","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-7-3","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-7-4","precipitation":"0","plot":"2"},{"district":"小港","time":"2016-7-5","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-7-6","precipitation":"13","plot":"1"},{"district":"小港","time":"2016-7-7","precipitation":"0","plot":"0"},{"district":"小港","time":"2016-7-8","precipitation":"207.5","plot":"0"},{"district":"小港","time":"2016-7-9","precipitation":"67.5","plot":"1"},{"district":"小港","time":"2016-7-10","precipitation":"56","plot":"3"},{"district":"小港","time":"2016-7-11","precipitation":"28.5","plot":"3"},{"district":"小港","time":"2016-7-12","precipitation":"5.5","plot":"5"},{"district":"小港","time":"2016-7-13","precipitation":"4","plot":"5"},{"district":"小港","time":"2016-7-14","precipitation":"0","plot":"3"},{"district":"小港","time":"2016-7-15","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-1","precipitation":"5.5","plot":"3"},{"district":"小港","time":"2017-4-2","precipitation":"0","plot":"6"},{"district":"小港","time":"2017-4-3","precipitation":"0","plot":"6"},{"district":"小港","time":"2017-4-4","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-5","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-4-6","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-4-7","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-8","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-9","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-4-10","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-4-11","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-12","precipitation":"30.5","plot":"1"},{"district":"小港","time":"2017-4-13","precipitation":"12.5","plot":"1"},{"district":"小港","time":"2017-4-14","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-4-15","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-16","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-17","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-18","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-19","precipitation":"7","plot":"1"},{"district":"小港","time":"2017-4-20","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-21","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-22","precipitation":"26.5","plot":"3"},{"district":"小港","time":"2017-4-23","precipitation":"4.5","plot":"0"},{"district":"小港","time":"2017-4-24","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-25","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-4-26","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-4-27","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-4-28","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-4-29","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-4-30","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-1","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-2","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-3","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-4","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-5-5","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-6","precipitation":"1.5","plot":"3"},{"district":"小港","time":"2017-5-7","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-8","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-9","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-5-10","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-11","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-12","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-5-13","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-14","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-15","precipitation":"11.5","plot":"3"},{"district":"小港","time":"2017-5-16","precipitation":"6.5","plot":"4"},{"district":"小港","time":"2017-5-17","precipitation":"6.5","plot":"3"},{"district":"小港","time":"2017-5-18","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-19","precipitation":"1.5","plot":"3"},{"district":"小港","time":"2017-5-20","precipitation":"0.5","plot":"2"},{"district":"小港","time":"2017-5-21","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-5-22","precipitation":"7","plot":"2"},{"district":"小港","time":"2017-5-23","precipitation":"1","plot":"0"},{"district":"小港","time":"2017-5-24","precipitation":"13.5","plot":"2"},{"district":"小港","time":"2017-5-25","precipitation":"94","plot":"2"},{"district":"小港","time":"2017-5-26","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-5-27","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-28","precipitation":"0.5","plot":"1"},{"district":"小港","time":"2017-5-29","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-5-30","precipitation":"7.5","plot":"0"},{"district":"小港","time":"2017-5-31","precipitation":"2.5","plot":"4"},{"district":"小港","time":"2017-6-1","precipitation":"19.5","plot":"5"},{"district":"小港","time":"2017-6-2","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-6-3","precipitation":"2","plot":"3"},{"district":"小港","time":"2017-6-4","precipitation":"76","plot":"0"},{"district":"小港","time":"2017-6-5","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-6-6","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-6-7","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-6-8","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-6-9","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-6-10","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-6-11","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-6-12","precipitation":"32.5","plot":"4"},{"district":"小港","time":"2017-6-13","precipitation":"19","plot":"4"},{"district":"小港","time":"2017-6-14","precipitation":"9","plot":"1"},{"district":"小港","time":"2017-6-15","precipitation":"35.5","plot":"4"},{"district":"小港","time":"2017-6-16","precipitation":"14","plot":"4"},{"district":"小港","time":"2017-6-17","precipitation":"34.5","plot":"3"},{"district":"小港","time":"2017-6-18","precipitation":"6","plot":"2"},{"district":"小港","time":"2017-6-19","precipitation":"0","plot":"9"},{"district":"小港","time":"2017-6-20","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-6-21","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-6-22","precipitation":"0","plot":"9"},{"district":"小港","time":"2017-6-23","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-6-24","precipitation":"1","plot":"2"},{"district":"小港","time":"2017-6-25","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-6-26","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-6-27","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-6-28","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-6-29","precipitation":"5.5","plot":"3"},{"district":"小港","time":"2017-6-30","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-7-1","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-7-2","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-7-3","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-7-4","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-7-5","precipitation":"0","plot":"2"},{"district":"小港","time":"2017-7-6","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-7-7","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-7-8","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-7-9","precipitation":"0","plot":"0"},{"district":"小港","time":"2017-7-10","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-7-11","precipitation":"0","plot":"1"},{"district":"小港","time":"2017-7-12","precipitation":"0","plot":"4"},{"district":"小港","time":"2017-7-13","precipitation":"0","plot":"5"},{"district":"小港","time":"2017-7-14","precipitation":"0","plot":"3"},{"district":"小港","time":"2017-7-15","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-1","precipitation":"0.5","plot":"0"},{"district":"小港","time":"2018-4-2","precipitation":"0.5","plot":"4"},{"district":"小港","time":"2018-4-3","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-5","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-4-6","precipitation":"0.5","plot":"1"},{"district":"小港","time":"2018-4-7","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-8","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-9","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-10","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-4-11","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-12","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-4-13","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-14","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-4-15","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-16","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-4-17","precipitation":"0","plot":"4"},{"district":"小港","time":"2018-4-18","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-4-19","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-4-20","precipitation":"0","plot":"5"},{"district":"小港","time":"2018-4-21","precipitation":"0","plot":"6"},{"district":"小港","time":"2018-4-22","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-23","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-4-24","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-4-25","precipitation":"30","plot":"2"},{"district":"小港","time":"2018-4-26","precipitation":"9","plot":"1"},{"district":"小港","time":"2018-4-27","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-4-28","precipitation":"1","plot":"1"},{"district":"小港","time":"2018-4-29","precipitation":"0","plot":"4"},{"district":"小港","time":"2018-4-30","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-1","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-2","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-4","precipitation":"0.5","plot":"0"},{"district":"小港","time":"2018-5-5","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-6","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-7","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-8","precipitation":"30","plot":"0"},{"district":"小港","time":"2018-5-9","precipitation":"10","plot":"1"},{"district":"小港","time":"2018-5-10","precipitation":"1","plot":"6"},{"district":"小港","time":"2018-5-11","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-5-12","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-13","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-14","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-15","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-16","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-17","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-5-18","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-5-19","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-20","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-21","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-22","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-23","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-24","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-25","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-26","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-28","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-29","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-5-30","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-5-31","precipitation":"0","plot":"7"},{"district":"小港","time":"2018-6-1","precipitation":"9","plot":"3"},{"district":"小港","time":"2018-6-2","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-6-3","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-6-4","precipitation":"0","plot":"5"},{"district":"小港","time":"2018-6-5","precipitation":"0","plot":"3"},{"district":"小港","time":"2018-6-6","precipitation":"0","plot":"1"},{"district":"小港","time":"2018-6-7","precipitation":"0","plot":"2"},{"district":"小港","time":"2018-6-8","precipitation":"0","plot":"4"},{"district":"小港","time":"2018-6-9","precipitation":"3.5","plot":"0"},{"district":"小港","time":"2018-6-10","precipitation":"7.5","plot":"1"},{"district":"小港","time":"2018-6-11","precipitation":"48.5","plot":"3"},{"district":"小港","time":"2018-6-12","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-6-13","precipitation":"0","plot":"0"},{"district":"小港","time":"2018-6-14","precipitation":"89","plot":"0"},{"district":"小港","time":"2018-6-15","precipitation":"138","plot":"6"},{"district":"小港","time":"2018-6-16","precipitation":"26","plot":"7"},{"district":"小港","time":"2018-6-17","precipitation":"103","plot":"3"},{"district":"小港","time":"2018-6-18","precipitation":"48.5","plot":"11"},{"district":"小港","time":"2018-6-19","precipitation":"132","plot":"26"},{"district":"小港","time":"2018-6-20","precipitation":"174.5","plot":"21"},{"district":"小港","time":"2018-6-21","precipitation":"61.5","plot":"25"},{"district":"小港","time":"2018-6-22","precipitation":"7.5","plot":"18"},{"district":"小港","time":"2018-6-23","precipitation":"0","plot":"10"},{"district":"小港","time":"2018-6-24","precipitation":"0","plot":"4"},{"district":"小港","time":"2018-6-25","precipitation":"0","plot":"11"},{"district":"小港","time":"2018-6-26","precipitation":"2","plot":"13"},{"district":"小港","time":"2018-6-27","precipitation":"7.5","plot":"10"},{"district":"小港","time":"2018-6-28","precipitation":"0","plot":"7"},{"district":"小港","time":"2018-6-29","precipitation":"0","plot":"5"},{"district":"小港","time":"2018-6-30","precipitation":"62","plot":"0"},{"district":"前鎮","time":"2016-4-1","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-4-2","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-3","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-5","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-4-6","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-4-7","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-4-8","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-4-9","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-10","precipitation":"14","plot":"0"},{"district":"前鎮","time":"2016-4-11","precipitation":"30.5","plot":"5"},{"district":"前鎮","time":"2016-4-12","precipitation":"0.5","plot":"4"},{"district":"前鎮","time":"2016-4-13","precipitation":"19.5","plot":"1"},{"district":"前鎮","time":"2016-4-14","precipitation":"51","plot":"3"},{"district":"前鎮","time":"2016-4-15","precipitation":"43","plot":"13"},{"district":"前鎮","time":"2016-4-16","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-17","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-4-18","precipitation":"12","plot":"6"},{"district":"前鎮","time":"2016-4-19","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-4-20","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-4-21","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-4-22","precipitation":"0","plot":"9"},{"district":"前鎮","time":"2016-4-23","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-24","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-4-25","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2016-4-26","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-4-27","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-4-28","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-4-29","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-4-30","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-2","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-3","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-4","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-5-5","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-6","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-8","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-5-9","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-5-10","precipitation":"1.5","plot":"0"},{"district":"前鎮","time":"2016-5-11","precipitation":"5.5","plot":"2"},{"district":"前鎮","time":"2016-5-12","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-5-13","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-14","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-15","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2016-5-16","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-5-17","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2016-5-18","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-5-19","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-20","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-21","precipitation":"15.5","plot":"1"},{"district":"前鎮","time":"2016-5-22","precipitation":"48.5","plot":"1"},{"district":"前鎮","time":"2016-5-23","precipitation":"1","plot":"3"},{"district":"前鎮","time":"2016-5-24","precipitation":"18.5","plot":"6"},{"district":"前鎮","time":"2016-5-25","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-5-26","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-5-27","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-5-28","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-5-29","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-5-30","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2016-5-31","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2016-6-1","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-2","precipitation":"0.5","plot":"2"},{"district":"前鎮","time":"2016-6-3","precipitation":"1","plot":"3"},{"district":"前鎮","time":"2016-6-4","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-5","precipitation":"32","plot":"5"},{"district":"前鎮","time":"2016-6-6","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-7","precipitation":"0.5","plot":"0"},{"district":"前鎮","time":"2016-6-8","precipitation":"0.5","plot":"1"},{"district":"前鎮","time":"2016-6-9","precipitation":"4.5","plot":"0"},{"district":"前鎮","time":"2016-6-10","precipitation":"87","plot":"6"},{"district":"前鎮","time":"2016-6-11","precipitation":"128.5","plot":"6"},{"district":"前鎮","time":"2016-6-12","precipitation":"10","plot":"7"},{"district":"前鎮","time":"2016-6-13","precipitation":"52.5","plot":"12"},{"district":"前鎮","time":"2016-6-14","precipitation":"26.5","plot":"13"},{"district":"前鎮","time":"2016-6-15","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-16","precipitation":"0","plot":"9"},{"district":"前鎮","time":"2016-6-17","precipitation":"0","plot":"16"},{"district":"前鎮","time":"2016-6-18","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2016-6-19","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-6-20","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2016-6-21","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2016-6-22","precipitation":"0","plot":"9"},{"district":"前鎮","time":"2016-6-23","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-6-24","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2016-6-25","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-26","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-6-27","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-6-28","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-6-29","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2016-6-30","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2016-7-1","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-7-2","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-7-3","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-7-4","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2016-7-5","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2016-7-6","precipitation":"3","plot":"1"},{"district":"前鎮","time":"2016-7-7","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2016-7-8","precipitation":"159","plot":"1"},{"district":"前鎮","time":"2016-7-9","precipitation":"19.5","plot":"1"},{"district":"前鎮","time":"2016-7-10","precipitation":"41","plot":"4"},{"district":"前鎮","time":"2016-7-11","precipitation":"81","plot":"4"},{"district":"前鎮","time":"2016-7-12","precipitation":"8","plot":"9"},{"district":"前鎮","time":"2016-7-13","precipitation":"0.5","plot":"6"},{"district":"前鎮","time":"2016-7-14","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2016-7-15","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2017-4-1","precipitation":"3","plot":"2"},{"district":"前鎮","time":"2017-4-2","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-4-4","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-4-5","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-4-6","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-4-7","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-4-8","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-4-9","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-4-10","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-4-11","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-4-12","precipitation":"61.5","plot":"8"},{"district":"前鎮","time":"2017-4-13","precipitation":"16.5","plot":"3"},{"district":"前鎮","time":"2017-4-14","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-4-15","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-4-16","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-4-17","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-4-18","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-4-19","precipitation":"2.5","plot":"4"},{"district":"前鎮","time":"2017-4-20","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-4-21","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-4-22","precipitation":"60.5","plot":"3"},{"district":"前鎮","time":"2017-4-23","precipitation":"1","plot":"1"},{"district":"前鎮","time":"2017-4-24","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2017-4-25","precipitation":"0","plot":"12"},{"district":"前鎮","time":"2017-4-26","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-4-27","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-4-28","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-4-29","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-4-30","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-1","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-5-2","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-5-3","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-5-4","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-5","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-6","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2017-5-7","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-5-8","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-9","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-10","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-11","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-5-12","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-5-13","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-5-14","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-15","precipitation":"4","plot":"2"},{"district":"前鎮","time":"2017-5-16","precipitation":"19.5","plot":"1"},{"district":"前鎮","time":"2017-5-17","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-18","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-19","precipitation":"2.5","plot":"1"},{"district":"前鎮","time":"2017-5-20","precipitation":"0.5","plot":"1"},{"district":"前鎮","time":"2017-5-21","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-5-22","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-5-23","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-5-24","precipitation":"10.5","plot":"3"},{"district":"前鎮","time":"2017-5-25","precipitation":"81","plot":"5"},{"district":"前鎮","time":"2017-5-26","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-27","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-5-28","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-5-29","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-5-30","precipitation":"7","plot":"1"},{"district":"前鎮","time":"2017-5-31","precipitation":"1.5","plot":"2"},{"district":"前鎮","time":"2017-6-1","precipitation":"21","plot":"10"},{"district":"前鎮","time":"2017-6-2","precipitation":"1.5","plot":"4"},{"district":"前鎮","time":"2017-6-3","precipitation":"9","plot":"4"},{"district":"前鎮","time":"2017-6-4","precipitation":"82","plot":"1"},{"district":"前鎮","time":"2017-6-5","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-6-6","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-6-7","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-6-8","precipitation":"22","plot":"3"},{"district":"前鎮","time":"2017-6-9","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-6-10","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-6-11","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-6-12","precipitation":"11.5","plot":"3"},{"district":"前鎮","time":"2017-6-13","precipitation":"8.5","plot":"8"},{"district":"前鎮","time":"2017-6-14","precipitation":"9","plot":"2"},{"district":"前鎮","time":"2017-6-15","precipitation":"79.5","plot":"0"},{"district":"前鎮","time":"2017-6-16","precipitation":"8","plot":"10"},{"district":"前鎮","time":"2017-6-17","precipitation":"32.5","plot":"1"},{"district":"前鎮","time":"2017-6-18","precipitation":"22.5","plot":"6"},{"district":"前鎮","time":"2017-6-19","precipitation":"0","plot":"11"},{"district":"前鎮","time":"2017-6-20","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2017-6-21","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-6-22","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-6-23","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-6-24","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-6-25","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-6-26","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2017-6-27","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-6-28","precipitation":"0","plot":"9"},{"district":"前鎮","time":"2017-6-29","precipitation":"20","plot":"2"},{"district":"前鎮","time":"2017-6-30","precipitation":"0.5","plot":"1"},{"district":"前鎮","time":"2017-7-1","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-7-2","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-7-3","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2017-7-4","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-7-5","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-7-6","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-7-7","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-7-8","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2017-7-9","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2017-7-10","precipitation":"0","plot":"7"},{"district":"前鎮","time":"2017-7-11","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-7-12","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2017-7-13","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2017-7-14","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2017-7-15","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-4-1","precipitation":"1.5","plot":"1"},{"district":"前鎮","time":"2018-4-2","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-4-3","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-5","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-6","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-7","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-8","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-9","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-10","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2018-4-11","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-13","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-4-14","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-4-15","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-16","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2018-4-17","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-18","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-19","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2018-4-20","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-21","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-22","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-4-23","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-4-24","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-4-25","precipitation":"6.5","plot":"2"},{"district":"前鎮","time":"2018-4-26","precipitation":"0.5","plot":"1"},{"district":"前鎮","time":"2018-4-27","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-4-28","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-4-29","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-4-30","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-1","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-2","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-4","precipitation":"0","plot":"10"},{"district":"前鎮","time":"2018-5-5","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-6","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-7","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2018-5-8","precipitation":"36.5","plot":"8"},{"district":"前鎮","time":"2018-5-9","precipitation":"38","plot":"2"},{"district":"前鎮","time":"2018-5-10","precipitation":"15","plot":"1"},{"district":"前鎮","time":"2018-5-11","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-5-12","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2018-5-13","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-14","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-5-15","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-5-16","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-5-17","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-5-18","precipitation":"0","plot":"5"},{"district":"前鎮","time":"2018-5-19","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-5-20","precipitation":"1.5","plot":"3"},{"district":"前鎮","time":"2018-5-21","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2018-5-22","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-5-23","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-5-24","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-25","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-26","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-5-27","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-5-28","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-5-29","precipitation":"7","plot":"3"},{"district":"前鎮","time":"2018-5-30","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-5-31","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-6-1","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-6-2","precipitation":"0","plot":"3"},{"district":"前鎮","time":"2018-6-3","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-6-4","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-6-5","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-6-6","precipitation":"39.5","plot":"3"},{"district":"前鎮","time":"2018-6-7","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-6-8","precipitation":"0","plot":"1"},{"district":"前鎮","time":"2018-6-9","precipitation":"0","plot":"2"},{"district":"前鎮","time":"2018-6-10","precipitation":"21.5","plot":"0"},{"district":"前鎮","time":"2018-6-11","precipitation":"28","plot":"6"},{"district":"前鎮","time":"2018-6-12","precipitation":"0","plot":"6"},{"district":"前鎮","time":"2018-6-13","precipitation":"0","plot":"4"},{"district":"前鎮","time":"2018-6-14","precipitation":"68","plot":"1"},{"district":"前鎮","time":"2018-6-15","precipitation":"68","plot":"4"},{"district":"前鎮","time":"2018-6-16","precipitation":"30","plot":"3"},{"district":"前鎮","time":"2018-6-17","precipitation":"92","plot":"1"},{"district":"前鎮","time":"2018-6-18","precipitation":"25","plot":"8"},{"district":"前鎮","time":"2018-6-19","precipitation":"203","plot":"8"},{"district":"前鎮","time":"2018-6-20","precipitation":"155","plot":"15"},{"district":"前鎮","time":"2018-6-21","precipitation":"30.5","plot":"20"},{"district":"前鎮","time":"2018-6-22","precipitation":"5","plot":"5"},{"district":"前鎮","time":"2018-6-23","precipitation":"3.5","plot":"13"},{"district":"前鎮","time":"2018-6-24","precipitation":"0","plot":"8"},{"district":"前鎮","time":"2018-6-25","precipitation":"0","plot":"10"},{"district":"前鎮","time":"2018-6-26","precipitation":"0","plot":"15"},{"district":"前鎮","time":"2018-6-27","precipitation":"5","plot":"6"},{"district":"前鎮","time":"2018-6-28","precipitation":"0","plot":"11"},{"district":"前鎮","time":"2018-6-29","precipitation":"0","plot":"0"},{"district":"前鎮","time":"2018-6-30","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-4-1","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-3","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-4","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-4-5","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-4-6","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-7","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-8","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-9","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-10","precipitation":"14.5","plot":"0"},{"district":"楠梓","time":"2016-4-11","precipitation":"30","plot":"1"},{"district":"楠梓","time":"2016-4-12","precipitation":"1.5","plot":"2"},{"district":"楠梓","time":"2016-4-13","precipitation":"20.5","plot":"1"},{"district":"楠梓","time":"2016-4-14","precipitation":"62.5","plot":"3"},{"district":"楠梓","time":"2016-4-15","precipitation":"61.5","plot":"1"},{"district":"楠梓","time":"2016-4-16","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-17","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-18","precipitation":"8.5","plot":"1"},{"district":"楠梓","time":"2016-4-19","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-4-20","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-21","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-22","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-23","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-24","precipitation":"0.5","plot":"0"},{"district":"楠梓","time":"2016-4-25","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-4-26","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-27","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-28","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-4-29","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-4-30","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-1","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-5-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-5-3","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-4","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2016-5-5","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-6","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-8","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-5-9","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-5-10","precipitation":"14","plot":"1"},{"district":"楠梓","time":"2016-5-11","precipitation":"6","plot":"0"},{"district":"楠梓","time":"2016-5-12","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-13","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-15","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-16","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-17","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-5-18","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-19","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-5-20","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-5-21","precipitation":"15.5","plot":"2"},{"district":"楠梓","time":"2016-5-22","precipitation":"24.5","plot":"3"},{"district":"楠梓","time":"2016-5-23","precipitation":"1.5","plot":"0"},{"district":"楠梓","time":"2016-5-24","precipitation":"8.5","plot":"3"},{"district":"楠梓","time":"2016-5-25","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-5-26","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-5-27","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-5-28","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-5-29","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-5-30","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-5-31","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-6-1","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-3","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-4","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-6-5","precipitation":"17","plot":"0"},{"district":"楠梓","time":"2016-6-6","precipitation":"0.5","plot":"0"},{"district":"楠梓","time":"2016-6-7","precipitation":"6.5","plot":"0"},{"district":"楠梓","time":"2016-6-8","precipitation":"1.5","plot":"0"},{"district":"楠梓","time":"2016-6-9","precipitation":"9","plot":"1"},{"district":"楠梓","time":"2016-6-10","precipitation":"88.5","plot":"4"},{"district":"楠梓","time":"2016-6-11","precipitation":"151.5","plot":"1"},{"district":"楠梓","time":"2016-6-12","precipitation":"40","plot":"4"},{"district":"楠梓","time":"2016-6-13","precipitation":"62","plot":"7"},{"district":"楠梓","time":"2016-6-14","precipitation":"26","plot":"8"},{"district":"楠梓","time":"2016-6-15","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2016-6-16","precipitation":"1.5","plot":"3"},{"district":"楠梓","time":"2016-6-17","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-6-18","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-6-19","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-6-20","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-21","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-6-22","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-23","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-24","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2016-6-25","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-6-26","precipitation":"0.5","plot":"1"},{"district":"楠梓","time":"2016-6-27","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2016-6-28","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-6-29","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-6-30","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-7-1","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2016-7-2","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-7-3","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-7-4","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-7-5","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-7-6","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2016-7-7","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-7-8","precipitation":"125","plot":"0"},{"district":"楠梓","time":"2016-7-9","precipitation":"22.5","plot":"0"},{"district":"楠梓","time":"2016-7-10","precipitation":"41","plot":"0"},{"district":"楠梓","time":"2016-7-11","precipitation":"124.5","plot":"4"},{"district":"楠梓","time":"2016-7-12","precipitation":"11.5","plot":"7"},{"district":"楠梓","time":"2016-7-13","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2016-7-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2016-7-15","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-4-1","precipitation":"2.5","plot":"0"},{"district":"楠梓","time":"2017-4-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-4","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-5","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-6","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-7","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-8","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-9","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-4-10","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-11","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-12","precipitation":"36","plot":"3"},{"district":"楠梓","time":"2017-4-13","precipitation":"5","plot":"1"},{"district":"楠梓","time":"2017-4-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-15","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-16","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-17","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-18","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-19","precipitation":"0.5","plot":"2"},{"district":"楠梓","time":"2017-4-20","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-4-21","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-4-22","precipitation":"35","plot":"0"},{"district":"楠梓","time":"2017-4-23","precipitation":"2","plot":"2"},{"district":"楠梓","time":"2017-4-24","precipitation":"0.5","plot":"3"},{"district":"楠梓","time":"2017-4-25","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-4-26","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2017-4-27","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-28","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-4-29","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-4-30","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-5-1","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2017-5-2","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2017-5-3","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2017-5-4","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-5-5","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-5-6","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-5-7","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-5-8","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-5-9","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-5-10","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-5-11","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-5-12","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-5-13","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-5-14","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-5-15","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-5-16","precipitation":"39.5","plot":"0"},{"district":"楠梓","time":"2017-5-17","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-5-18","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-5-19","precipitation":"4.5","plot":"1"},{"district":"楠梓","time":"2017-5-20","precipitation":"1.5","plot":"0"},{"district":"楠梓","time":"2017-5-21","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-5-22","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-5-23","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-5-24","precipitation":"5.5","plot":"2"},{"district":"楠梓","time":"2017-5-25","precipitation":"24","plot":"3"},{"district":"楠梓","time":"2017-5-26","precipitation":"0.5","plot":"3"},{"district":"楠梓","time":"2017-5-27","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-5-28","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-5-29","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-5-30","precipitation":"7.5","plot":"1"},{"district":"楠梓","time":"2017-5-31","precipitation":"2.5","plot":"0"},{"district":"楠梓","time":"2017-6-1","precipitation":"10.5","plot":"0"},{"district":"楠梓","time":"2017-6-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-6-3","precipitation":"2","plot":"0"},{"district":"楠梓","time":"2017-6-4","precipitation":"128","plot":"0"},{"district":"楠梓","time":"2017-6-5","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-6-6","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-6-7","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-6-8","precipitation":"13.5","plot":"0"},{"district":"楠梓","time":"2017-6-9","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-6-10","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-6-11","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2017-6-12","precipitation":"12","plot":"2"},{"district":"楠梓","time":"2017-6-13","precipitation":"2","plot":"2"},{"district":"楠梓","time":"2017-6-14","precipitation":"7","plot":"0"},{"district":"楠梓","time":"2017-6-15","precipitation":"106.5","plot":"4"},{"district":"楠梓","time":"2017-6-16","precipitation":"19.5","plot":"3"},{"district":"楠梓","time":"2017-6-17","precipitation":"49.5","plot":"2"},{"district":"楠梓","time":"2017-6-18","precipitation":"21.5","plot":"3"},{"district":"楠梓","time":"2017-6-19","precipitation":"0","plot":"13"},{"district":"楠梓","time":"2017-6-20","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-6-21","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-6-22","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-6-23","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-6-24","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-6-25","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-6-26","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2017-6-27","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-6-28","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-6-29","precipitation":"2","plot":"3"},{"district":"楠梓","time":"2017-6-30","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2017-7-1","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-2","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-7-3","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-7-4","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-5","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2017-7-6","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-7","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-8","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-9","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-10","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-11","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2017-7-12","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-13","precipitation":"4","plot":"2"},{"district":"楠梓","time":"2017-7-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2017-7-15","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-1","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-4-2","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-4-3","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-5","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-6","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-7","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-4-8","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-9","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-10","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-11","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-12","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-4-13","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2018-4-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-15","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-16","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-17","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-4-18","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-4-19","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-20","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-4-21","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-4-22","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-4-23","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2018-4-24","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-4-25","precipitation":"0","plot":"5"},{"district":"楠梓","time":"2018-4-26","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-4-27","precipitation":"0","plot":"4"},{"district":"楠梓","time":"2018-4-28","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-4-29","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-4-30","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-5-1","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-5-2","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-3","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-4","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-5","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-5-6","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-7","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-5-8","precipitation":"22.5","plot":"1"},{"district":"楠梓","time":"2018-5-9","precipitation":"20","plot":"1"},{"district":"楠梓","time":"2018-5-10","precipitation":"0.5","plot":"3"},{"district":"楠梓","time":"2018-5-11","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-12","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-13","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-14","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-15","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-16","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-5-17","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-5-18","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-19","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-5-20","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-21","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-22","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-23","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-5-24","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-25","precipitation":"0","plot":"8"},{"district":"楠梓","time":"2018-5-26","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-5-28","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-5-29","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-5-30","precipitation":"0","plot":"7"},{"district":"楠梓","time":"2018-5-31","precipitation":"0","plot":"2"},{"district":"楠梓","time":"2018-6-1","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-6-2","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-6-3","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-6-4","precipitation":"0","plot":"9"},{"district":"楠梓","time":"2018-6-5","precipitation":"0","plot":"0"},{"district":"楠梓","time":"2018-6-6","precipitation":"1.5","plot":"11"},{"district":"楠梓","time":"2018-6-7","precipitation":"0","plot":"10"},{"district":"楠梓","time":"2018-6-8","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-6-9","precipitation":"0","plot":"6"},{"district":"楠梓","time":"2018-6-10","precipitation":"24","plot":"2"},{"district":"楠梓","time":"2018-6-11","precipitation":"30.5","plot":"5"},{"district":"楠梓","time":"2018-6-12","precipitation":"0","plot":"3"},{"district":"楠梓","time":"2018-6-13","precipitation":"0","plot":"1"},{"district":"楠梓","time":"2018-6-14","precipitation":"45","plot":"6"},{"district":"楠梓","time":"2018-6-15","precipitation":"67","plot":"7"},{"district":"楠梓","time":"2018-6-16","precipitation":"29","plot":"1"},{"district":"楠梓","time":"2018-6-17","precipitation":"87.5","plot":"5"},{"district":"楠梓","time":"2018-6-18","precipitation":"36","plot":"3"},{"district":"楠梓","time":"2018-6-19","precipitation":"216","plot":"11"},{"district":"楠梓","time":"2018-6-20","precipitation":"139","plot":"34"},{"district":"楠梓","time":"2018-6-21","precipitation":"21","plot":"21"},{"district":"楠梓","time":"2018-6-22","precipitation":"3","plot":"50"},{"district":"楠梓","time":"2018-6-23","precipitation":"4","plot":"9"},{"district":"楠梓","time":"2018-6-24","precipitation":"0","plot":"15"},{"district":"楠梓","time":"2018-6-25","precipitation":"0","plot":"33"},{"district":"楠梓","time":"2018-6-26","precipitation":"0","plot":"14"},{"district":"楠梓","time":"2018-6-27","precipitation":"1.5","plot":"8"},{"district":"楠梓","time":"2018-6-28","precipitation":"0","plot":"12"},{"district":"楠梓","time":"2018-6-29","precipitation":"0","plot":"15"},{"district":"楠梓","time":"2018-6-30","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-4-1","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-2","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-4-3","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-4-5","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-6","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-4-7","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-4-8","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-4-9","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-4-10","precipitation":"10.5","plot":"2"},{"district":"仁武","time":"2016-4-11","precipitation":"30.5","plot":"1"},{"district":"仁武","time":"2016-4-12","precipitation":"1","plot":"0"},{"district":"仁武","time":"2016-4-13","precipitation":"22","plot":"0"},{"district":"仁武","time":"2016-4-14","precipitation":"58","plot":"2"},{"district":"仁武","time":"2016-4-15","precipitation":"52.5","plot":"6"},{"district":"仁武","time":"2016-4-16","precipitation":"0","plot":"5"},{"district":"仁武","time":"2016-4-17","precipitation":"0","plot":"5"},{"district":"仁武","time":"2016-4-18","precipitation":"1","plot":"4"},{"district":"仁武","time":"2016-4-19","precipitation":"0","plot":"4"},{"district":"仁武","time":"2016-4-20","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-4-21","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-4-22","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-23","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-24","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-4-25","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-26","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-4-27","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-4-28","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-4-29","precipitation":"1","plot":"2"},{"district":"仁武","time":"2016-4-30","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-2","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-3","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-5","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-5-6","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-8","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-9","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-10","precipitation":"8","plot":"1"},{"district":"仁武","time":"2016-5-11","precipitation":"3","plot":"2"},{"district":"仁武","time":"2016-5-12","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-13","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-5-14","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-15","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-16","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-17","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-18","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-19","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-5-20","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-21","precipitation":"11.5","plot":"1"},{"district":"仁武","time":"2016-5-22","precipitation":"12","plot":"0"},{"district":"仁武","time":"2016-5-23","precipitation":"1.5","plot":"0"},{"district":"仁武","time":"2016-5-24","precipitation":"3.5","plot":"3"},{"district":"仁武","time":"2016-5-25","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-5-26","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-27","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-28","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-5-29","precipitation":"0","plot":"9"},{"district":"仁武","time":"2016-5-30","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-5-31","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-1","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-2","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-3","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-6-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-5","precipitation":"16","plot":"0"},{"district":"仁武","time":"2016-6-6","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-7","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-8","precipitation":"0.5","plot":"0"},{"district":"仁武","time":"2016-6-9","precipitation":"11.5","plot":"0"},{"district":"仁武","time":"2016-6-10","precipitation":"82.5","plot":"0"},{"district":"仁武","time":"2016-6-11","precipitation":"120.5","plot":"1"},{"district":"仁武","time":"2016-6-12","precipitation":"21","plot":"4"},{"district":"仁武","time":"2016-6-13","precipitation":"77.5","plot":"5"},{"district":"仁武","time":"2016-6-14","precipitation":"20","plot":"7"},{"district":"仁武","time":"2016-6-15","precipitation":"15","plot":"8"},{"district":"仁武","time":"2016-6-16","precipitation":"2.5","plot":"3"},{"district":"仁武","time":"2016-6-17","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-6-18","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-19","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-20","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-6-21","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-22","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-23","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-24","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-6-25","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-26","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-27","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-6-28","precipitation":"0","plot":"2"},{"district":"仁武","time":"2016-6-29","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-6-30","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-7-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-7-2","precipitation":"0","plot":"0"},{"district":"仁武","time":"2016-7-3","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-7-4","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-7-5","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-7-6","precipitation":"20.5","plot":"0"},{"district":"仁武","time":"2016-7-7","precipitation":"0","plot":"1"},{"district":"仁武","time":"2016-7-8","precipitation":"131.5","plot":"0"},{"district":"仁武","time":"2016-7-9","precipitation":"18","plot":"0"},{"district":"仁武","time":"2016-7-10","precipitation":"37","plot":"1"},{"district":"仁武","time":"2016-7-11","precipitation":"113.5","plot":"6"},{"district":"仁武","time":"2016-7-12","precipitation":"21","plot":"10"},{"district":"仁武","time":"2016-7-13","precipitation":"1","plot":"1"},{"district":"仁武","time":"2016-7-14","precipitation":"0","plot":"3"},{"district":"仁武","time":"2016-7-15","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-1","precipitation":"3","plot":"0"},{"district":"仁武","time":"2017-4-2","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-5","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-6","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-7","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-8","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-9","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-10","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-11","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-12","precipitation":"24.5","plot":"1"},{"district":"仁武","time":"2017-4-13","precipitation":"8","plot":"3"},{"district":"仁武","time":"2017-4-14","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-15","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-16","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-17","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-18","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-19","precipitation":"5","plot":"1"},{"district":"仁武","time":"2017-4-20","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-4-21","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-4-22","precipitation":"38","plot":"2"},{"district":"仁武","time":"2017-4-23","precipitation":"3","plot":"1"},{"district":"仁武","time":"2017-4-24","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-25","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-26","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-27","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-28","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-4-29","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-4-30","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-2","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-3","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-5","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-6","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-5-7","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-8","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-9","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-10","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-5-11","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-12","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-13","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-14","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-15","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-16","precipitation":"24","plot":"1"},{"district":"仁武","time":"2017-5-17","precipitation":"1.5","plot":"0"},{"district":"仁武","time":"2017-5-18","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-19","precipitation":"5.5","plot":"2"},{"district":"仁武","time":"2017-5-20","precipitation":"1","plot":"0"},{"district":"仁武","time":"2017-5-21","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-22","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-23","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-5-24","precipitation":"13.5","plot":"3"},{"district":"仁武","time":"2017-5-25","precipitation":"27","plot":"2"},{"district":"仁武","time":"2017-5-26","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-27","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-5-28","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-29","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-5-30","precipitation":"6.5","plot":"1"},{"district":"仁武","time":"2017-5-31","precipitation":"0.5","plot":"0"},{"district":"仁武","time":"2017-6-1","precipitation":"14","plot":"0"},{"district":"仁武","time":"2017-6-2","precipitation":"2","plot":"1"},{"district":"仁武","time":"2017-6-3","precipitation":"9","plot":"0"},{"district":"仁武","time":"2017-6-4","precipitation":"139","plot":"0"},{"district":"仁武","time":"2017-6-5","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-6","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-7","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-6-8","precipitation":"22.5","plot":"2"},{"district":"仁武","time":"2017-6-9","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-6-10","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-6-11","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-12","precipitation":"16.5","plot":"1"},{"district":"仁武","time":"2017-6-13","precipitation":"1.5","plot":"1"},{"district":"仁武","time":"2017-6-14","precipitation":"12.5","plot":"3"},{"district":"仁武","time":"2017-6-15","precipitation":"79.5","plot":"1"},{"district":"仁武","time":"2017-6-16","precipitation":"8","plot":"2"},{"district":"仁武","time":"2017-6-17","precipitation":"34.5","plot":"0"},{"district":"仁武","time":"2017-6-18","precipitation":"10.5","plot":"0"},{"district":"仁武","time":"2017-6-19","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-20","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-6-21","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-22","precipitation":"0","plot":"2"},{"district":"仁武","time":"2017-6-23","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-6-24","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-25","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-26","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-6-27","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-28","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-6-29","precipitation":"1","plot":"0"},{"district":"仁武","time":"2017-6-30","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-7-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-2","precipitation":"4","plot":"1"},{"district":"仁武","time":"2017-7-3","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-5","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-7-6","precipitation":"0.5","plot":"5"},{"district":"仁武","time":"2017-7-7","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-8","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-9","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-10","precipitation":"0","plot":"4"},{"district":"仁武","time":"2017-7-11","precipitation":"0","plot":"0"},{"district":"仁武","time":"2017-7-12","precipitation":"25","plot":"1"},{"district":"仁武","time":"2017-7-13","precipitation":"15","plot":"0"},{"district":"仁武","time":"2017-7-14","precipitation":"0","plot":"1"},{"district":"仁武","time":"2017-7-15","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-4-1","precipitation":"0","plot":"3"},{"district":"仁武","time":"2018-4-2","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-3","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-5","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-6","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-7","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-8","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-9","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-10","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-11","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-13","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-14","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-15","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-16","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-17","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-4-18","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-19","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-4-20","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-4-21","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-22","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-23","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-24","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-25","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-26","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-4-27","precipitation":"0","plot":"3"},{"district":"仁武","time":"2018-4-28","precipitation":"0","plot":"3"},{"district":"仁武","time":"2018-4-29","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-4-30","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-5-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-2","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-4","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-5-5","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-6","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-7","precipitation":"0","plot":"4"},{"district":"仁武","time":"2018-5-8","precipitation":"40.5","plot":"4"},{"district":"仁武","time":"2018-5-9","precipitation":"22","plot":"0"},{"district":"仁武","time":"2018-5-10","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-11","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-5-12","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-13","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-14","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-15","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-16","precipitation":"0","plot":"4"},{"district":"仁武","time":"2018-5-17","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-18","precipitation":"0","plot":"5"},{"district":"仁武","time":"2018-5-19","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-20","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-21","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-22","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-23","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-24","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-5-25","precipitation":"0","plot":"1"},{"district":"仁武","time":"2018-5-26","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-28","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-29","precipitation":"9.5","plot":"1"},{"district":"仁武","time":"2018-5-30","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-5-31","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-1","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-2","precipitation":"0","plot":"2"},{"district":"仁武","time":"2018-6-3","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-4","precipitation":"1","plot":"0"},{"district":"仁武","time":"2018-6-5","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-6","precipitation":"20","plot":"1"},{"district":"仁武","time":"2018-6-7","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-8","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-9","precipitation":"0","plot":"0"},{"district":"仁武","time":"2018-6-10","precipitation":"30.5","plot":"0"},{"district":"仁武","time":"2018-6-11","precipitation":"27.5","plot":"0"},{"district":"仁武","time":"2018-6-12","precipitation":"0","plot":"3"},{"district":"仁武","time":"2018-6-13","precipitation":"0.5","plot":"1"},{"district":"仁武","time":"2018-6-14","precipitation":"99.5","plot":"1"},{"district":"仁武","time":"2018-6-15","precipitation":"78.5","plot":"2"},{"district":"仁武","time":"2018-6-16","precipitation":"21","plot":"2"},{"district":"仁武","time":"2018-6-17","precipitation":"90.5","plot":"0"},{"district":"仁武","time":"2018-6-18","precipitation":"32","plot":"0"},{"district":"仁武","time":"2018-6-19","precipitation":"182.5","plot":"4"},{"district":"仁武","time":"2018-6-20","precipitation":"104.5","plot":"4"},{"district":"仁武","time":"2018-6-21","precipitation":"21","plot":"25"},{"district":"仁武","time":"2018-6-22","precipitation":"1.5","plot":"41"},{"district":"仁武","time":"2018-6-23","precipitation":"0.5","plot":"4"},{"district":"仁武","time":"2018-6-24","precipitation":"0","plot":"3"},{"district":"仁武","time":"2018-6-25","precipitation":"0","plot":"6"},{"district":"仁武","time":"2018-6-26","precipitation":"1.5","plot":"9"},{"district":"仁武","time":"2018-6-27","precipitation":"5","plot":"5"},{"district":"仁武","time":"2018-6-28","precipitation":"0","plot":"5"},{"district":"仁武","time":"2018-6-29","precipitation":"9.5","plot":"7"},{"district":"仁武","time":"2018-6-30","precipitation":"8.5","plot":"1"},{"district":"鼓山","time":"2016-4-1","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-2","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-3","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-5","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-4-6","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-7","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-4-8","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-9","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-10","precipitation":"16","plot":"1"},{"district":"鼓山","time":"2016-4-11","precipitation":"30.5","plot":"0"},{"district":"鼓山","time":"2016-4-12","precipitation":"0.5","plot":"0"},{"district":"鼓山","time":"2016-4-13","precipitation":"19.5","plot":"1"},{"district":"鼓山","time":"2016-4-14","precipitation":"44.5","plot":"1"},{"district":"鼓山","time":"2016-4-15","precipitation":"49","plot":"2"},{"district":"鼓山","time":"2016-4-16","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-4-17","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-18","precipitation":"15.5","plot":"0"},{"district":"鼓山","time":"2016-4-19","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-20","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-4-21","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-22","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-23","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-24","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-25","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-4-26","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-4-27","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-28","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-4-29","precipitation":"0.5","plot":"1"},{"district":"鼓山","time":"2016-4-30","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-2","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-3","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-4","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-5","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-5-6","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-8","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-9","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-10","precipitation":"1","plot":"0"},{"district":"鼓山","time":"2016-5-11","precipitation":"6","plot":"0"},{"district":"鼓山","time":"2016-5-12","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-13","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-14","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-15","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-16","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-17","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-18","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-5-19","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-20","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-21","precipitation":"15.5","plot":"0"},{"district":"鼓山","time":"2016-5-22","precipitation":"36","plot":"0"},{"district":"鼓山","time":"2016-5-23","precipitation":"1","plot":"0"},{"district":"鼓山","time":"2016-5-24","precipitation":"16","plot":"1"},{"district":"鼓山","time":"2016-5-25","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-5-26","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2016-5-27","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-28","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-29","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-5-30","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2016-5-31","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-1","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-6-2","precipitation":"2.5","plot":"0"},{"district":"鼓山","time":"2016-6-3","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-4","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-5","precipitation":"26.5","plot":"1"},{"district":"鼓山","time":"2016-6-6","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-6-7","precipitation":"2.5","plot":"0"},{"district":"鼓山","time":"2016-6-8","precipitation":"1","plot":"1"},{"district":"鼓山","time":"2016-6-9","precipitation":"15","plot":"1"},{"district":"鼓山","time":"2016-6-10","precipitation":"81","plot":"3"},{"district":"鼓山","time":"2016-6-11","precipitation":"113","plot":"2"},{"district":"鼓山","time":"2016-6-12","precipitation":"10","plot":"6"},{"district":"鼓山","time":"2016-6-13","precipitation":"57","plot":"3"},{"district":"鼓山","time":"2016-6-14","precipitation":"15","plot":"10"},{"district":"鼓山","time":"2016-6-15","precipitation":"0.5","plot":"4"},{"district":"鼓山","time":"2016-6-16","precipitation":"0","plot":"8"},{"district":"鼓山","time":"2016-6-17","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-18","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-19","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-20","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2016-6-21","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-6-22","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-23","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-24","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-25","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-26","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-27","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-28","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-6-29","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-6-30","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-7-1","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-7-2","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-7-3","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-7-4","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2016-7-5","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-7-6","precipitation":"2","plot":"1"},{"district":"鼓山","time":"2016-7-7","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2016-7-8","precipitation":"113.5","plot":"0"},{"district":"鼓山","time":"2016-7-9","precipitation":"11.5","plot":"0"},{"district":"鼓山","time":"2016-7-10","precipitation":"37","plot":"0"},{"district":"鼓山","time":"2016-7-11","precipitation":"87.5","plot":"3"},{"district":"鼓山","time":"2016-7-12","precipitation":"2.5","plot":"0"},{"district":"鼓山","time":"2016-7-13","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2016-7-14","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2016-7-15","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2017-4-1","precipitation":"3","plot":"6"},{"district":"鼓山","time":"2017-4-2","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-4-3","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-4","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2017-4-5","precipitation":"0","plot":"6"},{"district":"鼓山","time":"2017-4-6","precipitation":"0","plot":"7"},{"district":"鼓山","time":"2017-4-7","precipitation":"0","plot":"6"},{"district":"鼓山","time":"2017-4-8","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-4-9","precipitation":"0","plot":"6"},{"district":"鼓山","time":"2017-4-10","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-4-11","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2017-4-12","precipitation":"49.5","plot":"1"},{"district":"鼓山","time":"2017-4-13","precipitation":"12","plot":"1"},{"district":"鼓山","time":"2017-4-14","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-15","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-16","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-17","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-18","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-19","precipitation":"5","plot":"0"},{"district":"鼓山","time":"2017-4-20","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-21","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-22","precipitation":"54.5","plot":"0"},{"district":"鼓山","time":"2017-4-23","precipitation":"0.5","plot":"1"},{"district":"鼓山","time":"2017-4-24","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-25","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-26","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-27","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-4-28","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-29","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-4-30","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-5-1","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-5-2","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-5-3","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2017-5-4","precipitation":"0","plot":"7"},{"district":"鼓山","time":"2017-5-5","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-5-6","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-5-7","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-5-8","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-5-9","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-5-10","precipitation":"0","plot":"8"},{"district":"鼓山","time":"2017-5-11","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-5-12","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-5-13","precipitation":"0","plot":"8"},{"district":"鼓山","time":"2017-5-14","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-5-15","precipitation":"0","plot":"9"},{"district":"鼓山","time":"2017-5-16","precipitation":"17","plot":"3"},{"district":"鼓山","time":"2017-5-17","precipitation":"0","plot":"7"},{"district":"鼓山","time":"2017-5-18","precipitation":"0","plot":"8"},{"district":"鼓山","time":"2017-5-19","precipitation":"3","plot":"9"},{"district":"鼓山","time":"2017-5-20","precipitation":"0.5","plot":"0"},{"district":"鼓山","time":"2017-5-21","precipitation":"0","plot":"7"},{"district":"鼓山","time":"2017-5-22","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2017-5-23","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2017-5-24","precipitation":"26.5","plot":"0"},{"district":"鼓山","time":"2017-5-25","precipitation":"61","plot":"0"},{"district":"鼓山","time":"2017-5-26","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-5-27","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-5-28","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-5-29","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-5-30","precipitation":"9.5","plot":"0"},{"district":"鼓山","time":"2017-5-31","precipitation":"0.5","plot":"4"},{"district":"鼓山","time":"2017-6-1","precipitation":"13.5","plot":"3"},{"district":"鼓山","time":"2017-6-2","precipitation":"0.5","plot":"5"},{"district":"鼓山","time":"2017-6-3","precipitation":"7","plot":"2"},{"district":"鼓山","time":"2017-6-4","precipitation":"75.5","plot":"7"},{"district":"鼓山","time":"2017-6-5","precipitation":"0","plot":"9"},{"district":"鼓山","time":"2017-6-6","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-6-7","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-6-8","precipitation":"19","plot":"3"},{"district":"鼓山","time":"2017-6-9","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-6-10","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-6-11","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-6-12","precipitation":"9.5","plot":"0"},{"district":"鼓山","time":"2017-6-13","precipitation":"0.5","plot":"0"},{"district":"鼓山","time":"2017-6-14","precipitation":"9.5","plot":"0"},{"district":"鼓山","time":"2017-6-15","precipitation":"85","plot":"0"},{"district":"鼓山","time":"2017-6-16","precipitation":"4.5","plot":"7"},{"district":"鼓山","time":"2017-6-17","precipitation":"20","plot":"3"},{"district":"鼓山","time":"2017-6-18","precipitation":"24","plot":"0"},{"district":"鼓山","time":"2017-6-19","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-6-20","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2017-6-21","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-6-22","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-6-23","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-6-24","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-6-25","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-6-26","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-6-27","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-6-28","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2017-6-29","precipitation":"5","plot":"1"},{"district":"鼓山","time":"2017-6-30","precipitation":"0.5","plot":"0"},{"district":"鼓山","time":"2017-7-1","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-2","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-3","precipitation":"4","plot":"1"},{"district":"鼓山","time":"2017-7-4","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2017-7-5","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-6","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2017-7-7","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2017-7-8","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-7-9","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2017-7-10","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-11","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-12","precipitation":"2","plot":"0"},{"district":"鼓山","time":"2017-7-13","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2017-7-14","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2017-7-15","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-4-1","precipitation":"1","plot":"0"},{"district":"鼓山","time":"2018-4-2","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-3","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-4","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-5","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-6","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-7","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-8","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-9","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-10","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-4-11","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-4-13","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-14","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-15","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-16","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-4-17","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-18","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-19","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-20","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-21","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-22","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-23","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-4-24","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-4-25","precipitation":"5","plot":"1"},{"district":"鼓山","time":"2018-4-26","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-4-27","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2018-4-28","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-29","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-4-30","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-1","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-2","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-5-4","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-5","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2018-5-6","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-7","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2018-5-8","precipitation":"40.5","plot":"3"},{"district":"鼓山","time":"2018-5-9","precipitation":"48","plot":"0"},{"district":"鼓山","time":"2018-5-10","precipitation":"10","plot":"2"},{"district":"鼓山","time":"2018-5-11","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-5-12","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-13","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-5-14","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-5-15","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-16","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-5-17","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-18","precipitation":"0","plot":"8"},{"district":"鼓山","time":"2018-5-19","precipitation":"0","plot":"5"},{"district":"鼓山","time":"2018-5-20","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-5-21","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-5-22","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-23","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-24","precipitation":"0","plot":"4"},{"district":"鼓山","time":"2018-5-25","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-26","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-5-28","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-5-29","precipitation":"3.5","plot":"1"},{"district":"鼓山","time":"2018-5-30","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-5-31","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-6-1","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-6-2","precipitation":"0","plot":"7"},{"district":"鼓山","time":"2018-6-3","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-6-4","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-5","precipitation":"0","plot":"0"},{"district":"鼓山","time":"2018-6-6","precipitation":"6.5","plot":"1"},{"district":"鼓山","time":"2018-6-7","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-6-8","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-9","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-10","precipitation":"13","plot":"0"},{"district":"鼓山","time":"2018-6-11","precipitation":"22.5","plot":"1"},{"district":"鼓山","time":"2018-6-12","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-6-13","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-6-14","precipitation":"39.5","plot":"0"},{"district":"鼓山","time":"2018-6-15","precipitation":"45","plot":"1"},{"district":"鼓山","time":"2018-6-16","precipitation":"38.5","plot":"0"},{"district":"鼓山","time":"2018-6-17","precipitation":"97","plot":"2"},{"district":"鼓山","time":"2018-6-18","precipitation":"29.5","plot":"2"},{"district":"鼓山","time":"2018-6-19","precipitation":"191","plot":"3"},{"district":"鼓山","time":"2018-6-20","precipitation":"144","plot":"8"},{"district":"鼓山","time":"2018-6-21","precipitation":"41.5","plot":"1"},{"district":"鼓山","time":"2018-6-22","precipitation":"3.5","plot":"1"},{"district":"鼓山","time":"2018-6-23","precipitation":"2.5","plot":"3"},{"district":"鼓山","time":"2018-6-24","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-25","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-26","precipitation":"0","plot":"2"},{"district":"鼓山","time":"2018-6-27","precipitation":"3","plot":"2"},{"district":"鼓山","time":"2018-6-28","precipitation":"0","plot":"1"},{"district":"鼓山","time":"2018-6-29","precipitation":"0","plot":"3"},{"district":"鼓山","time":"2018-6-30","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-4-1","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-4-2","precipitation":"0","plot":"8"},{"district":"三民","time":"2016-4-3","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-4-4","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-4-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-4-6","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-4-7","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-4-8","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-4-9","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-4-10","precipitation":"14","plot":"2"},{"district":"三民","time":"2016-4-11","precipitation":"26.5","plot":"6"},{"district":"三民","time":"2016-4-12","precipitation":"0.5","plot":"7"},{"district":"三民","time":"2016-4-13","precipitation":"20","plot":"5"},{"district":"三民","time":"2016-4-14","precipitation":"47.5","plot":"11"},{"district":"三民","time":"2016-4-15","precipitation":"51","plot":"15"},{"district":"三民","time":"2016-4-16","precipitation":"0","plot":"14"},{"district":"三民","time":"2016-4-17","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-4-18","precipitation":"13","plot":"9"},{"district":"三民","time":"2016-4-19","precipitation":"0","plot":"13"},{"district":"三民","time":"2016-4-20","precipitation":"0","plot":"6"},{"district":"三民","time":"2016-4-21","precipitation":"0","plot":"8"},{"district":"三民","time":"2016-4-22","precipitation":"0","plot":"10"},{"district":"三民","time":"2016-4-23","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-4-24","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-4-25","precipitation":"0","plot":"9"},{"district":"三民","time":"2016-4-26","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-4-27","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-4-28","precipitation":"3","plot":"2"},{"district":"三民","time":"2016-4-29","precipitation":"0","plot":"6"},{"district":"三民","time":"2016-4-30","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-5-1","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-5-2","precipitation":"0","plot":"7"},{"district":"三民","time":"2016-5-3","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-5-4","precipitation":"0","plot":"9"},{"district":"三民","time":"2016-5-5","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-5-6","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"三民","time":"2016-5-8","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-5-9","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-5-10","precipitation":"3.5","plot":"6"},{"district":"三民","time":"2016-5-11","precipitation":"4.5","plot":"4"},{"district":"三民","time":"2016-5-12","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-5-13","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-5-14","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-15","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-5-16","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-17","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-18","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-5-19","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-20","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-5-21","precipitation":"16","plot":"0"},{"district":"三民","time":"2016-5-22","precipitation":"40.5","plot":"1"},{"district":"三民","time":"2016-5-23","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-5-24","precipitation":"14","plot":"12"},{"district":"三民","time":"2016-5-25","precipitation":"0","plot":"10"},{"district":"三民","time":"2016-5-26","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-27","precipitation":"0","plot":"7"},{"district":"三民","time":"2016-5-28","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-5-29","precipitation":"0","plot":"0"},{"district":"三民","time":"2016-5-30","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-5-31","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-6-1","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-6-2","precipitation":"0","plot":"6"},{"district":"三民","time":"2016-6-3","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-6-4","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-6-5","precipitation":"44","plot":"1"},{"district":"三民","time":"2016-6-6","precipitation":"0.5","plot":"2"},{"district":"三民","time":"2016-6-7","precipitation":"0.5","plot":"7"},{"district":"三民","time":"2016-6-8","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-6-9","precipitation":"5","plot":"1"},{"district":"三民","time":"2016-6-10","precipitation":"92.5","plot":"2"},{"district":"三民","time":"2016-6-11","precipitation":"135.5","plot":"14"},{"district":"三民","time":"2016-6-12","precipitation":"12.5","plot":"8"},{"district":"三民","time":"2016-6-13","precipitation":"51.5","plot":"28"},{"district":"三民","time":"2016-6-14","precipitation":"13","plot":"18"},{"district":"三民","time":"2016-6-15","precipitation":"0.5","plot":"22"},{"district":"三民","time":"2016-6-16","precipitation":"0.5","plot":"17"},{"district":"三民","time":"2016-6-17","precipitation":"0","plot":"17"},{"district":"三民","time":"2016-6-18","precipitation":"0","plot":"7"},{"district":"三民","time":"2016-6-19","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-6-20","precipitation":"0","plot":"9"},{"district":"三民","time":"2016-6-21","precipitation":"0","plot":"14"},{"district":"三民","time":"2016-6-22","precipitation":"0","plot":"8"},{"district":"三民","time":"2016-6-23","precipitation":"0","plot":"10"},{"district":"三民","time":"2016-6-24","precipitation":"0","plot":"7"},{"district":"三民","time":"2016-6-25","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-6-26","precipitation":"0","plot":"1"},{"district":"三民","time":"2016-6-27","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-6-28","precipitation":"0","plot":"4"},{"district":"三民","time":"2016-6-29","precipitation":"0","plot":"9"},{"district":"三民","time":"2016-6-30","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-7-1","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-7-2","precipitation":"0","plot":"3"},{"district":"三民","time":"2016-7-3","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-7-4","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-7-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-7-6","precipitation":"7.5","plot":"4"},{"district":"三民","time":"2016-7-7","precipitation":"0","plot":"2"},{"district":"三民","time":"2016-7-8","precipitation":"147.5","plot":"0"},{"district":"三民","time":"2016-7-9","precipitation":"24","plot":"2"},{"district":"三民","time":"2016-7-10","precipitation":"45.5","plot":"4"},{"district":"三民","time":"2016-7-11","precipitation":"109","plot":"9"},{"district":"三民","time":"2016-7-12","precipitation":"10.5","plot":"19"},{"district":"三民","time":"2016-7-13","precipitation":"0.5","plot":"20"},{"district":"三民","time":"2016-7-14","precipitation":"0","plot":"5"},{"district":"三民","time":"2016-7-15","precipitation":"0","plot":"10"},{"district":"三民","time":"2017-4-1","precipitation":"3.5","plot":"0"},{"district":"三民","time":"2017-4-2","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-4-4","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-4-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-6","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-4-7","precipitation":"0","plot":"8"},{"district":"三民","time":"2017-4-8","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-4-9","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-4-10","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-11","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-12","precipitation":"26.5","plot":"4"},{"district":"三民","time":"2017-4-13","precipitation":"21","plot":"8"},{"district":"三民","time":"2017-4-14","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-4-15","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-4-16","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-4-17","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-4-18","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-4-19","precipitation":"5.5","plot":"3"},{"district":"三民","time":"2017-4-20","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-4-21","precipitation":"0","plot":"5"},{"district":"三民","time":"2017-4-22","precipitation":"47","plot":"0"},{"district":"三民","time":"2017-4-23","precipitation":"1.5","plot":"2"},{"district":"三民","time":"2017-4-24","precipitation":"0","plot":"5"},{"district":"三民","time":"2017-4-25","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-26","precipitation":"0","plot":"9"},{"district":"三民","time":"2017-4-27","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-28","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-4-29","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-4-30","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-1","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-5-2","precipitation":"0","plot":"10"},{"district":"三民","time":"2017-5-3","precipitation":"0","plot":"5"},{"district":"三民","time":"2017-5-4","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-5-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-5-6","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-5-7","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-5-8","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-5-9","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-5-10","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-5-11","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-12","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-13","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-5-14","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-5-15","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-5-16","precipitation":"19.5","plot":"6"},{"district":"三民","time":"2017-5-17","precipitation":"1","plot":"2"},{"district":"三民","time":"2017-5-18","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-19","precipitation":"3","plot":"4"},{"district":"三民","time":"2017-5-20","precipitation":"1","plot":"3"},{"district":"三民","time":"2017-5-21","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-22","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-5-23","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-5-24","precipitation":"10","plot":"3"},{"district":"三民","time":"2017-5-25","precipitation":"83","plot":"6"},{"district":"三民","time":"2017-5-26","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-5-27","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-28","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-29","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-5-30","precipitation":"12","plot":"0"},{"district":"三民","time":"2017-5-31","precipitation":"2","plot":"9"},{"district":"三民","time":"2017-6-1","precipitation":"12","plot":"6"},{"district":"三民","time":"2017-6-2","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-6-3","precipitation":"16","plot":"7"},{"district":"三民","time":"2017-6-4","precipitation":"82","plot":"7"},{"district":"三民","time":"2017-6-5","precipitation":"0","plot":"16"},{"district":"三民","time":"2017-6-6","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-6-7","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-6-8","precipitation":"12","plot":"2"},{"district":"三民","time":"2017-6-9","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-6-10","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-6-11","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-6-12","precipitation":"11","plot":"5"},{"district":"三民","time":"2017-6-13","precipitation":"7.5","plot":"3"},{"district":"三民","time":"2017-6-14","precipitation":"7.5","plot":"1"},{"district":"三民","time":"2017-6-15","precipitation":"73","plot":"6"},{"district":"三民","time":"2017-6-16","precipitation":"14","plot":"4"},{"district":"三民","time":"2017-6-17","precipitation":"43.5","plot":"2"},{"district":"三民","time":"2017-6-18","precipitation":"28.5","plot":"5"},{"district":"三民","time":"2017-6-19","precipitation":"0","plot":"10"},{"district":"三民","time":"2017-6-20","precipitation":"0","plot":"7"},{"district":"三民","time":"2017-6-21","precipitation":"0","plot":"8"},{"district":"三民","time":"2017-6-22","precipitation":"0","plot":"10"},{"district":"三民","time":"2017-6-23","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-6-24","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-6-25","precipitation":"0","plot":"0"},{"district":"三民","time":"2017-6-26","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-6-27","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-6-28","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-6-29","precipitation":"13.5","plot":"4"},{"district":"三民","time":"2017-6-30","precipitation":"0","plot":"7"},{"district":"三民","time":"2017-7-1","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-7-2","precipitation":"0","plot":"5"},{"district":"三民","time":"2017-7-3","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-7-4","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-7-5","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-7-6","precipitation":"0","plot":"5"},{"district":"三民","time":"2017-7-7","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-7-8","precipitation":"0","plot":"2"},{"district":"三民","time":"2017-7-9","precipitation":"0","plot":"1"},{"district":"三民","time":"2017-7-10","precipitation":"0","plot":"6"},{"district":"三民","time":"2017-7-11","precipitation":"0","plot":"4"},{"district":"三民","time":"2017-7-12","precipitation":"3.5","plot":"2"},{"district":"三民","time":"2017-7-13","precipitation":"0","plot":"8"},{"district":"三民","time":"2017-7-14","precipitation":"0","plot":"3"},{"district":"三民","time":"2017-7-15","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-4-1","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-4-2","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-4-3","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-4-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-4-6","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-4-7","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-4-8","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-4-9","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-4-10","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-4-11","precipitation":"0","plot":"7"},{"district":"三民","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-4-13","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-14","precipitation":"0","plot":"7"},{"district":"三民","time":"2018-4-15","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-4-16","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-4-17","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-4-18","precipitation":"0","plot":"8"},{"district":"三民","time":"2018-4-19","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-4-20","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-4-21","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-22","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-23","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-24","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-25","precipitation":"2.5","plot":"3"},{"district":"三民","time":"2018-4-26","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-27","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-4-28","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-4-29","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-4-30","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-5-1","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-5-2","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-5-3","precipitation":"0","plot":"8"},{"district":"三民","time":"2018-5-4","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-5-5","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-5-6","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-5-7","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-5-8","precipitation":"36.5","plot":"7"},{"district":"三民","time":"2018-5-9","precipitation":"36","plot":"1"},{"district":"三民","time":"2018-5-10","precipitation":"5","plot":"3"},{"district":"三民","time":"2018-5-11","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-5-12","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-5-13","precipitation":"0","plot":"9"},{"district":"三民","time":"2018-5-14","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-5-15","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-5-16","precipitation":"0","plot":"8"},{"district":"三民","time":"2018-5-17","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-5-18","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-5-19","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-5-20","precipitation":"16","plot":"9"},{"district":"三民","time":"2018-5-21","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-5-22","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-5-23","precipitation":"0","plot":"7"},{"district":"三民","time":"2018-5-24","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-5-25","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-5-26","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-5-27","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-5-28","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-5-29","precipitation":"0","plot":"9"},{"district":"三民","time":"2018-5-30","precipitation":"1.5","plot":"0"},{"district":"三民","time":"2018-5-31","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-6-1","precipitation":"0","plot":"3"},{"district":"三民","time":"2018-6-2","precipitation":"0","plot":"7"},{"district":"三民","time":"2018-6-3","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-6-4","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-6-5","precipitation":"0","plot":"0"},{"district":"三民","time":"2018-6-6","precipitation":"3","plot":"7"},{"district":"三民","time":"2018-6-7","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-6-8","precipitation":"0","plot":"2"},{"district":"三民","time":"2018-6-9","precipitation":"0","plot":"6"},{"district":"三民","time":"2018-6-10","precipitation":"20","plot":"5"},{"district":"三民","time":"2018-6-11","precipitation":"27.5","plot":"5"},{"district":"三民","time":"2018-6-12","precipitation":"0","plot":"4"},{"district":"三民","time":"2018-6-13","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-6-14","precipitation":"90","plot":"0"},{"district":"三民","time":"2018-6-15","precipitation":"73.5","plot":"4"},{"district":"三民","time":"2018-6-16","precipitation":"20","plot":"14"},{"district":"三民","time":"2018-6-17","precipitation":"94","plot":"6"},{"district":"三民","time":"2018-6-18","precipitation":"25.5","plot":"12"},{"district":"三民","time":"2018-6-19","precipitation":"185","plot":"11"},{"district":"三民","time":"2018-6-20","precipitation":"144.5","plot":"20"},{"district":"三民","time":"2018-6-21","precipitation":"18.5","plot":"28"},{"district":"三民","time":"2018-6-22","precipitation":"6","plot":"13"},{"district":"三民","time":"2018-6-23","precipitation":"5.5","plot":"4"},{"district":"三民","time":"2018-6-24","precipitation":"0","plot":"7"},{"district":"三民","time":"2018-6-25","precipitation":"0","plot":"5"},{"district":"三民","time":"2018-6-26","precipitation":"1","plot":"8"},{"district":"三民","time":"2018-6-27","precipitation":"4","plot":"3"},{"district":"三民","time":"2018-6-28","precipitation":"0","plot":"1"},{"district":"三民","time":"2018-6-29","precipitation":"0","plot":"9"},{"district":"三民","time":"2018-6-30","precipitation":"6","plot":"10"},{"district":"苓雅","time":"2016-4-1","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-4-2","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-3","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-4-4","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-4-5","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-4-6","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-4-7","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-8","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-4-9","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-4-10","precipitation":"18","plot":"0"},{"district":"苓雅","time":"2016-4-11","precipitation":"32.5","plot":"3"},{"district":"苓雅","time":"2016-4-12","precipitation":"1","plot":"4"},{"district":"苓雅","time":"2016-4-13","precipitation":"19","plot":"3"},{"district":"苓雅","time":"2016-4-14","precipitation":"52.5","plot":"5"},{"district":"苓雅","time":"2016-4-15","precipitation":"40.5","plot":"8"},{"district":"苓雅","time":"2016-4-16","precipitation":"0","plot":"7"},{"district":"苓雅","time":"2016-4-17","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-18","precipitation":"8","plot":"10"},{"district":"苓雅","time":"2016-4-19","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-4-20","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-21","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2016-4-22","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-4-23","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-4-24","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-25","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-4-26","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-27","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-28","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-4-29","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-4-30","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-5-1","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-5-2","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-5-3","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-5-4","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-5-5","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-5-6","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-7","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-5-8","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-5-9","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2016-5-10","precipitation":"2.5","plot":"1"},{"district":"苓雅","time":"2016-5-11","precipitation":"6","plot":"0"},{"district":"苓雅","time":"2016-5-12","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-13","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2016-5-14","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-15","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-16","precipitation":"0.5","plot":"3"},{"district":"苓雅","time":"2016-5-17","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-5-18","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-5-19","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-5-20","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-5-21","precipitation":"14.5","plot":"2"},{"district":"苓雅","time":"2016-5-22","precipitation":"26.5","plot":"1"},{"district":"苓雅","time":"2016-5-23","precipitation":"0.5","plot":"4"},{"district":"苓雅","time":"2016-5-24","precipitation":"14","plot":"7"},{"district":"苓雅","time":"2016-5-25","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-5-26","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-5-27","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-5-28","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-29","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-5-30","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-5-31","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-6-1","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-6-2","precipitation":"0.5","plot":"0"},{"district":"苓雅","time":"2016-6-3","precipitation":"0.5","plot":"3"},{"district":"苓雅","time":"2016-6-4","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-6-5","precipitation":"11","plot":"0"},{"district":"苓雅","time":"2016-6-6","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-6-7","precipitation":"3","plot":"3"},{"district":"苓雅","time":"2016-6-8","precipitation":"0.5","plot":"4"},{"district":"苓雅","time":"2016-6-9","precipitation":"1","plot":"0"},{"district":"苓雅","time":"2016-6-10","precipitation":"99","plot":"0"},{"district":"苓雅","time":"2016-6-11","precipitation":"141","plot":"16"},{"district":"苓雅","time":"2016-6-12","precipitation":"10","plot":"9"},{"district":"苓雅","time":"2016-6-13","precipitation":"44.5","plot":"25"},{"district":"苓雅","time":"2016-6-14","precipitation":"30","plot":"22"},{"district":"苓雅","time":"2016-6-15","precipitation":"0","plot":"11"},{"district":"苓雅","time":"2016-6-16","precipitation":"1","plot":"11"},{"district":"苓雅","time":"2016-6-17","precipitation":"0","plot":"6"},{"district":"苓雅","time":"2016-6-18","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-6-19","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-6-20","precipitation":"0","plot":"6"},{"district":"苓雅","time":"2016-6-21","precipitation":"0","plot":"6"},{"district":"苓雅","time":"2016-6-22","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-6-23","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-6-24","precipitation":"0","plot":"7"},{"district":"苓雅","time":"2016-6-25","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-6-26","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2016-6-27","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2016-6-28","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-6-29","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-6-30","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-7-1","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-7-2","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2016-7-3","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-7-4","precipitation":"0","plot":"7"},{"district":"苓雅","time":"2016-7-5","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2016-7-6","precipitation":"13.5","plot":"3"},{"district":"苓雅","time":"2016-7-7","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2016-7-8","precipitation":"197.5","plot":"0"},{"district":"苓雅","time":"2016-7-9","precipitation":"24","plot":"0"},{"district":"苓雅","time":"2016-7-10","precipitation":"44","plot":"3"},{"district":"苓雅","time":"2016-7-11","precipitation":"71.5","plot":"4"},{"district":"苓雅","time":"2016-7-12","precipitation":"8.5","plot":"9"},{"district":"苓雅","time":"2016-7-13","precipitation":"0.5","plot":"9"},{"district":"苓雅","time":"2016-7-14","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2016-7-15","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-1","precipitation":"3.5","plot":"1"},{"district":"苓雅","time":"2017-4-2","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-3","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-4","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-4-5","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-6","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-7","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-8","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-9","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-10","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-11","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-12","precipitation":"54.5","plot":"0"},{"district":"苓雅","time":"2017-4-13","precipitation":"19.5","plot":"1"},{"district":"苓雅","time":"2017-4-14","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-15","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-16","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-17","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-4-18","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2017-4-19","precipitation":"4","plot":"0"},{"district":"苓雅","time":"2017-4-20","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-21","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-4-22","precipitation":"57","plot":"0"},{"district":"苓雅","time":"2017-4-23","precipitation":"1","plot":"0"},{"district":"苓雅","time":"2017-4-24","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-4-25","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-4-26","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-4-27","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-4-28","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-4-29","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2017-4-30","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-1","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-2","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-3","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2017-5-4","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-5","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-5-6","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-7","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-8","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-9","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-5-10","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-11","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-12","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-13","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-14","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-15","precipitation":"0.5","plot":"1"},{"district":"苓雅","time":"2017-5-16","precipitation":"21","plot":"0"},{"district":"苓雅","time":"2017-5-17","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2017-5-18","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-19","precipitation":"2.5","plot":"2"},{"district":"苓雅","time":"2017-5-20","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-21","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-22","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-23","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-24","precipitation":"16.5","plot":"3"},{"district":"苓雅","time":"2017-5-25","precipitation":"74","plot":"0"},{"district":"苓雅","time":"2017-5-26","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-27","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-5-28","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-5-29","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-5-30","precipitation":"12","plot":"4"},{"district":"苓雅","time":"2017-5-31","precipitation":"1","plot":"4"},{"district":"苓雅","time":"2017-6-1","precipitation":"20","plot":"0"},{"district":"苓雅","time":"2017-6-2","precipitation":"4","plot":"5"},{"district":"苓雅","time":"2017-6-3","precipitation":"8.5","plot":"6"},{"district":"苓雅","time":"2017-6-4","precipitation":"82.5","plot":"1"},{"district":"苓雅","time":"2017-6-5","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-6-6","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-6-7","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-6-8","precipitation":"2","plot":"1"},{"district":"苓雅","time":"2017-6-9","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-6-10","precipitation":"0","plot":"5"},{"district":"苓雅","time":"2017-6-11","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-6-12","precipitation":"4","plot":"4"},{"district":"苓雅","time":"2017-6-13","precipitation":"7.5","plot":"8"},{"district":"苓雅","time":"2017-6-14","precipitation":"12","plot":"4"},{"district":"苓雅","time":"2017-6-15","precipitation":"71","plot":"5"},{"district":"苓雅","time":"2017-6-16","precipitation":"16.5","plot":"0"},{"district":"苓雅","time":"2017-6-17","precipitation":"42","plot":"6"},{"district":"苓雅","time":"2017-6-18","precipitation":"30","plot":"3"},{"district":"苓雅","time":"2017-6-19","precipitation":"0","plot":"9"},{"district":"苓雅","time":"2017-6-20","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-6-21","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-6-22","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-6-23","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-6-24","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-6-25","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-6-26","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-6-27","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-6-28","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-6-29","precipitation":"31.5","plot":"2"},{"district":"苓雅","time":"2017-6-30","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-7-1","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-7-2","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-7-3","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-7-4","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2017-7-5","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-7-6","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-7-7","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-7-8","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2017-7-9","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-7-10","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2017-7-11","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2017-7-12","precipitation":"6.5","plot":"1"},{"district":"苓雅","time":"2017-7-13","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2017-7-14","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-7-15","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2017-7-16","precipitation":"6","plot":"0"},{"district":"苓雅","time":"2018-4-1","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2018-4-2","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2018-4-3","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-4","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-5","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-6","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-7","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-4-8","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-9","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-10","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-11","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-4-12","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-13","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-14","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-15","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-16","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-17","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-4-18","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2018-4-19","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-20","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-21","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2018-4-22","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-23","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-24","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-4-25","precipitation":"10","plot":"0"},{"district":"苓雅","time":"2018-4-26","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-4-27","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-28","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-29","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-4-30","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-1","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-2","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-3","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-4","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-5","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-6","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-7","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-8","precipitation":"34.5","plot":"1"},{"district":"苓雅","time":"2018-5-9","precipitation":"33.5","plot":"0"},{"district":"苓雅","time":"2018-5-10","precipitation":"11.5","plot":"1"},{"district":"苓雅","time":"2018-5-11","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-12","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-13","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-14","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2018-5-15","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-16","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-17","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-18","precipitation":"0","plot":"4"},{"district":"苓雅","time":"2018-5-19","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-20","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-21","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-22","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-23","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-24","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-25","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-26","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-5-27","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-28","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-29","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-5-30","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-5-31","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-6-1","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-6-2","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-6-3","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-6-4","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-6-5","precipitation":"0","plot":"43"},{"district":"苓雅","time":"2018-6-6","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-6-7","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-6-8","precipitation":"0","plot":"3"},{"district":"苓雅","time":"2018-6-9","precipitation":"0","plot":"0"},{"district":"苓雅","time":"2018-6-10","precipitation":"12","plot":"0"},{"district":"苓雅","time":"2018-6-11","precipitation":"29","plot":"0"},{"district":"苓雅","time":"2018-6-12","precipitation":"0","plot":"2"},{"district":"苓雅","time":"2018-6-13","precipitation":"8.5","plot":"1"},{"district":"苓雅","time":"2018-6-14","precipitation":"78","plot":"1"},{"district":"苓雅","time":"2018-6-15","precipitation":"70.5","plot":"6"},{"district":"苓雅","time":"2018-6-16","precipitation":"19","plot":"2"},{"district":"苓雅","time":"2018-6-17","precipitation":"88","plot":"3"},{"district":"苓雅","time":"2018-6-18","precipitation":"28.5","plot":"5"},{"district":"苓雅","time":"2018-6-19","precipitation":"176","plot":"0"},{"district":"苓雅","time":"2018-6-20","precipitation":"137.5","plot":"16"},{"district":"苓雅","time":"2018-6-21","precipitation":"20.5","plot":"32"},{"district":"苓雅","time":"2018-6-22","precipitation":"9.5","plot":"22"},{"district":"苓雅","time":"2018-6-23","precipitation":"4","plot":"8"},{"district":"苓雅","time":"2018-6-24","precipitation":"0","plot":"1"},{"district":"苓雅","time":"2018-6-25","precipitation":"0","plot":"8"},{"district":"苓雅","time":"2018-6-26","precipitation":"1","plot":"5"},{"district":"苓雅","time":"2018-6-27","precipitation":"7.5","plot":"4"},{"district":"苓雅","time":"2018-6-28","precipitation":"0","plot":"6"},{"district":"苓雅","time":"2018-6-29","precipitation":"0","plot":"7"},{"district":"苓雅","time":"2018-6-30","precipitation":"2","plot":"1"},{"district":"左營","time":"2016-4-1","precipitation":"0","plot":"9"},{"district":"左營","time":"2016-4-2","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-4-3","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-4","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-5","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-4-6","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-4-7","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-8","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-4-9","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-10","precipitation":"12","plot":"0"},{"district":"左營","time":"2016-4-11","precipitation":"26.5","plot":"4"},{"district":"左營","time":"2016-4-12","precipitation":"0.5","plot":"6"},{"district":"左營","time":"2016-4-13","precipitation":"19.5","plot":"3"},{"district":"左營","time":"2016-4-14","precipitation":"56.5","plot":"4"},{"district":"左營","time":"2016-4-15","precipitation":"50","plot":"3"},{"district":"左營","time":"2016-4-16","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-4-17","precipitation":"0","plot":"4"},{"district":"左營","time":"2016-4-18","precipitation":"3.5","plot":"2"},{"district":"左營","time":"2016-4-19","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-20","precipitation":"0","plot":"5"},{"district":"左營","time":"2016-4-21","precipitation":"0","plot":"4"},{"district":"左營","time":"2016-4-22","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-23","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-24","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-4-25","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-26","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-27","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-4-28","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-29","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-4-30","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-5-1","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-5-2","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-3","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-5-4","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-5-5","precipitation":"0","plot":"5"},{"district":"左營","time":"2016-5-6","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-5-7","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-5-8","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-9","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-5-10","precipitation":"5","plot":"2"},{"district":"左營","time":"2016-5-11","precipitation":"6","plot":"0"},{"district":"左營","time":"2016-5-12","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-5-13","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-14","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-15","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-16","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-17","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-18","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-19","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-5-20","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-21","precipitation":"15","plot":"0"},{"district":"左營","time":"2016-5-22","precipitation":"30.5","plot":"2"},{"district":"左營","time":"2016-5-23","precipitation":"1.5","plot":"4"},{"district":"左營","time":"2016-5-24","precipitation":"9","plot":"3"},{"district":"左營","time":"2016-5-25","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-5-26","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-5-27","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-28","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-5-29","precipitation":"0","plot":"4"},{"district":"左營","time":"2016-5-30","precipitation":"0.5","plot":"0"},{"district":"左營","time":"2016-5-31","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-1","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-2","precipitation":"3.5","plot":"4"},{"district":"左營","time":"2016-6-3","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-6-4","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-5","precipitation":"43","plot":"0"},{"district":"左營","time":"2016-6-6","precipitation":"0","plot":"8"},{"district":"左營","time":"2016-6-7","precipitation":"4","plot":"4"},{"district":"左營","time":"2016-6-8","precipitation":"2","plot":"3"},{"district":"左營","time":"2016-6-9","precipitation":"8.5","plot":"2"},{"district":"左營","time":"2016-6-10","precipitation":"86","plot":"1"},{"district":"左營","time":"2016-6-11","precipitation":"148","plot":"11"},{"district":"左營","time":"2016-6-12","precipitation":"40.5","plot":"9"},{"district":"左營","time":"2016-6-13","precipitation":"46.5","plot":"13"},{"district":"左營","time":"2016-6-14","precipitation":"10","plot":"7"},{"district":"左營","time":"2016-6-15","precipitation":"0.5","plot":"5"},{"district":"左營","time":"2016-6-16","precipitation":"1","plot":"2"},{"district":"左營","time":"2016-6-17","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-18","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-19","precipitation":"0","plot":"4"},{"district":"左營","time":"2016-6-20","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-6-21","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-6-22","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-6-23","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-24","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-6-25","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-6-26","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-6-27","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-6-28","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-6-29","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-6-30","precipitation":"0","plot":"2"},{"district":"左營","time":"2016-7-1","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-7-2","precipitation":"0","plot":"1"},{"district":"左營","time":"2016-7-3","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-7-4","precipitation":"0","plot":"3"},{"district":"左營","time":"2016-7-5","precipitation":"0","plot":"4"},{"district":"左營","time":"2016-7-6","precipitation":"2","plot":"0"},{"district":"左營","time":"2016-7-7","precipitation":"0","plot":"0"},{"district":"左營","time":"2016-7-8","precipitation":"105","plot":"0"},{"district":"左營","time":"2016-7-9","precipitation":"24.5","plot":"0"},{"district":"左營","time":"2016-7-10","precipitation":"33","plot":"0"},{"district":"左營","time":"2016-7-11","precipitation":"120","plot":"3"},{"district":"左營","time":"2016-7-12","precipitation":"3.5","plot":"3"},{"district":"左營","time":"2016-7-13","precipitation":"0","plot":"7"},{"district":"左營","time":"2016-7-14","precipitation":"0","plot":"5"},{"district":"左營","time":"2016-7-15","precipitation":"0","plot":"7"},{"district":"左營","time":"2017-4-1","precipitation":"2","plot":"0"},{"district":"左營","time":"2017-4-2","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-3","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-4","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-5","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-6","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-4-7","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-4-8","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-9","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-10","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-11","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-12","precipitation":"20","plot":"5"},{"district":"左營","time":"2017-4-13","precipitation":"7","plot":"3"},{"district":"左營","time":"2017-4-14","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-15","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-4-16","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-17","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-4-18","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-4-19","precipitation":"2","plot":"3"},{"district":"左營","time":"2017-4-20","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-4-21","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-4-22","precipitation":"39.5","plot":"1"},{"district":"左營","time":"2017-4-23","precipitation":"3","plot":"3"},{"district":"左營","time":"2017-4-24","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-4-25","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-4-26","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-4-27","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-28","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-4-29","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-4-30","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-5-1","precipitation":"0","plot":"7"},{"district":"左營","time":"2017-5-2","precipitation":"0","plot":"6"},{"district":"左營","time":"2017-5-3","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-5-4","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-5-5","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-6","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-7","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-5-8","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-5-9","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-5-10","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-11","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-5-12","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-13","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-14","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-5-15","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-16","precipitation":"21","plot":"0"},{"district":"左營","time":"2017-5-17","precipitation":"0","plot":"5"},{"district":"左營","time":"2017-5-18","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-5-19","precipitation":"4.5","plot":"1"},{"district":"左營","time":"2017-5-20","precipitation":"2","plot":"1"},{"district":"左營","time":"2017-5-21","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-5-22","precipitation":"0","plot":"7"},{"district":"左營","time":"2017-5-23","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-5-24","precipitation":"22.5","plot":"8"},{"district":"左營","time":"2017-5-25","precipitation":"36","plot":"1"},{"district":"左營","time":"2017-5-26","precipitation":"0.5","plot":"3"},{"district":"左營","time":"2017-5-27","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-5-28","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-5-29","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-5-30","precipitation":"6.5","plot":"0"},{"district":"左營","time":"2017-5-31","precipitation":"1","plot":"3"},{"district":"左營","time":"2017-6-1","precipitation":"9","plot":"0"},{"district":"左營","time":"2017-6-2","precipitation":"2","plot":"1"},{"district":"左營","time":"2017-6-3","precipitation":"1.5","plot":"1"},{"district":"左營","time":"2017-6-4","precipitation":"127","plot":"0"},{"district":"左營","time":"2017-6-5","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-6-6","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-6-7","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-6-8","precipitation":"9","plot":"1"},{"district":"左營","time":"2017-6-9","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-6-10","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-6-11","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-6-12","precipitation":"12.5","plot":"6"},{"district":"左營","time":"2017-6-13","precipitation":"2.5","plot":"1"},{"district":"左營","time":"2017-6-14","precipitation":"7.5","plot":"4"},{"district":"左營","time":"2017-6-15","precipitation":"68","plot":"0"},{"district":"左營","time":"2017-6-16","precipitation":"3","plot":"4"},{"district":"左營","time":"2017-6-17","precipitation":"23","plot":"1"},{"district":"左營","time":"2017-6-18","precipitation":"10","plot":"0"},{"district":"左營","time":"2017-6-19","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-6-20","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-6-21","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-6-22","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-6-23","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-6-24","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-6-25","precipitation":"0","plot":"3"},{"district":"左營","time":"2017-6-26","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-6-27","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-6-28","precipitation":"0","plot":"5"},{"district":"左營","time":"2017-6-29","precipitation":"3.5","plot":"0"},{"district":"左營","time":"2017-6-30","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-7-1","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-2","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-3","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-7-4","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-5","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-6","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-7-7","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-8","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-9","precipitation":"0","plot":"1"},{"district":"左營","time":"2017-7-10","precipitation":"0","plot":"0"},{"district":"左營","time":"2017-7-11","precipitation":"0","plot":"2"},{"district":"左營","time":"2017-7-12","precipitation":"0.5","plot":"1"},{"district":"左營","time":"2017-7-13","precipitation":"0.5","plot":"2"},{"district":"左營","time":"2017-7-14","precipitation":"0","plot":"4"},{"district":"左營","time":"2017-7-15","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-1","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-4-2","precipitation":"0","plot":"8"},{"district":"左營","time":"2018-4-3","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-4","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-5","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-6","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-7","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-4-8","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-9","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-10","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-11","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-4-12","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-13","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-4-14","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-4-15","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-16","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-17","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-18","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-19","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-20","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-4-21","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-22","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-4-23","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-4-24","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-25","precipitation":"0.5","plot":"5"},{"district":"左營","time":"2018-4-26","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-4-27","precipitation":"0","plot":"7"},{"district":"左營","time":"2018-4-28","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-29","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-4-30","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-1","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-2","precipitation":"0","plot":"6"},{"district":"左營","time":"2018-5-3","precipitation":"0","plot":"7"},{"district":"左營","time":"2018-5-4","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-5","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-5-6","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-7","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-5-8","precipitation":"39.5","plot":"1"},{"district":"左營","time":"2018-5-9","precipitation":"34.5","plot":"2"},{"district":"左營","time":"2018-5-10","precipitation":"0.5","plot":"3"},{"district":"左營","time":"2018-5-11","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-5-12","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-5-13","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-5-14","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-5-15","precipitation":"0","plot":"5"},{"district":"左營","time":"2018-5-16","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-5-17","precipitation":"0","plot":"4"},{"district":"左營","time":"2018-5-18","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-5-19","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-5-20","precipitation":"0","plot":"8"},{"district":"左營","time":"2018-5-21","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-22","precipitation":"0","plot":"9"},{"district":"左營","time":"2018-5-23","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-5-24","precipitation":"0.5","plot":"1"},{"district":"左營","time":"2018-5-25","precipitation":"0","plot":"6"},{"district":"左營","time":"2018-5-26","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-5-27","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-5-28","precipitation":"0","plot":"0"},{"district":"左營","time":"2018-5-29","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-5-30","precipitation":"3","plot":"2"},{"district":"左營","time":"2018-5-31","precipitation":"0","plot":"6"},{"district":"左營","time":"2018-6-1","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-6-2","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-3","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-4","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-5","precipitation":"0","plot":"6"},{"district":"左營","time":"2018-6-6","precipitation":"8","plot":"1"},{"district":"左營","time":"2018-6-7","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-6-8","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-9","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-10","precipitation":"21.5","plot":"0"},{"district":"左營","time":"2018-6-11","precipitation":"17","plot":"2"},{"district":"左營","time":"2018-6-12","precipitation":"0","plot":"1"},{"district":"左營","time":"2018-6-13","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-6-14","precipitation":"39.5","plot":"2"},{"district":"左營","time":"2018-6-15","precipitation":"56.5","plot":"3"},{"district":"左營","time":"2018-6-16","precipitation":"25.5","plot":"3"},{"district":"左營","time":"2018-6-17","precipitation":"92","plot":"6"},{"district":"左營","time":"2018-6-18","precipitation":"34","plot":"4"},{"district":"左營","time":"2018-6-19","precipitation":"195","plot":"13"},{"district":"左營","time":"2018-6-20","precipitation":"122","plot":"29"},{"district":"左營","time":"2018-6-21","precipitation":"10.5","plot":"16"},{"district":"左營","time":"2018-6-22","precipitation":"2.5","plot":"22"},{"district":"左營","time":"2018-6-23","precipitation":"2.5","plot":"9"},{"district":"左營","time":"2018-6-24","precipitation":"0","plot":"5"},{"district":"左營","time":"2018-6-25","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-6-26","precipitation":"0.5","plot":"7"},{"district":"左營","time":"2018-6-27","precipitation":"1","plot":"2"},{"district":"左營","time":"2018-6-28","precipitation":"0","plot":"3"},{"district":"左營","time":"2018-6-29","precipitation":"0","plot":"2"},{"district":"左營","time":"2018-6-30","precipitation":"3","plot":"2"}];
+
+/***/ }),
+
 /***/ "./src/data/kaohsiung.topo.json":
 /*!**************************************!*\
   !*** ./src/data/kaohsiung.topo.json ***!
@@ -32255,6 +35404,14 @@ module.exports = [{"id":"INS180630271","time":"2018-06-30 23:27:12","lng":120.33
 "use strict";
 
 
+var _from = __webpack_require__(/*! babel-runtime/core-js/array/from */ "./node_modules/babel-runtime/core-js/array/from.js");
+
+var _from2 = _interopRequireDefault(_from);
+
+var _keys = __webpack_require__(/*! babel-runtime/core-js/object/keys */ "./node_modules/babel-runtime/core-js/object/keys.js");
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _topojson = __webpack_require__(/*! topojson */ "./node_modules/topojson/index.js");
 
 var _jquery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -32271,11 +35428,19 @@ var _kaohsiung2 = _interopRequireDefault(_kaohsiung);
 
 var _timelineMaps = __webpack_require__(/*! ./timelineMaps */ "./src/timelineMaps.js");
 
+var _comparison = __webpack_require__(/*! ./comparison */ "./src/comparison.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var map = void 0;
+var mapRain = void 0;
+var mapPlot = void 0;
+var listener1 = void 0;
+var listener2 = void 0;
 var markerPlots = [];
 var intervalTimeline = void 0;
+
+_moment2.default.suppressDeprecationWarnings = true;
 
 (0, _jquery2.default)('#calendar').on('change', async function () {
 	resetTimeline();
@@ -32283,21 +35448,110 @@ var intervalTimeline = void 0;
 	(0, _jquery2.default)('#data-count').text('\u5171 ' + markerPlots.length + ' \u7B46\u8CC7\u6599');
 	startTimeline();
 });
+(0, _jquery2.default)('#calendar-comparison').on('change', async function () {
+	loadComparisonMap((0, _jquery2.default)('#calendar-comparison').val());
+});
 
 var initMap = async function initMap() {
+	var styles = [{ "featureType": "administrative", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape", "elementType": "all", "stylers": [{ "visibility": "simplified" }, { "hue": "#0066ff" }, { "saturation": 74 }, { "lightness": 100 }] }, { "featureType": "poi", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road.highway", "elementType": "all", "stylers": [{ "visibility": "off" }, { "weight": 0.6 }, { "saturation": -85 }, { "lightness": 61 }] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "visibility": "on" }] }, { "featureType": "road.arterial", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "road.local", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "transit", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "water", "elementType": "all", "stylers": [{ "visibility": "simplified" }, { "color": "#5f94ff" }, { "lightness": 26 }, { "gamma": 5.86 }] }];
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: { lng: 120.5786888, lat: 22.9185024 },
 		zoom: 10,
-		styles: [{ "featureType": "administrative", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape", "elementType": "all", "stylers": [{ "visibility": "simplified" }, { "hue": "#0066ff" }, { "saturation": 74 }, { "lightness": 100 }] }, { "featureType": "poi", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road.highway", "elementType": "all", "stylers": [{ "visibility": "off" }, { "weight": 0.6 }, { "saturation": -85 }, { "lightness": 61 }] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "visibility": "on" }] }, { "featureType": "road.arterial", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "road.local", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "transit", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "water", "elementType": "all", "stylers": [{ "visibility": "simplified" }, { "color": "#5f94ff" }, { "lightness": 26 }, { "gamma": 5.86 }] }],
+		styles: styles,
+		disableDefaultUI: true
+	});
+	mapRain = new google.maps.Map(document.getElementById('map_rain'), {
+		center: { lng: 120.301956, lat: 22.631388 },
+		zoom: 11,
+		styles: styles,
+		disableDefaultUI: true
+	});
+	mapPlot = new google.maps.Map(document.getElementById('map_plot'), {
+		center: { lng: 120.301956, lat: 22.631388 },
+		zoom: 11,
+		styles: styles,
 		disableDefaultUI: true
 	});
 	var geoJson = (0, _topojson.feature)(_kaohsiung2.default, _kaohsiung2.default.objects.kaohsiung);
 	map.data.addGeoJson(geoJson);
+	mapRain.data.addGeoJson(geoJson);
+	mapPlot.data.addGeoJson(geoJson);
 
 	markerPlots = await (0, _timelineMaps.loadPlots)('2017-03-31');
 
 	(0, _jquery2.default)('#calendar').val('2017-03-31');
+	(0, _jquery2.default)('#calendar-comparison').val('2017-04-01');
 	startTimeline();
+	loadComparisonMap('2017-04-01');
+
+	mapRain.addListener('mouseover', function () {
+		google.maps.event.removeListener(listener2);
+		listener1 = google.maps.event.addListener(mapRain, 'bounds_changed', function () {
+			mapPlot.setCenter(mapRain.getCenter());
+			mapPlot.setZoom(mapRain.getZoom());
+		});
+	});
+
+	mapPlot.addListener('mouseover', function () {
+		google.maps.event.removeListener(listener1);
+		listener2 = google.maps.event.addListener(mapPlot, 'bounds_changed', function () {
+			mapRain.setCenter(mapPlot.getCenter());
+			mapRain.setZoom(mapPlot.getZoom());
+		});
+	});
+};
+
+var loadComparisonMap = async function loadComparisonMap(day) {
+	var results = await (0, _comparison.loadWeek)(day);
+	(0, _jquery2.default)('#data-count-comparison').text(results.firstDay + ' ~ ' + results.lastDay + ' \u7684\u96E8\u91CF\u8207\u5751\u6D1E\u901A\u5831\u72C0\u6CC1');
+	mapPlot.data.setStyle(function (feature) {
+		var featureName = feature.f.T_Name.slice(0, -1);
+		if (featureName in results.plotCount) {
+			feature.setProperty('isColorful', true);
+			return {
+				fillColor: results.plotCount[featureName].color,
+				fillOpacity: 0.8
+			};
+		}
+		return { fillColor: 'white' };
+	});
+	mapRain.data.setStyle(function (feature) {
+		var featureName = feature.f.T_Name.slice(0, -1);
+		if (featureName in results.precipitationCount) {
+			feature.setProperty('isColorful', true);
+			return {
+				fillColor: results.precipitationCount[featureName].color,
+				fillOpacity: 0.8
+			};
+		}
+		return { fillColor: 'white' };
+	});
+
+	var arrPlot = [];
+	var arrRain = [];
+	(0, _keys2.default)(results.plotCount).forEach(function (c) {
+		arrPlot.push(c);
+	});
+	(0, _keys2.default)(results.precipitationCount).forEach(function (c) {
+		arrRain.push(c);
+	});
+	arrPlot = arrPlot.sort(function (a, b) {
+		return results.plotCount[b].value - results.plotCount[a].value;
+	});
+	arrRain = arrRain.sort(function (a, b) {
+		return results.precipitationCount[b].value - results.precipitationCount[a].value;
+	});
+
+	(0, _jquery2.default)('#table_plot').html('');
+	(0, _jquery2.default)('#table_plot').append('<tr><td>\u884C\u653F\u5340</td><td>\u901A\u5831\u6578\u91CF</td></tr>');
+	(0, _from2.default)(arrPlot).forEach(function (p) {
+		(0, _jquery2.default)('#table_plot').append('\n\t\t<tr>\n\t\t\t<td><div class="block" style="background: ' + results.plotCount[p].color + ';"></div> ' + p + '\u5340</td>\n\t\t\t<td>' + results.plotCount[p].value + '</td>\n\t\t</tr>\n\t\t');
+	});
+	(0, _jquery2.default)('#table_rain').html('');
+	(0, _jquery2.default)('#table_rain').append('<tr><td>\u884C\u653F\u5340</td><td>\u964D\u96E8\u91CF</td></tr>');
+	(0, _from2.default)(arrRain).forEach(function (p) {
+		(0, _jquery2.default)('#table_rain').append('\n\t\t<tr>\n\t\t\t<td><div class="block" style="background: ' + results.precipitationCount[p].color + ';"></div> ' + p + '\u5340</td>\n\t\t\t<td>' + results.precipitationCount[p].value + '</td>\n\t\t</tr>\n\t\t');
+	});
 };
 
 function startTimeline() {

@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanstc.css">
 	<link rel="stylesheet" href="./style.css">
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="icon" type="image/png" href="favicon.png" />
@@ -24,6 +25,16 @@
 			<div class="timeline-speed">1x</div>
 			<input type="range" min="0" max="1439" value="1439">
 			<div class="timeline-now">00:00</div>
+		</div>
+	</section>
+	<section id="comparison">
+		<div id="map_rain"></div>
+		<div id="map_plot"></div>
+		<div id="table_rain" class="table"><table></table></div>
+		<div id="table_plot" class="table"><table></table></div>
+		<div id="calendar-wrapper">
+			<input type="date" id="calendar-comparison"/>
+			<div id="data-count-comparison"></div>
 		</div>
 	</section>
 	<script src="dist/main.js"></script>
