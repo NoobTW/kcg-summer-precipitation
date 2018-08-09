@@ -139,7 +139,7 @@ function startTimeline(){
 	if(intervalTimeline) clearInterval(intervalTimeline);
 	intervalTimeline = setInterval(function(){
 		const n = $('.timeline input').val();
-		$('.timeline input').val(~~n + 1);
+		$('.timeline input').val(~~n + 5);
 		$('.timeline input').change();
 	}, 1000 / speed);
 	$('.timeline-play').off('click');
@@ -206,7 +206,7 @@ $('.timeline input').on('change', async function(){
 
 const showSection = (k) => {
 	$('section').hide();
-	$(`#${k}`).show();
+	$(`#${k}`).fadeIn('fast');
 };
 
 $('nav ul li').on('click', function(){

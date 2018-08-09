@@ -35562,7 +35562,7 @@ function startTimeline() {
 	if (intervalTimeline) clearInterval(intervalTimeline);
 	intervalTimeline = setInterval(function () {
 		var n = (0, _jquery2.default)('.timeline input').val();
-		(0, _jquery2.default)('.timeline input').val(~~n + 1);
+		(0, _jquery2.default)('.timeline input').val(~~n + 5);
 		(0, _jquery2.default)('.timeline input').change();
 	}, 1000 / speed);
 	(0, _jquery2.default)('.timeline-play').off('click');
@@ -35641,7 +35641,7 @@ var resetTimeline = function resetTimeline() {
 
 var showSection = function showSection(k) {
 	(0, _jquery2.default)('section').hide();
-	(0, _jquery2.default)('#' + k).show();
+	(0, _jquery2.default)('#' + k).fadeIn('fast');
 };
 
 (0, _jquery2.default)('nav ul li').on('click', function () {

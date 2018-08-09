@@ -44,7 +44,7 @@ li span{
 }
 
 li:hover{
-	width: 20rem;
+	width: 12rem;
 	cursor: pointer;
 }
 
@@ -53,11 +53,11 @@ li:hover{
 }
 
 #comparison{
-	display: block;
+	display: none;
 }
 
 #plots{
-	display: none;
+	display: block;
 }
 
 #map{
