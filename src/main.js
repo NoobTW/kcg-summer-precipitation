@@ -20,9 +20,11 @@ $('#calendar').on('change', async () => {
 	markerPlots = await loadPlots(moment($('#calendar').val()).format('YYYY-MM-DD'));
 	$('#data-count').text(`共 ${markerPlots.length} 筆資料`);
 	startTimeline();
+	$('#calendar-comparison').val($('#calendar').val());
 });
 $('#calendar-comparison').on('change', async () => {
 	loadComparisonMap($('#calendar-comparison').val());
+	$('#calendar').val($('#calendar-comparison').val());
 });
 
 const initMap = async () => {
@@ -200,6 +202,15 @@ $('.timeline input').on('change', async function(){
 		$('#data-count').text(`共 ${markerPlots.length} 筆資料`);
 		startTimeline();
 	}
+});
+
+const showSection = (k) => {
+	$('section').hide();
+	$(`#${k}`).show();
+};
+
+$('nav ul li').on('click', function(){
+	showSection($(this).data('to'));
 });
 
 window.initMap = initMap;

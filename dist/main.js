@@ -35447,9 +35447,11 @@ _moment2.default.suppressDeprecationWarnings = true;
 	markerPlots = await (0, _timelineMaps.loadPlots)((0, _moment2.default)((0, _jquery2.default)('#calendar').val()).format('YYYY-MM-DD'));
 	(0, _jquery2.default)('#data-count').text('\u5171 ' + markerPlots.length + ' \u7B46\u8CC7\u6599');
 	startTimeline();
+	(0, _jquery2.default)('#calendar-comparison').val((0, _jquery2.default)('#calendar').val());
 });
 (0, _jquery2.default)('#calendar-comparison').on('change', async function () {
 	loadComparisonMap((0, _jquery2.default)('#calendar-comparison').val());
+	(0, _jquery2.default)('#calendar').val((0, _jquery2.default)('#calendar-comparison').val());
 });
 
 var initMap = async function initMap() {
@@ -35635,6 +35637,15 @@ var resetTimeline = function resetTimeline() {
 		(0, _jquery2.default)('#data-count').text('\u5171 ' + markerPlots.length + ' \u7B46\u8CC7\u6599');
 		startTimeline();
 	}
+});
+
+var showSection = function showSection(k) {
+	(0, _jquery2.default)('section').hide();
+	(0, _jquery2.default)('#' + k).show();
+};
+
+(0, _jquery2.default)('nav ul li').on('click', function () {
+	showSection((0, _jquery2.default)(this).data('to'));
 });
 
 window.initMap = initMap;
